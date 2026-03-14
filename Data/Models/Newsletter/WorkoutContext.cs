@@ -27,5 +27,5 @@ public class WorkoutContext
     /// <summary>
     /// Is this workout being generated for a date in the past.
     /// </summary>
-    public bool IsBackfill => Date != User.TodayOffset;
+    public bool IsBackfill => Date < User.TodayOffset;
 }
