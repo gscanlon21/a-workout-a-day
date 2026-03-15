@@ -50,6 +50,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
             Frequency.Mobility => GetStretchingRotation(),
             Frequency.FullBody2Day => GetFullBody2DayRotation(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
+            Frequency.VarietySplit3Day => GetVarietySplit3DayRotation(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
             Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation(),
             Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation(),
@@ -79,6 +80,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
             Frequency.Mobility => GetStretchingRotation(user),
             Frequency.FullBody2Day => GetFullBody2DayRotation(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
+            Frequency.VarietySplit3Day => GetVarietySplit3DayRotation(),
             Frequency.VarietySplit6Day => GetVarietySplit6DayRotation(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
             Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation(),
@@ -337,6 +339,31 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
             Id = 5,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.Squat | MovementPattern.Lunge
+        };
+    }
+
+    /// <summary>
+    /// An implementation of the Variety workout split.
+    /// </summary>
+    private static IEnumerable<WorkoutRotationDto> GetVarietySplit3DayRotation()
+    {
+        yield return new WorkoutRotationDto
+        {
+            Id = 1,
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.KneeFlexion
+        };
+        yield return new WorkoutRotationDto
+        {
+            Id = 2,
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
+            MovementPatterns = MovementPattern.Push | MovementPattern.Pull
+        };
+        yield return new WorkoutRotationDto
+        {
+            Id = 3,
+            MuscleGroups = MuscleGroupExtensions.FullBody(),
+            MovementPatterns = MovementPattern.Carry | MovementPattern.Rotation
         };
     }
 

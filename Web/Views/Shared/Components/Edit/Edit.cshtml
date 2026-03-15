@@ -54,7 +54,7 @@
             <div class="mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
-                        asp-items="@EnumExtensions.GetValuesExcluding(Frequency.None, Frequency.Mobility, Model.User.IsNewToFitness ? Frequency.Custom : Frequency.None).AsSelectListItems().OrderBy(f => f.Text)">
+                        asp-items="@EnumExtensions.GetValuesExcluding(Frequency.None, Frequency.Mobility, Model.User.IsNewToFitness ? Frequency.Custom : Frequency.None).AsSelectListItems(EnumViewExtensions.EnumOrdering.Order)">
                 </select>
                 <span asp-validation-for="Frequency" class="text-danger"></span>
                 <details id="frequency-help" class="form-text">
@@ -88,6 +88,10 @@
                         <div>
                             <b>@Frequency.VarietySplit6Day.GetSingleDisplayName()</b>
                             <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.VarietySplit6Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.VarietySplit3Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.VarietySplit3Day).Select(r => r.ToUserString())))</div>
                         </div>
 
                         <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
