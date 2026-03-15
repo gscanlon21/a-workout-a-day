@@ -32,7 +32,7 @@ public class UserNewsletterDto
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
-        FontSizeAdjust = user.FontSizeAdjust;
+        MinFontSize = user.MinFontSize;
         IsNewToFitness = user.IsNewToFitness;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
@@ -80,7 +80,7 @@ public class UserNewsletterDto
 
     public Frequency Frequency { get; init; }
 
-    public int FontSizeAdjust { get; init; }
+    public double MinFontSize { get; init; }
 
     public int FootnoteCountTop { get; init; }
 

@@ -40,7 +40,7 @@ public class UserEditViewModel : IValidatableObject
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
         SecondSendHour = user.SecondSendHour;
-        FontSizeAdjust = user.FontSizeAdjust;
+        MinFontSize = user.MinFontSize;
         DeloadAfterXWeeks = user.DeloadAfterXWeeks;
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
@@ -145,9 +145,9 @@ public class UserEditViewModel : IValidatableObject
     [Display(Name = "Second Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive a second mobility workout?")]
     public int? SecondSendHour { get; init; }
 
-    [Required, Range(UserConsts.FontSizeAdjustMin, UserConsts.FontSizeAdjustMax)]
-    [Display(Name = "Font Size Adjust", Description = "How much to inflate the font size.")]
-    public int FontSizeAdjust { get; init; }
+    [Required, Range(UserConsts.MinFontSizeMin, UserConsts.MinFontSizeMax)]
+    [Display(Name = "Minimum Font Size", Description = "Sets the minimum font size used in the newsletter.")]
+    public double MinFontSize { get; init; }
 
     [Required]
     [Display(Name = "Image Type", Description = "How should images appear in your workouts?")]
