@@ -1,5 +1,5 @@
 # Contributing
 
-QOL, app, and exercise data changes are welcome.
+This project adheres to the [SciActive Human Contribution Policy](HUMAN-CONTRIBUTION-POLICY.md).
 
-I'm not currently accepting pull requests for changes to the workout routine generation.
+Please email us at contributing@aworkoutaday.com if you would like to contribute. Solicitations will be ignored.
