@@ -347,6 +347,7 @@ public class User : IUser
 
     #endregion
 
+    [Flags]
     public enum Includes
     {
         None = 0,
