@@ -66,15 +66,15 @@
 	</ItemGroup>
 	
     <ItemGroup>
-      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
-      <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.50" />
-      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.50" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.51" />
       <PackageReference Include="CommunityToolkit.Maui" Version="14.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.5" />
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.5" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.50" />
-	  <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.50" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.51" />
+	  <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.51" />
     </ItemGroup>
 
     <ItemGroup>
