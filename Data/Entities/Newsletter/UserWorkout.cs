@@ -2,6 +2,7 @@
 using Core.Models.User;
 using Data.Entities.Users;
 using Data.Models.Newsletter;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -11,8 +12,9 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_workout")]
-//[Index(nameof(UserId), nameof(Date))]
+[Table("user_workout")] 
+// Index needed for perforance:
+[Index(nameof(UserId), nameof(Date))]
 public class UserWorkout
 {
     [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
