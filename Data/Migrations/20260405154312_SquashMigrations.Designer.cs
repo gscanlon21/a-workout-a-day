@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260405150428_AddUserWorkoutPerf")]
-    partial class AddUserWorkoutPerf
+    [Migration("20260405154312_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -793,6 +793,12 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
                 {
+                    b.HasOne("Data.Entities.Users.User", "User")
+                        .WithMany("UserWorkouts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "Rotation", b1 =>
                         {
                             b1.Property<int>("UserWorkoutId")
@@ -818,6 +824,8 @@ namespace Data.Migrations
 
                     b.Navigation("Rotation")
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutVariation", b =>
@@ -1034,6 +1042,8 @@ namespace Data.Migrations
                     b.Navigation("UserTokens");
 
                     b.Navigation("UserVariations");
+
+                    b.Navigation("UserWorkouts");
                 });
 
             modelBuilder.Entity("Data.Entities.Users.UserVariation", b =>
