@@ -19,11 +19,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
-    <PackageReference Include="Quartz" Version="3.16.1" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.16.1" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.16.1" />
-    <PackageReference Include="Quartz.Serialization.Json" Version="3.16.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.5" />
+    <PackageReference Include="Quartz" Version="3.17.1" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.17.1" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.17.1" />
+    <PackageReference Include="Quartz.Serialization.Json" Version="3.17.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
     <PackageReference Include="System.Linq.Async" Version="7.0.0" />
   </ItemGroup>
 
