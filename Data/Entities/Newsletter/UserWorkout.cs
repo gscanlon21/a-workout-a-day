@@ -75,6 +75,9 @@ public class UserWorkout
 
     #region Navigation Properties
 
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserWorkouts))]
+    public virtual Users.User User { get; private init; } = null!;
+
     [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.UserWorkout))]
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
 
