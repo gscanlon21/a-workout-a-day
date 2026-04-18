@@ -191,7 +191,7 @@
     @* Displays ignored variations or variations missing equipment when the user's progression level is out-of-range for the current variation. *@
     @if (Verbosity.HasFlag(Verbosity.ProgressionBar))
     {
-        <div style="margin-top:1ex;display:flex;column-gap:1ch;height:stretch;align-items:end;font-size:@FontHelpers.AdjustEm("smaller", User?.MinFontSize);">
+        <div style="margin-top:1ex;display:flex;column-gap:1ch;font-size:@FontHelpers.AdjustEm("smaller", User?.MinFontSize);">
             <div>
                 @if (Model.EasierReason != null)
                 {
