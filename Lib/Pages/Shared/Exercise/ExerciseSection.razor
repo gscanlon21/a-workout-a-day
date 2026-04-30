@@ -29,7 +29,7 @@
                     <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;margin-bottom:.1em;" target="_blank" href="@DH.UserLink(User, $"0/{exerciseGroup.Key.Exercise.Id}/0")">&#127760;</a>
                 }*@
             </h2>
-            
+
             if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.VocalSkills > 0)
             {
                 <p style="margin-block:0;"><b>Vocal Skills</b> - @(exerciseGroup.Key.Exercise.VocalSkills.GetDisplayName())</p>
@@ -75,8 +75,10 @@
                 }
             }
 
-            if (Verbosity.HasFlag(Verbosity.All))
+            if (Verbosity.HasFlag(Verbosity.Debug))
             {
+                <p style="margin-block:0;"><b>Starting Progression</b> - @exerciseGroup.Key.Exercise.StartingProgression</p>
+
                 @if (exerciseGroup.Key.ExercisePrerequisites?.Any() == true)
                 {
                     <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", exerciseGroup.Key.ExercisePrerequisites.Select(e => $"{e.Name}: {e.Proficiency}"))</p>

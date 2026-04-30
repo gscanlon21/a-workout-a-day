@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260405154312_SquashMigrations")]
+    [Migration("20260430141542_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -95,6 +95,11 @@ namespace Data.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<int>("StartingProgression")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(50);
 
                     b.Property<int>("ThoracicSkills")
                         .HasColumnType("integer");

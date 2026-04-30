@@ -22,6 +22,8 @@ public class ExerciseDto
     public ThoracicSkills ThoracicSkills { get; init; }
     public LumbarSkills LumbarSkills { get; init; }
 
+    public int StartingProgression { get; init; }
+
     /// <summary>
     /// Notes about the variation (externally shown).
     /// </summary>
