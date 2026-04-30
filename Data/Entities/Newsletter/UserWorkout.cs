@@ -12,7 +12,7 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_workout")] 
+[Table("user_workout")]
 // Index needed for perforance:
 [Index(nameof(UserId), nameof(Date))]
 public class UserWorkout

@@ -1,5 +1,6 @@
 ﻿using Core.Models.Exercise.Skills;
 using Data.Entities.Users;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -30,13 +31,17 @@ public class Exercise
     public VisualSkills VisualSkills { get; private init; }
 
     [Required]
-    public CervicalSkills CervicalSkills { get; private init; }
+    public LumbarSkills LumbarSkills { get; private init; }
 
     [Required]
     public ThoracicSkills ThoracicSkills { get; private init; }
 
     [Required]
-    public LumbarSkills LumbarSkills { get; private init; }
+    public CervicalSkills CervicalSkills { get; private init; }
+
+    [Required, DefaultValue(UserConsts.UserProgressionDefault)]
+    [Range(UserConsts.UserProgressionMin, UserConsts.UserProgressionMax)]
+    public int StartingProgression { get; private init; } = UserConsts.UserProgressionDefault;
 
     /// <summary>
     /// Notes about the variation (externally shown).

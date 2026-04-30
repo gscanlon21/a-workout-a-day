@@ -93,6 +93,11 @@ namespace Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<int>("StartingProgression")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(50);
+
                     b.Property<int>("ThoracicSkills")
                         .HasColumnType("integer");
 

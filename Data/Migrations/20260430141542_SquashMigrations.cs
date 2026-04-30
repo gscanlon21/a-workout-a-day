@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -21,9 +20,10 @@ namespace Data.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     VocalSkills = table.Column<int>(type: "integer", nullable: false),
                     VisualSkills = table.Column<int>(type: "integer", nullable: false),
-                    CervicalSkills = table.Column<int>(type: "integer", nullable: false),
-                    ThoracicSkills = table.Column<int>(type: "integer", nullable: false),
                     LumbarSkills = table.Column<int>(type: "integer", nullable: false),
+                    ThoracicSkills = table.Column<int>(type: "integer", nullable: false),
+                    CervicalSkills = table.Column<int>(type: "integer", nullable: false),
+                    StartingProgression = table.Column<int>(type: "integer", nullable: false, defaultValue: 50),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },

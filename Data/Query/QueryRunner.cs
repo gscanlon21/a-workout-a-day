@@ -900,8 +900,7 @@ public class QueryRunner(Section section)
             {
                 UserId = UserOptions.Id,
                 ExerciseId = queryResult.Exercise.Id,
-                // If this is for rehab, start at the min progression level. Otherwise, start at the default progression level.
-                Progression = Section.Rehab.HasFlag(section) ? UserConsts.UserProgressionMin : UserConsts.UserProgressionDefault
+                Progression = queryResult.Exercise.StartingProgression,
             };
 
             if (userExercisesCreated.Add(queryResult.UserExercise))
