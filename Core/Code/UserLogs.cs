@@ -5,7 +5,7 @@ namespace Core.Code;
 
 public static class UserLogs
 {
-    private const int LogLength = 50;
+    private const int LogLength = 100;
 
     private static readonly ConcurrentDictionary<int, FixedSizeQueue<string>> _userLogs = new();
 
