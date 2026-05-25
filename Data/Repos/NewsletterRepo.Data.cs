@@ -513,12 +513,11 @@ public partial class NewsletterRepo
 
         var prehabResults = new List<QueryResults>();
         // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
-        bool? strengthening = null; //context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0; Randomize for max # break.
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).OrderBy(_ => Guid.NewGuid()))
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            prehabResults.AddRange(await new UserQueryBuilder(context.User, strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
+            prehabResults.AddRange(await new UserQueryBuilder(context.User, Section.Prehab)
                 .WithUser(options =>
                 {
                     options.NeedsDeload = context.NeedsDeload;
@@ -530,15 +529,10 @@ public partial class NewsletterRepo
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
-                    x.MuscleTarget = strengthening.HasValue ? (strengthening.Value ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches) : vm => vm.Variation.Strengthens | vm.Variation.Stretches;
+                    x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes | vm.Variation.Stretches;
                 })
-                // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises and other odd stuff.
-                .WithExerciseFocus(strengthening.HasValue // Cardio is filtered out by section.
-                    ? (strengthening.Value ? [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility])
-                    : [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation, ExerciseFocus.Flexibility], options =>
-                {
-                    options.ExcludeExerciseFocus = strengthening == false ? [ExerciseFocus.Strength] : null;
-                })
+                // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises.
+                .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Activation, ExerciseFocus.Flexibility, ExerciseFocus.Speed, ExerciseFocus.Endurance])
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .WithExcludeExercises(x =>
                 {
