@@ -9,6 +9,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0162</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Web.Test" />
   </ItemGroup>
