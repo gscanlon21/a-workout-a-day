@@ -18,7 +18,7 @@ public interface IExerciseVariationCombo
 public static class Filters
 {
     /// <summary>
-    ///     Filter exercises to ones that help with a specific sport
+    ///     Filter exercises to ones that help with a specific sport.
     /// </summary>
     /// <param name="sportsFocus">
     ///     If null, does not filter the query.
@@ -61,7 +61,7 @@ public static class Filters
     }
 
     /// <summary>
-    /// Make sure the exercise is for the correct workout type
+    /// Make sure the exercise is for the correct workout type.
     /// </summary>
     public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, IList<ExerciseFocus>? value, bool exclude = false) where T : IExerciseVariationCombo
     {
@@ -81,7 +81,7 @@ public static class Filters
     }
 
     /// <summary>
-    /// Make sure the exercise has an intensity
+    /// Make sure the exercise works a muscle movement.
     /// </summary>
     public static IQueryable<T> FilterMuscleMovement<T>(IQueryable<T> query, MuscleMovement? muscleMovement) where T : IExerciseVariationCombo
     {
@@ -95,7 +95,7 @@ public static class Filters
     }
 
     /// <summary>
-    /// Make sure the exercise has an intensity
+    /// Make sure the exercise works a movement pattern.
     /// </summary>
     public static IQueryable<T> FilterMovementPattern<T>(IQueryable<T> query, MovementPattern? muscleMovement) where T : IExerciseVariationCombo
     {
@@ -116,9 +116,9 @@ public static class Filters
     }
 
     /// <summary>
-    /// Filter down to these specific exercises
+    /// Filter down to these specific exercises.
     /// </summary>
-    public static IQueryable<T> FilterExercises<T>(IQueryable<T> query, IList<int>? exerciseIds) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExercises<T>(IQueryable<T> query, IEnumerable<int>? exerciseIds) where T : IExerciseVariationCombo
     {
         if (exerciseIds != null)
         {
@@ -129,9 +129,9 @@ public static class Filters
     }
 
     /// <summary>
-    /// Filter down to these specific exercises
+    /// Filter down to these specific variations.
     /// </summary>
-    public static IQueryable<T> FilterVariations<T>(IQueryable<T> query, IList<int>? variationIds) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterVariations<T>(IQueryable<T> query, IEnumerable<int>? variationIds) where T : IExerciseVariationCombo
     {
         if (variationIds != null)
         {

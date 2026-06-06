@@ -408,7 +408,7 @@ public class QueryRunner(Section section)
             foreach (var queryResult in queryResults)
             {
                 var queryResultExerciseVariations = allExercisesVariations.GetValueOrDefault(queryResult.Exercise.Id, []);
-                var queryResultExerciseVariationsInRange = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).ToList();
+                var queryResultExerciseVariationsInRange = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange);
 
                 // Check if all variations in the user's progression range have been ignored by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
@@ -536,17 +536,17 @@ public class QueryRunner(Section section)
             }
         }
 
-        // Order after the query or you get cartesian explosion. List size doesn't change.
-        var orderedResults = new List<InProgressQueryResults>(filteredResults.Count);
+        // Order after the query or you get cartesian explosion.
         if (SelectionOptions.Randomized)
         {
-            // Randomize the order. Useful for the backfill because those workouts don't update the last seen date.
-            orderedResults = filteredResults.OrderBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue)).ToList();
+            // Randomize the order. Useful for the backfill because
+            // ... those workouts don't update the last seen date.
+            filteredResults.ShuffleInPlace();
         }
         else
         {
             // Variations that have a refresh delay should be ordered first.
-            orderedResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
+            filteredResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
                 // Then show exercise variations that the user has least recently seen.
                 // Adding the two in case there is a warmup and main variation in the same exercise.
                 // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
@@ -566,7 +566,7 @@ public class QueryRunner(Section section)
         var finalResults = new List<QueryResults>();
         do
         {
-            foreach (var exercise in orderedResults)
+            foreach (var exercise in filteredResults)
             {
                 // Use this to add a tad more variety.
                 if (SelectionOptions.UniqueExercises)
@@ -732,7 +732,7 @@ public class QueryRunner(Section section)
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
-            _ => finalResults.ToList() // We are in a workout context, keep the result order.
+            _ => finalResults // We are in a workout context, keep the result order.
         };
     }
 
@@ -808,7 +808,7 @@ public class QueryRunner(Section section)
         checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
 
         // Further filter down the exercises to those that match our query results.
-        checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.Prerequisites.Select(p => p.Id)).ToList());
+        checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.Prerequisites.Select(p => p.Id)));
 
         // Make sure we have a user before we query for prerequisites.
         return await checkPrerequisitesFromQuery.AsNoTracking().TagWithCallSite()
