@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Web.Code.TempData;
-using Web.Views.Index;
 
 namespace Web.Controllers.Newsletter;
 
-[Route("n", Order = 1)]
-[Route("newsletter", Order = 2)]
+[Route("demo", Order = 3)]
+[Route($"n/{UserRoute}", Order = 1)]
+[Route($"newsletter/{UserRoute}", Order = 2)]
 public class NewsletterController : ViewController
 {
     private readonly UserRepo _userRepo;
@@ -33,10 +33,9 @@ public class NewsletterController : ViewController
     /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet]
-    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{id:int}}", Order = 1)]
-    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 2)]
-    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 3)]
-    [Route("demo", Order = 4)]
+    [Route("", Order = 3)]
+    [Route("{id:int}", Order = 1)]
+    [Route("{date:datetime}", Order = 2)]
     public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web, bool hideFooter = false)
     {
         Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
@@ -61,7 +60,7 @@ public class NewsletterController : ViewController
     /// <summary>
     /// Root route for building out the workout routine newsletter.
     /// </summary>
-    [HttpGet, Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/test")]
+    [HttpGet, Route("test")]
     public async Task<IActionResult> TestNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web, bool hideFooter = false)
     {
         var testSplitOffset = int.TryParse(TempData.Peek(TempData_User.TestSplit)?.ToString(), out int testSplit) ? testSplit : 0;

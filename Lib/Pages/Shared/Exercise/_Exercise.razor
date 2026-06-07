@@ -1,11 +1,9 @@
 ﻿@page "/exercise/exercise"
 @inject DisplayHelper DH
 @inject IOptions<SiteSettings> SiteSettings
-@using Core.Consts;
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.Exercise
-@using Core.Models.User
 @using Core.Models.Newsletter
 @using Core.Dtos.Newsletter
 @using Core.Dtos.User
@@ -33,146 +31,144 @@
 }
 
 @* Use `em` for spacing and font sizes--it's more consistent across fonts/mediums. *@
-<div class="exercise" style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;
+<div class="exercise" style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;
             border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
 
-    <div> @* For margin collapse. *@
-        <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:@FontHelpers.AdjustEm(1.2, User?.MinFontSize);line-height:1.2;display:flex;gap:.8ch;">
-            <span style="flex:1 1 auto;">
-                @if (Model.Variation.UseCaution
-                    || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
-                {
-                    @:&#9888;
-                }
-                @if (string.IsNullOrWhiteSpace(Model.Variation.DefaultInstruction))
-                {
-                    <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
-                }
-                else
-                {
-                    <a class="allow-demo" href="@Model.Variation.DefaultInstruction" target="_blank" rel="noreferrer">
-                        @(Model.Variation.Name ?? Model.Exercise.Name)
-                    </a>
-                }
-            </span>
-
-            @if (User != null/* && Model.Section != Section.None*/)
+    <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:@FontHelpers.AdjustEm(1.2, User?.MinFontSize);line-height:1.2;display:flex;gap:.8ch;">
+        <span style="flex:1 1 auto;">
+            @if (Model.Variation.UseCaution
+                || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
             {
-                <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;" target="_blank" href="@DH.UserLink(User, $"{(int)Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
+                @:&#9888;
             }
-        </h3>
-
-        @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.GetRootInstructions(User).Any())
-        {
-            <ul style="margin-block-start:.5em;margin-block-end:.75em;padding-inline-start:2ch;font-size:@FontHelpers.AdjustEm(0.85, User?.MinFontSize);">
-                @foreach (var instruction in Model.Variation.GetRootInstructions(User))
-                {
-                    <li style="margin-block:.35em;list-style-type:@instruction.ListStyleType;">
-                        <_Instruction Model="new InstructionViewModel(instruction, User)" />
-                        @if (instruction.GetChildInstructions(User).Any())
-                        {
-                            <ul style="margin-block:0;padding-inline-start:2ch;">
-                                @foreach (var childInstruction in instruction.GetChildInstructions(User))
-                                {
-                                    <li style="margin-block:.25em;list-style-type:@childInstruction.ListStyleType;">
-                                        <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
-                                        @if (childInstruction.GetChildInstructions(User).Any())
-                                        {
-                                            <ul style="margin-block:0;padding-inline-start:2ch;">
-                                                @foreach (var childChildInstruction in childInstruction.GetChildInstructions(User))
-                                                {
-                                                    <li style="margin-block:.25em;list-style-type:@childChildInstruction.ListStyleType;">
-                                                        <_Instruction Model="new InstructionViewModel(childChildInstruction, User)" />
-                                                    </li>
-                                                }
-                                            </ul>
-                                        }
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
-            </ul>
-        }
-
-        <Lib.Pages.Shared.Exercise._Proficiency Proficiency="Model.Proficiency" Variation="Model.Variation" Intensity="User?.Intensity" FirstTimeViewing="Model.UserFirstTimeViewing" MinFontSize="User?.MinFontSize" />
-        <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" MinFontSize="User?.MinFontSize" />
-
-        @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
-        {
-            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
-        }
-
-        @if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
-        {
-            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName2(DisplayType.ShortName)</div>
-        }
-
-        @if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
-        {
-            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName2(DisplayType.ShortName)</div>
-        }
-
-        @if (Verbosity.HasFlag(Verbosity.Debug))
-        {
-            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag(Model.Variation.AllMuscles).GetDisplayName(DisplayType.ShortName)</div>
-
-            <hr style="margin-block:.5em;" />
-
-            <div style="margin-block:.5em;">
-                <small><b>Section</b> - @Model.Variation.Section.GetDisplayName2(DisplayType.ShortName)</small>
-                <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @Section.All.UnsetFlag(Model.Variation.Section | Section.Debug).GetDisplayName(DisplayType.ShortName)</div>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Focus</b> - @Model.Variation.ExerciseFocus.GetDisplayName2(DisplayType.ShortName)</small>
-                <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag(Model.Variation.ExerciseFocus).GetDisplayName(DisplayType.ShortName)</div>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName2(DisplayType.ShortName)</small>
-                <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @SportsFocus.All.UnsetFlag(Model.Variation.SportsFocus).GetDisplayName(DisplayType.ShortName)</div>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName(DisplayType.ShortName)</small>
-                <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag(Model.Variation.MuscleMovement).GetDisplayName(DisplayType.ShortName)</div>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName(DisplayType.ShortName, includeAnyMatching: true)</small>
-                <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MovementPattern.All.UnsetFlag(Model.Variation.MovementPattern).GetDisplayName(DisplayType.ShortName)</div>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Is Weighted</b> - @Model.Variation.IsWeighted</small>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
-            </div>
-
-            <div style="margin-block:.5em;">
-                <small><b>Pause Reps</b> - @Model.Variation.PauseReps</small>
-            </div>
-
-            @if (!string.IsNullOrWhiteSpace(Model.Variation.Notes))
+            @if (string.IsNullOrWhiteSpace(Model.Variation.DefaultInstruction))
             {
-                <div style="margin-block:.5em;">
-                    <small>@Model.Variation.Notes</small>
-                </div>
+                <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
             }
-        }
+            else
+            {
+                <a class="allow-demo" href="@Model.Variation.DefaultInstruction" target="_blank" rel="noreferrer">
+                    @(Model.Variation.Name ?? Model.Exercise.Name)
+                </a>
+            }
+        </span>
 
-        @if (!string.IsNullOrWhiteSpace(Model.UserVariation?.Notes))
+        @if (User != null/* && Model.Section != Section.None*/)
         {
-            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm(0.8, User?.MinFontSize);">
-                @Model.UserVariation.Notes
+            <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;" target="_blank" href="@DH.UserLink(User, $"{(int)Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
+        }
+    </h3>
+
+    @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.GetRootInstructions(User).Any())
+    {
+        <ul style="margin-block-start:.5em;margin-block-end:.75em;padding-inline-start:2ch;font-size:@FontHelpers.AdjustEm(0.85, User?.MinFontSize);">
+            @foreach (var instruction in Model.Variation.GetRootInstructions(User))
+            {
+                <li style="margin-block:.35em;list-style-type:@instruction.ListStyleType;">
+                    <_Instruction Model="new InstructionViewModel(instruction, User)" />
+                    @if (instruction.GetChildInstructions(User).Any())
+                    {
+                        <ul style="margin-block:0;padding-inline-start:2ch;">
+                            @foreach (var childInstruction in instruction.GetChildInstructions(User))
+                            {
+                                <li style="margin-block:.25em;list-style-type:@childInstruction.ListStyleType;">
+                                    <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
+                                    @if (childInstruction.GetChildInstructions(User).Any())
+                                    {
+                                        <ul style="margin-block:0;padding-inline-start:2ch;">
+                                            @foreach (var childChildInstruction in childInstruction.GetChildInstructions(User))
+                                            {
+                                                <li style="margin-block:.25em;list-style-type:@childChildInstruction.ListStyleType;">
+                                                    <_Instruction Model="new InstructionViewModel(childChildInstruction, User)" />
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    }
+
+    <Lib.Pages.Shared.Exercise._Proficiency Proficiency="Model.Proficiency" Variation="Model.Variation" Intensity="User?.Intensity" FirstTimeViewing="Model.UserFirstTimeViewing" MinFontSize="User?.MinFontSize" />
+    <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" MinFontSize="User?.MinFontSize" />
+
+    @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
+    }
+
+    @if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName2(DisplayType.ShortName)</div>
+    }
+
+    @if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName2(DisplayType.ShortName)</div>
+    }
+
+    @if (Verbosity.HasFlag(Verbosity.Debug))
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag(Model.Variation.AllMuscles).GetDisplayName(DisplayType.ShortName)</div>
+
+        <hr style="margin-block:.5em;" />
+
+        <div style="margin-block:.5em;">
+            <small><b>Section</b> - @Model.Variation.Section.GetDisplayName2(DisplayType.ShortName)</small>
+            <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @Section.All.UnsetFlag(Model.Variation.Section | Section.Debug).GetDisplayName(DisplayType.ShortName)</div>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Focus</b> - @Model.Variation.ExerciseFocus.GetDisplayName2(DisplayType.ShortName)</small>
+            <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag(Model.Variation.ExerciseFocus).GetDisplayName(DisplayType.ShortName)</div>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName2(DisplayType.ShortName)</small>
+            <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @SportsFocus.All.UnsetFlag(Model.Variation.SportsFocus).GetDisplayName(DisplayType.ShortName)</div>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName(DisplayType.ShortName)</small>
+            <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag(Model.Variation.MuscleMovement).GetDisplayName(DisplayType.ShortName)</div>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName(DisplayType.ShortName, includeAnyMatching: true)</small>
+            <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MovementPattern.All.UnsetFlag(Model.Variation.MovementPattern).GetDisplayName(DisplayType.ShortName)</div>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Is Weighted</b> - @Model.Variation.IsWeighted</small>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
+        </div>
+
+        <div style="margin-block:.5em;">
+            <small><b>Pause Reps</b> - @Model.Variation.PauseReps</small>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Variation.Notes))
+        {
+            <div style="margin-block:.5em;">
+                <small>@Model.Variation.Notes</small>
             </div>
         }
-    </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.UserVariation?.Notes))
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm(0.8, User?.MinFontSize);">
+            @Model.UserVariation.Notes
+        </div>
+    }
 
     @if (User?.ImageType != ImageType.None)
     {

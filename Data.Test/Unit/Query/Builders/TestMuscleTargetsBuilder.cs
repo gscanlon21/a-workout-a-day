@@ -7,7 +7,6 @@ using Data.Query.Builders.MuscleGroup;
 using Data.Repos;
 using Data.Test.Code;
 using Data.Test.Code.Attributes;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;

@@ -8,15 +8,14 @@ using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
-using Web.Views.Index;
 using Web.Views.Shared.Components.Advanced;
 using Web.Views.User;
 using static Data.Entities.Users.User;
 
 namespace Web.Controllers.Users;
 
-[Route($"u/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 1)]
-[Route($"user/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
+[Route($"u/{{email:regex({EmailRegex})}}", Order = 1)]
+[Route($"user/{{email:regex({EmailRegex})}}", Order = 2)]
 public partial class UserController : ViewController
 {
     private readonly UserRepo _userRepo;
@@ -41,11 +40,6 @@ public partial class UserController : ViewController
     /// The reason for disabling the user's account when directed by the user.
     /// </summary>
     public const string UserDisabledByUserReason = "Disabled by user.";
-
-    /// <summary>
-    /// Message to show to the user when a link has expired.
-    /// </summary>
-    public const string LinkExpiredMessage = "This link has expired.";
 
     #region Edit User
 

@@ -7,10 +7,9 @@ using Core.Models.User;
 using Data.Entities.Users;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Web.Views.Index;
+using Web.Controllers;
 
 namespace Web.Views.User;
-
 
 /// <summary>
 /// For CRUD actions
@@ -73,7 +72,7 @@ public class UserEditViewModel : IValidatableObject
     public IList<UserEditPrehabSkillViewModel> UserPrehabSkills { get; set; } = [];
 
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
+    [Required, RegularExpression(ViewController.EmailRegex, ErrorMessage = ViewController.EmailRegexError)]
     [Display(Name = "Email", Description = "")]
     public string Email { get; init; } = null!;
 

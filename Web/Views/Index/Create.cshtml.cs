@@ -1,19 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Attributes.Data;
+using Web.Controllers;
 using Web.Controllers.Index;
 
 namespace Web.Views.Index;
-
 
 /// <summary>
 /// For CRUD actions.
 /// </summary>
 public class CreateViewModel
 {
-    public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
-    public const string EmailRegexError = "Please enter a valid email address.";
-
     public UserLoginViewModel UserLoginViewModel { get; set; } = new UserLoginViewModel();
     public UserCreateViewModel UserCreateViewModel { get; set; } = new UserCreateViewModel()
     {
@@ -41,11 +38,8 @@ public class CreateViewModel
 /// </summary>
 public class UserCreateViewModel
 {
-    public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
-    public const string EmailRegexError = "Please enter a valid email address.";
-
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
+    [Required, RegularExpression(ViewController.EmailRegex, ErrorMessage = ViewController.EmailRegexError)]
     [Remote(nameof(IndexController.IsUserAvailable), IndexController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
@@ -74,9 +68,6 @@ public class UserCreateViewModel
 /// </summary>
 public class UserLoginViewModel
 {
-    public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
-    public const string EmailRegexError = "Please enter a valid email address.";
-
     /// <summary>
     /// If null, user has not yet tried to subscribe.
     /// If true, user has successfully subscribed.
@@ -92,7 +83,7 @@ public class UserLoginViewModel
     public bool? WasUnsubscribed { get; set; }
 
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
+    [Required, RegularExpression(ViewController.EmailRegex, ErrorMessage = ViewController.EmailRegexError)]
     [Display(Name = "Email", Description = "")]
     public string Email { get; init; } = null!;
 
