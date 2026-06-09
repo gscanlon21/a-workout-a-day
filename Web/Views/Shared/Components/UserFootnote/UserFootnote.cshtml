@@ -1,5 +1,4 @@
-﻿@model FootnoteViewModel
-@using Core.Models.Exercise
+﻿@model UserFootnoteViewModel
 
 <details class="mt-4 mb-25">
     <summary class="mb-1 h5">
@@ -10,7 +9,9 @@
     <div class="alert alert-secondary" role="alert">
         <div class="mb-4">
             <h6 class="mb-1">New Footnote</h6>
-            <form asp-controller="@UserController.Name" class="alert alert-light shadow" asp-action="@nameof(UserController.AddFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AddFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post"
+                  class="alert alert-light shadow">
+
                 <div class="mb-3">
                     <label for="Note" class="control-label">Footnote</label>
                     <input type="text" name="Note" class="form-control" required="required" />
@@ -40,9 +41,8 @@
                     <span for="FootnoteId" class="text-danger"></span>
                     @if (!string.IsNullOrWhiteSpace(footnote.Source))
                     {
-                        var sourceIsLink = Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute);
                         <div class="form-text font-size--smaller">
-                            @if (sourceIsLink)
+                            @if (Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute))
                             {
                                 <a target="_blank" href="@footnote.Source">@footnote.Source</a>
                             }

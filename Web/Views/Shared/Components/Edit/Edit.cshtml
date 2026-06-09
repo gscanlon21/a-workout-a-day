@@ -1,11 +1,9 @@
 ﻿@model UserEditViewModel
-@using System.Numerics
 @using Core.Models.Exercise
 @using Core.Models.User
 @using Data.Models.Newsletter
 @using Core.Consts
 @using Data.Entities.Users
-@using Data.Entities.Equipment
 @using Web.Code.Extensions
 
 <div id="edit" class="row gy-2">
@@ -625,7 +623,8 @@
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(AFeastADayViewComponent.Name, new { Model.User, Model.Token })
-        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(UserFootnoteViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(SystemFootnoteViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(IgnoredExerciseVariationsViewComponent.Name, new { Model.User, Model.Token })
     </div>
 </div>

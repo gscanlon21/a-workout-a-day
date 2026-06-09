@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web.Views.Shared.Components.Footnote;
+namespace Web.Views.Shared.Components.UserFootnote;
 
-public class FootnoteViewModel
+public class UserFootnoteViewModel
 {
     public string Token { get; init; } = null!;
     public Data.Entities.Users.User User { get; init; } = null!;

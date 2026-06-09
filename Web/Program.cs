@@ -51,6 +51,14 @@ builder.Services.AddDbContext<CoreContext>(options =>
         options.MigrationsAssembly(typeof(CoreContext).Assembly.GetName().Name);
     }));
 
+/* TODO: Organize component paths.
+builder.Services.Configure<RazorViewEngineOptions>(options =>
+{
+    // {2} is area, {1} is controller,{0} is the action
+    // the component's path "Components/{ViewComponentName}/{ViewComponentViewName}" is in the action {0}
+    options.ViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
+});*/
+
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
