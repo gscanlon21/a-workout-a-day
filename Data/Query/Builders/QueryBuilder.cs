@@ -1,6 +1,5 @@
 ﻿using Core.Models.Newsletter;
 using Data.Query.Options;
-using Data.Query.Options.Users;
 using Data.Query.Runners;
 
 namespace Data.Query.Builders;
@@ -19,8 +18,6 @@ public class QueryBuilder : QueryBuilderBase
     {
         return new QueryRunner(Section)
         {
-            UserOptions = new UserOptions(),
-            UserIgnoreOptions = new UserIgnoreOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),

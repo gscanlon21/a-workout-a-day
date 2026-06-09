@@ -1,4 +1,5 @@
-﻿using Core.Code.Exceptions;
+﻿using ADay.Core.Models.Footnote;
+using Core.Code.Exceptions;
 using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -74,6 +75,7 @@ public class UserRepo
 
         if (user?.Features.HasFlag(Features.Debug) == true)
         {
+            user.FootnoteType = EmailConsts.FootnoteTypes.Aggregate(FootnoteType.None, (c, n) => c | n);
             user.Verbosity = Verbosity.Debug;
         }
 

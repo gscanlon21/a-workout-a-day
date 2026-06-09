@@ -1,8 +1,6 @@
 ﻿@model MuscleTargetsViewModel
 @using Core.Consts
-@using Core.Models.Exercise
 @using Data.Entities.Users
-@using Lib.Services
 
 @if (Model.User.IsDemoUser)
 {
@@ -68,7 +66,8 @@
                             @* User's muscle target *@
                             <div class="position-absolute w-100" style="bottom:calc(-.5ex - 0px);height:1ex;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
 
-                            <div class="position-absolute filter-invert" style="bottom:calc(-.5ex - 0px);left:calc(@muscleTarget.Middle% - 1px);height:1ex;width:2px;background:rgba(255,255,255,.25);"></div>
+                            @* Muscle target cutoff *@
+                            <div class="position-absolute" style="bottom:calc(-.5ex - 0px);left:calc(@muscleTarget.Middle% - 1px);height:1ex;width:2px;background:limegreen;"></div>
                         }
                         
                         @* Default muscle target *@
