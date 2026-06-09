@@ -21,6 +21,11 @@ public class ExercisesController : ViewController
     /// </summary>
     public const string Name = "Exercises";
 
+    /// <summary>
+    /// Sections to use if the user has not selected any other filters.
+    /// </summary>
+    private const Section NullSections = Section.Main | Section.Warmup | Section.Cooldown;
+
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     private static readonly JsonSerializerOptions Options = new()
@@ -44,7 +49,8 @@ public class ExercisesController : ViewController
             return View(viewModel);
         }
 
-        var queryBuilder = new QueryBuilder(viewModel.Section ?? Section.None)
+        // Filtering down to the main/warmup/cooldown sections if nothing is filtered to reduce memory/CPU utilization.
+        var queryBuilder = new QueryBuilder(viewModel.Section ?? (viewModel.FormHasData ? Section.None : NullSections))
             .WithSelectionOptions(options =>
             {
                 options.IncludePrerequisites = viewModel.FormHasData;
