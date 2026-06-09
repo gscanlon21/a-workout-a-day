@@ -543,9 +543,9 @@ public class QueryRunner(Section section)
             // ... those workouts don't update the last seen date.
             filteredResults.ShuffleInPlace();
         }
-        else
+        else if (!UserOptions.NoUser)
         {
-            // Variations that have a refresh delay should be ordered first.
+            // Don't need to order if there is no user context. Variations that have a refresh delay should be ordered first.
             filteredResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
                 // Then show exercise variations that the user has least recently seen.
                 // Adding the two in case there is a warmup and main variation in the same exercise.
