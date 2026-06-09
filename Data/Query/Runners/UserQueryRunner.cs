@@ -1,12 +1,16 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Dtos.Exercise;
+using Core.Models.Equipment;
+using Core.Models.Exercise;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
+using Data.Entities.Exercise;
 using Data.Entities.Users;
 using Data.Query.Options;
 using Data.Query.Options.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using static Core.Code.Extensions.EnumerableExtensions;
 
@@ -18,6 +22,170 @@ namespace Data.Query.Runners;
 public class UserQueryRunner : QueryRunnerBase
 {
     public UserQueryRunner(Section section) : base(section) { }
+
+    [DebuggerDisplay("{VariationId}: {VariationName}")]
+    private class AllVariationsQueryResults
+    {
+        /// <summary>EF Core can't optimize constructors.</summary>
+        public AllVariationsQueryResults() { /* no-op */}
+
+        public required string Name { get; init; }
+        public required int ExerciseId { get; init; }
+        public required int VariationId { get; init; }
+        public required bool IsIgnored { get; init; }
+        public required bool UseCaution { get; init; }
+        public required bool UserOwnsEquipment { get; init; }
+        public required bool IsMinProgressionInRange { get; init; }
+        public required bool IsMaxProgressionInRange { get; init; }
+        public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
+        public required Progression VariationProgression { get; init; }
+        public required DateOnly? LastVisible { get; init; }
+    }
+
+    [DebuggerDisplay("{GetDebuggerDisplay(),nq}")]
+    private class PrerequisitesQueryResults
+    {
+        /// <summary>EF Core can't optimize constructors.</summary>
+        public PrerequisitesQueryResults() { /* no-op */}
+
+        public required int ExerciseId { get; init; }
+        public required DateOnly? UserExerciseLastSeen { get; init; }
+        public required DateOnly? UserExerciseFirstSeen { get; init; }
+        public required DateOnly? UserVariationLastSeen { get; init; }
+        public required DateOnly? UserVariationFirstSeen { get; init; }
+
+        public required Progression VariationProgression { get; init; }
+        public required int UserExerciseProgression { get; init; }
+
+        private string GetDebuggerDisplay() => $"{VariationProgression.MinOrDefault} - {UserExerciseProgression} - {VariationProgression.MaxOrDefault}";
+    }
+
+    public required UserOptions UserOptions { private get; init; }
+    public required UserIgnoreOptions UserIgnoreOptions { private get; init; }
+
+    protected override IQueryable<ExercisesQueryResults> Map(IQueryable<Exercise> exercises, bool includePrerequisites)
+    {
+        if (includePrerequisites)
+        {
+            return exercises.Select(e => new ExercisesQueryResults()
+            {
+                Exercise = e,
+                UserExercise = e.UserExercises.First(ue => ue.UserId == UserOptions.Id),
+                // Pull these out of the constructor so EF Core can filter out unused properties.
+                Prerequisites = e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
+                {
+                    Proficiency = p.Proficiency,
+                    Id = p.PrerequisiteExerciseId,
+                    Name = p.PrerequisiteExercise.Name,
+                }).ToList(),
+                Postrequisites = e.Postrequisites.Where(p => p.Exercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
+                {
+                    Id = p.ExerciseId,
+                    Name = p.Exercise.Name,
+                    Proficiency = p.Proficiency,
+                }).ToList()
+            });
+        }
+
+        return exercises.Select(e => new ExercisesQueryResults()
+        {
+            Exercise = e,
+            UserExercise = e.UserExercises.First(ue => ue.UserId == UserOptions.Id),
+        });
+    }
+
+    protected override IQueryable<VariationsQueryResults> Map(IQueryable<Variation> variations)
+    {
+        return variations.Select(v => new VariationsQueryResults()
+        {
+            Variation = v,
+            UserVariation = v.UserVariations.First(uv => !UserOptions.NoUser && uv.UserId == UserOptions.Id && uv.Section == section)
+        });
+    }
+
+    protected override IQueryable<ExerciseVariationsQueryResults> Map(IQueryable<ExerciseVariation> exerciseVariations)
+    {
+        return exerciseVariations.Select(ev => new ExerciseVariationsQueryResults()
+        {
+            Exercise = ev.Exercise,
+            Variation = ev.Variation,
+            UserExercise = ev.UserExercise,
+            UserVariation = ev.UserVariation,
+            Prerequisites = ev.Prerequisites,
+            Postrequisites = ev.Postrequisites,
+            // Out of range when the exercise is too difficult for the user.
+            IsMinProgressionInRange = UserOptions.NoUser
+                // This exercise variation has no minimum.
+                || ev.Variation.Progression.Min == null
+                // Compare the exercise's progression range with the user's exercise progression.
+                // When building the first workout this will only return true for variations w/o progression ranges,
+                // ... but that shouldn't matter with the backfill. After UserExercise records are created it works properly.
+                // ... Not adding in default values because that complicates later changes if we change starting progressions.
+                || ev.UserExercise.Progression >= ev.Variation.Progression.Min,
+            // Out of range when the exercise is too easy for the user.
+            IsMaxProgressionInRange = UserOptions.NoUser
+                // This exercise variation has no maximum.
+                || ev.Variation.Progression.Max == null
+                // Compare the exercise's progression range with the user's exercise progression.
+                // When building the first workout this will only return true for variations w/o progression ranges,
+                // ... but that shouldn't matter with the backfill. After UserExercise records are created it works properly.
+                // ... Not adding in default values because that complicates later changes if we change starting progressions.
+                || ev.UserExercise.Progression < ev.Variation.Progression.Max,
+            // User owns at least one equipment in at least one of the optional equipment groups.
+            // If there are no Instructions and DefaultInstruction is null, then the variation will be skipped.
+            UserOwnsEquipment = UserOptions.NoUser
+                // There is an instruction that does not require any equipment.
+                || ev.Variation.DefaultInstruction != null
+                // Out of the instructions that require equipment: the user owns the equipment for:
+                // ... the root instruction and the root instruction can be done on its own,
+                // ... or the user own the equipment for the child instructions. 
+                || ev.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
+                    // There is no equipment for the root instruction.
+                    peg.Equipment == Equipment.None
+                    // Or the user owns equipment for the root instruction.
+                    || ((peg.Equipment & UserOptions.Equipment) != 0
+                        // And the root instruction can be done on its own.
+                        && (peg.Link != null
+                            // Or the user owns the equipment for the child instructions or there is no equipment. HasAnyFlag
+                            || peg.Children.Any(ceg => (ceg.Equipment & UserOptions.Equipment) != 0 || ceg.Equipment == Equipment.None)
+                        )
+                    )
+                )
+        });
+    }
+
+    protected override IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreExclusions = false)
+    {
+        var filteredQuery = base.Filter(exerciseVariations, ignoreExclusions: ignoreExclusions);
+
+        // Not in a workout context, ignore user filtering.
+        if (!UserOptions.NoUser && section != Section.None)
+        {
+            // Filter down to variations the user owns equipment for.
+            filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment);
+
+            if (UserIgnoreOptions.UserExercises)
+            {
+                // Don't grab exercises that the user wants to ignore.
+                filteredQuery = filteredQuery.Where(vm => vm.UserExercise.Ignore != true);
+            }
+
+            if (UserIgnoreOptions.UserVariations)
+            {
+                // Don't grab variations that the user wants to ignore.
+                filteredQuery = filteredQuery.Where(vm => vm.UserVariation.Ignore != true);
+            }
+        }
+
+        // Apply this to prerequisites, so we never check against prerequisites the user cannot see.
+        if (!UserOptions.NoUser && (UserOptions.IsNewToFitness || UserOptions.NeedsDeload))
+        {
+            // Don't show dangerous exercises when the user is new to fitness.
+            filteredQuery = filteredQuery.Where(vm => !vm.Variation.UseCaution);
+        }
+
+        return filteredQuery;
+    }
 
     /// <summary>
     /// Queries the db for the data.
@@ -34,26 +202,7 @@ public class UserQueryRunner : QueryRunnerBase
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var filteredQuery = CreateFilteredExerciseVariationsQuery(context,
-            includePrerequisites: SelectionOptions.IncludePrerequisites,
-            includeInstructions: SelectionOptions.IncludeInstructions);
-
-        filteredQuery = Filters.FilterSection(filteredQuery, section);
-        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
-        filteredQuery = Filters.FilterEquipment(filteredQuery, EquipmentOptions.Equipment);
-        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
-        filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
-        filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
-        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPatternOptions.MovementPatterns);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroupOptions.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (c, n) => c | n), include: true, MuscleGroupOptions.MuscleTarget);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
-
-        // When you perform comparisons with nullable types, if the value of one of the nullable types
-        // ... is null and the other is not, all comparisons evaluate to false except for != (not equal).
-        var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
+        var queryResults = await QueryPartial(context);
 
         // Do this before querying prerequisites so that the user records also exist for the prerequisites.
         await AddMissingUserRecords(context, queryResults);
@@ -360,9 +509,8 @@ public class UserQueryRunner : QueryRunnerBase
         {
             OrderBy.ProgressionLevels => [
                 // Not in a workout context, order by progression levels.
-                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
-                    .ThenBy(vm => vm.Variation.Progression.Max == null)
-                    .ThenBy(vm => vm.Variation.Progression.Max)
+                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)
+                    .ThenBy(vm => vm.Variation.Progression.Max, NullOrder.NullsLast)
                     .ThenBy(vm => vm.Variation.Name)
             ],
             OrderBy.LeastDifficultFirst => [
@@ -400,7 +548,7 @@ public class UserQueryRunner : QueryRunnerBase
     /// </summary>
     private async Task<Dictionary<int, List<AllVariationsQueryResults>>> GetAllExercisesVariations(CoreContext context, List<InProgressQueryResults> queryResults)
     {
-        var allExercisesVariationsQuery = CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false);
+        var allExercisesVariationsQuery = Map(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false));
 
         // We don't want to check if the user has ignored all variations if they are not in are section.
         // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
@@ -444,7 +592,7 @@ public class UserQueryRunner : QueryRunnerBase
 
         // Grab a half-filtered list of exercises to check prerequisites against.
         // This filters down to only variations that the user owns equipment for.
-        var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
+        var checkPrerequisitesFromQuery = Filter(Map(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false)), ignoreExclusions: true);
 
         // Only check if the user's account is older than 1 week old.
         // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
