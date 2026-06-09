@@ -2,15 +2,15 @@
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Views.Shared.Components.Footnote;
+using Web.Views.Shared.Components.UserFootnote;
 
 namespace Web.Components.Users;
 
-public class FootnoteViewComponent : ViewComponent
+public class UserFootnoteViewComponent : ViewComponent
 {
     private readonly CoreContext _context;
 
-    public FootnoteViewComponent(CoreContext context)
+    public UserFootnoteViewComponent(CoreContext context)
     {
         _context = context;
     }
@@ -18,7 +18,7 @@ public class FootnoteViewComponent : ViewComponent
     /// <summary>
     /// For routing.
     /// </summary>
-    public const string Name = "Footnote";
+    public const string Name = "UserFootnote";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
@@ -33,7 +33,7 @@ public class FootnoteViewComponent : ViewComponent
             .OrderBy(f => f.Note)
             .ToListAsync();
 
-        return View("Footnote", new FootnoteViewModel()
+        return View("UserFootnote", new UserFootnoteViewModel()
         {
             User = user,
             Token = token,

@@ -1,0 +1,73 @@
+﻿@model SystemFootnoteViewModel
+@using Web.Code.Extensions
+@using Web.Controllers.Footnotes
+
+<details class="mt-4 mb-25">
+    <summary class="mb-1 h5">
+        @Html.DisplayNameFor(_ => Model.Footnotes)
+        <span class="float-end">@Model.Footnotes.Count</span>
+    </summary>
+
+    <div class="alert alert-secondary" role="alert">
+        <div class="mb-4">
+            <h6 class="mb-1">New Footnote</h6>
+            <form asp-controller="@FootnoteController.Name" asp-action="@nameof(FootnoteController.AddFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post" 
+                  class="alert alert-light shadow">
+
+                <div class="mb-3">
+                    <label for="Note" class="control-label">Footnote</label>
+                    <input type="text" name="Note" class="form-control" required="required" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="FootnoteType" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
+                    <select asp-for="FootnoteType" class="form-control overflow-auto" aria-describedby="footnote-type-help"
+                            asp-items='@(EmailConsts.FootnoteTypes.Except([FootnoteType.Custom]).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text).Prepend(new("Please select...", FootnoteType.None.ToString())))'>
+                    </select>
+                    <span asp-validation-for="FootnoteType" class="text-danger"></span>
+                    <div id="footnote-type-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
+                </div>
+                <div class="mb-3">
+                    <label for="Source" class="control-label">Source</label>
+                    <input type="text" name="Source" class="form-control" />
+                </div>
+                <div>
+                    <input type="submit" value="Add" class="btn btn-secondary" />
+                    <div class="form-text">Footnotes are not encrypted. Avoid entering in any sensitive information.</div>
+                </div>
+            </form>
+        </div>
+
+        @foreach (var footnote in Model.Footnotes)
+        {
+            <form asp-controller="@FootnoteController.Name" asp-action="@nameof(FootnoteController.RemoveFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="FootnoteId" asp-for="@footnote.Id" />
+
+                <div class="mt-3">
+                    <div class="input-group">
+                        <textarea class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="2">@footnote.Note</textarea>
+                        <input type="submit" value="-" class="btn btn-outline-secondary" />
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col form-text font-size--smaller">
+                            @if (!string.IsNullOrWhiteSpace(footnote.Source))
+                            {
+                                if (Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute))
+                                {
+                                    <a target="_blank" href="@footnote.Source">@footnote.Source</a>
+                                }
+                                else
+                                {
+                                    @footnote.Source
+                                }
+                            }
+                        </div>
+                        <div class="col-auto form-text font-size--smaller">
+                            @footnote.Type.GetSingleDisplayName()
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</details>
