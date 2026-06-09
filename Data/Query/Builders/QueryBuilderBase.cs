@@ -4,6 +4,7 @@ using Core.Models.Newsletter;
 using Data.Code.Exceptions;
 using Data.Query.Builders.MuscleGroup;
 using Data.Query.Options;
+using Data.Query.Runners;
 
 namespace Data.Query.Builders;
 
@@ -144,5 +145,5 @@ public abstract class QueryBuilderBase
     /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
     /// </summary>
-    public abstract QueryRunner Build();
+    public abstract QueryRunnerBase Build();
 }

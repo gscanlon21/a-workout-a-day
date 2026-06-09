@@ -3,6 +3,7 @@ using Data.Code.Exceptions;
 using Data.Entities.Users;
 using Data.Query.Options;
 using Data.Query.Options.Users;
+using Data.Query.Runners;
 
 namespace Data.Query.Builders;
 
@@ -51,9 +52,9 @@ public class UserQueryBuilder : QueryBuilderBase
     /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
     /// </summary>
-    public override QueryRunner Build()
+    public override QueryRunnerBase Build()
     {
-        return new QueryRunner(Section)
+        return new UserQueryRunner(Section)
         {
             SportsOptions = SportsOptions ?? new SportsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),
