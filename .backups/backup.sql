@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict AoWbWVabrGkQTtwnRnMlplZWYtKVkrLFp5Txh6s8QFCA4UrbYQfavKFRZ8eHRV0
+\restrict CP3aJyyisuy9TFlJSjfs37FGGtRqqPZcAfvmefe5CELTgNweEPdJGstMyr1pXQx
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -1257,7 +1257,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 606	This isn't an exercise, more of a measurement tool.	Near-Point Convergence	\N	0	0	0	0	0	50
 614	\N	Box Breathing	\N	0	0	0	0	0	50
 622	\N	Laryngeal Massage	\N	0	0	0	0	0	50
-346	\N	Foot Doming	\N	0	0	0	0	0	50
 347	\N	Clamshells	\N	0	0	0	0	0	50
 348	\N	Reverse Clamshells	\N	0	0	0	0	0	50
 489	\N	Dead-Stop Pushups	\N	0	0	0	0	0	50
@@ -1277,6 +1276,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 811	\N	Longus Capitis Muscle Release	\N	48	0	0	0	0	50
 705	\N	Figure 4 Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0	0	0	0	0	50
 584	\N	Lying IT Band Stretches	\N	0	0	0	0	0	50
+346	\N	Foot Doming	aka: Arch Lifts; Short Foot. 	0	0	0	0	0	50
 43	\N	Overhead Presses	aka. Shoulder Presses	0	0	0	0	0	50
 792	\N	Jackknife	Pilaties move	0	0	0	0	0	50
 824	\N	Oblique Myofascial Release	\N	0	0	0	0	0	50
@@ -1394,15 +1394,16 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1115	\N	Capsulitis	\N	0	0	0	0	0	50
 789	\N	Wrist Ulnar/Radial Deviation Strengthening	alt: Wrist Ulnar Deviation; Wrist Radial Deviation.	0	0	0	0	0	50
 1116	\N	Jaw Release	\N	0	0	0	0	0	50
-1117	\N	Reading out Loud	Pronunciation, Diction, Enunciation.	0	0	0	0	1	50
 1118	\N	Lip Trills	aka: Lip Rolls.	0	0	0	0	1	50
 1106	\N	Elbow Rehab	\N	0	0	0	0	0	5
 1107	\N	Ankle Rehab	\N	0	0	0	0	0	5
 333	\N	Wrist Twists	aka: Forearm Twists; Forearm Rotations; Wrist Twists; Wrist Rotations; Wrist Pronation; Wrist Supination.	0	0	0	0	0	50
 1119	\N	Tongue Trills	aka: Tongue Rolls.	0	0	0	0	1	50
 1120	\N	Tongue Twisters	\N	0	0	0	0	24	50
+1123	\N	Ankle Functional Assessment	\N	0	0	0	0	0	5
 1121	\N	Vocal Dynamics	Pronunciation, Diction, Enunciation.	0	0	0	0	1	50
 1122	\N	Yawning	\N	0	0	0	0	1	50
+1117	\N	Reading Out Loud	Pronunciation, Diction, Enunciation.	0	0	0	0	1	50
 \.
 
 
@@ -2815,7 +2816,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2580	2578	1216	\N	\N	If any of these shapes disappear, then supression is present. If this happens, clap your hands, stomp your foot, or move closer to try to see the ☐, ✕, and ◯ again.	☐-✕-◯	0	100
 2563	\N	1161	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2564	\N	1283	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
-3498	\N	2086	\N	https://app.skybrary.org/	Skybrary	\N	0	\N
 2419	\N	1258	\N	\N	Pay attention to the clues that tell you when you are not using both eyes together. If the green color fades, you are tuning out the left eye; if the red color fades you are tuning out the right eye. Do you see a short vertical line both above and below the centered ball on the sports fixation card? Can you see each letter on the lifesaver card?	There are various clues on each row that tell you when you are not using both eyes together. If the green color fades, you are tuning out the left eye; if the red color fades you are tuning out the right eye. Can you see each letter on the lifesaver card? Do you see a short vertical line both above and below the centered ball on the sports fixation card?	0	100
 3328	\N	1645	\N	https://www.youtube.com/watch?v=emMJaVdzjbQ	\N	\N	3	\N
 3342	\N	1828	\N	\N	\N	\N	32768	\N
@@ -3706,6 +3706,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3560	\N	2316	\N	https://ascallion.com/media/scripts/	Voice Over Scripts	\N	0	\N
 3561	\N	2319	\N	https://ascallion.com/tongue-twisters	Tongue Twister Text	\N	0	\N
 3562	\N	2319	\N	https://www.youtube.com/watch?v=zwp_3Zpfn0Q	Additional Tongue Twisters	\N	0	\N
+3563	\N	2086	\N	https://ascallion.com/media/scripts/	Voice Over Scripts	\N	0	100
+3498	\N	2086	\N	https://app.skybrary.org/	Skybrary	\N	0	101
 \.
 
 
@@ -3781,8 +3783,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1805	\N	\N	f	0	1	Handstand Scorpion Balance	Head isn't touching the mat. Legs are bent back.	266240	handstand-scorpion-stretch.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	964	\N	50	521095
 801	pike.webp	\N	f	0	2	Hand Plank to Pike	\N	108086391057154084	pike.jpg	8337	0	f	f	17	0	t	https://www.youtube.com/watch?v=G-2oFuWRgNI	170	\N	\N	64511
 1256	\N	Combined with Cohen Circle Chart.	t	0	2	Cohen Circle Chart w/ Prism	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	642	\N	50	6343
-918	foot-doming.webp	\N	f	0	1	Foot Doming	For the intristic foot arch muscles. aka: Short Foot.	0	foot-doming.jpg	134217728	0	t	f	1	0	\N	https://www.youtube.com/watch?v=BcJ1H7Sm-gU	346	\N	\N	58247
 1990	\N	\N	f	0	1	Butterfly Hug	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=RurqWg2Bcuo	1019	\N	\N	57351
+918	foot-doming.webp	\N	f	0	1	Foot Doming	aka: Arch Lifts; Short Foot. For the intristic foot arch muscles.	0	foot-doming.jpg	134217728	0	t	f	1	0	\N	https://www.youtube.com/watch?v=BcJ1H7Sm-gU	346	\N	\N	58247
 1769	\N	\N	f	0	1	Inverted Staff Stretch	Legs are straighter.	0	inverted-staff-stretch-alt.jpg	4480	270337	f	f	1	0	\N	https://www.youtube.com/watch?v=4F4lTh09Z5E	953	\N	50	516999
 692	overhead-carry.webp	\N	t	128	2	Two-Hand Overhead Carry	No triceps b/c the arms are straight.	82196	overhead-carry.jpg	262273	0	f	t	20	0	\N	\N	224	\N	\N	1920
 1869	\N	Duplicate of Masako Maneuver.	f	0	2	Bite Tongue Swallow	\N	0	tongue-press.jpg	3377699720527872	0	f	f	9	0	f	https://www.youtube.com/watch?v=yurskExCPxg	991	\N	\N	58247
@@ -4297,7 +4299,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 261	\N	\N	f	0	1	Hand Side Star Plank	\N	68719476736	hand-side-star-plank.jpg	12884935057	0	t	f	17	0	\N	https://www.youtube.com/watch?v=-9toG6869YY	137	\N	50	62343
 400	\N	\N	t	0	2	Finger Extensions	aka. Finger Spreads	0	finger-spread.jpg	3162112	0	t	f	1	0	t	https://www.youtube.com/watch?v=lQPppTK7mFc	87	\N	\N	58247
 1293	\N	\N	t	0	2	Computer Saccades L2	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	\N	664	\N	50	58247
-1618	\N	\N	t	0	2	Straight-Leg Calf Raises w/ Tennis Ball	Ankle plantar flexion.	524288	straight-leg-calf-raise-tennis-ball.jpg	67109888	0	f	f	5	0	t	https://www.youtube.com/watch?v=iQLYEEcWpXM	10	\N	25	58247
 2049	split-squat-elevated.webp	\N	t	64	2	Foot-Elevated Bulgarian Split Squats	Allows a greater range of motion.	33280	bulgarian-split-squat.jpg	2264926464	0	t	f	1	0	t	https://www.youtube.com/watch?v=2C-uNgKwPLE	41	\N	75	3968
 158	plank-alternating-reach.webp	\N	f	0	2	Plank w/ Alternating Reach	\N	8192	plank-reach.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=8922-DbpYIU	447	\N	\N	62343
 802	deep-squats.webp	\N	t	32	2	Deep Squats	\N	0	deep-squat.jpg	2264926976	1152	f	t	9	0	t	https://www.youtube.com/watch?v=SW_C1A-rejs&t=74s	262	\N	50	61439
@@ -4307,6 +4308,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 546	chinups-full.webp	\N	t	8	2	Chinups	\N	108086391057088548	full-chinups.jpg	12599362	12582912	f	f	1	0	t	\N	101	\N	50	1792
 1896	\N	\N	f	0	2	Openbite	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=dPimR8DmOzA	988	\N	\N	58247
 1898	\N	\N	f	0	2	Lisp	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=SphFOmaHfN4	988	\N	\N	58247
+1618	\N	\N	t	0	2	Straight-Leg Calf Raises w/ Tennis Ball	Ankle plantar flexion.	524288	straight-leg-calf-raise-tennis-ball.jpg	67109888	0	f	f	5	0	t	https://www.youtube.com/watch?v=iQLYEEcWpXM	10	\N	50	58247
 1899	\N	\N	f	0	2	Crossbite	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=lxipc9Z8hhg	988	\N	\N	58247
 329	bear-crawl.webp	\N	f	0	2	Bear Crawl	\N	262916	bear-crawl.jpg	25165969	0	f	f	1	0	\N	https://www.youtube.com/watch?v=xxxT7BFWArI	68	\N	\N	62343
 578	pullups-commando.webp	\N	t	8	2	Commando Pullups	\N	108086391057088548	pullups-commando.jpg	12599362	0	t	f	1	16	t	\N	269	\N	50	1920
@@ -4410,7 +4412,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 594	\N	\N	f	0	2	Matrix Squats	\N	8193	matrix-squat.jpg	33556480	0	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	\N	50	2944
 2311	\N	\N	f	0	2	Vocal Resonance: (NJA)	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Ok0uGGE_zeM	838	\N	\N	58247
 2319	\N	\N	f	0	2	Tongue Twisters	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	t	https://www.youtube.com/watch?v=CvB1rKNb2LA	1120	\N	50	58247
-2323	\N	\N	f	0	2	Vocal Dynamics 6	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=KhNwyF1PInM	1121	\N	\N	58247
+2323	\N	\N	f	0	2	Vocal Dynamics 6	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=KhNwyF1PInM	1121	\N	\N	58247
 725	\N	Duplicate of Chest Fly. Although there is a Crossover Fly where you actually cross your arms over each other.	t	0	2	Bear Hug	\N	0	bodyweight-fly.jpg	262156	0	f	f	1	0	t	\N	50	\N	\N	768
 441	inner-thigh-leg-lift-lying.webp	\N	t	0	2	Side-Lying Inner Thigh Leg Lift	\N	12884901888	side-lying-inner-thigh-leg-lift.jpg	32768	0	t	f	1	0	t	https://www.youtube.com/watch?v=_BR4ZodkJ2M	102	\N	\N	60415
 229	\N	More or less a duplicate of the Bench Press.	t	1	2	Alternating Dumbbell Bench Press (Top Down)	\N	0	bench-press-alternating.jpg	20490	65540	t	f	1	0	t	\N	46	\N	25	256
@@ -4625,7 +4627,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1824	\N	\N	f	0	1	Easy Stretch w/ Side Bend	aka. Sukhasana	0	easy-stretch-side-bend.jpg	2147485952	73741	t	f	8	0	\N	https://www.youtube.com/watch?v=I3nzkQTLWkE	296	\N	75	516999
 1466	\N	\N	f	0	1	Standing Forward Fold w/ Hands Behind	\N	0	forward-bend.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=gmLS4RllgoQ	64	\N	75	516999
 987	squat-overhead.webp	\N	t	0	2	Overhead Squats	This is primarily mobility training. Not a functional movement.	1025	squat-overhead.jpg	2264926976	0	f	t	1	0	t	\N	413	\N	\N	3968
-763	\N	\N	t	0	1	Eye of the Needle Stretch	aka: Supine Figure 4 Stretch; Reclined Half Pigeon.	0	eye-of-the-needle-stretch.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=MZsbHYDve0Q	232	\N	\N	516999
 323	glute-bridge.webp	\N	t	16	2	Glute Bridge	\N	512	glute-bridges.jpg	2164260864	0	f	f	1	0	t	https://www.youtube.com/watch?v=OUgsJ8-Vi0E	162	\N	\N	60423
 792	\N	\N	f	0	1	Front Splits	\N	0	front-splits.jpg	0	16818688	t	t	8	0	\N	https://www.youtube.com/watch?v=vWsyqTHoBQY	251	\N	50	516999
 883	\N	\N	f	0	1	Seated Forward Fold in Chair	\N	0	forward-fold-seated.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=QRIKGOUJILs	828	25	\N	516999
@@ -4650,7 +4651,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1746	ronde-jambe.webp	\N	f	0	2	Ronde de Jambe	Barre. t=7.55-12.25s.	0	ronde-jambe.jpg	8192	8704	f	f	8	0	f	https://www.youtube.com/watch?v=au6zqjpKJsY	693	50	\N	58367
 1680	\N	\N	f	0	2	Near/Far Accommodative Rock Chart: 3 Letters	\N	536870912	accommodative-rock.jpg	536870912	0	t	f	21	0	t	https://www.youtube.com/watch?v=__4KF3BJ-00	644	\N	75	58247
 826	\N	\N	f	0	2	Assisted Matrix Squats	\N	8193	matrix-squat.jpg	33556480	0	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	50	\N	2944
-2316	\N	\N	f	0	2	Voice Overs	Pause reps so the user can track pages read (reps) or minutes read (secs).	0	reading.jpg	549755813888	0	f	f	5	0	t	https://www.youtube.com/watch?v=Ug-XheN8I98	1117	\N	\N	58247
+763	\N	\N	t	0	1	Eye of the Needle Stretch	aka: Supine Figure 4 Stretch; Reclined Half Pigeon. IsWeighted for resistance bands.	0	eye-of-the-needle-stretch.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=MZsbHYDve0Q	232	\N	\N	516999
+2316	\N	Combined with Reading Out Loud.	f	0	2	Voice Overs	Pause reps so the user can track pages read (reps) or minutes read (secs).	0	reading.jpg	549755813888	0	f	f	5	0	t	https://www.youtube.com/watch?v=Ug-XheN8I98	1117	\N	\N	58247
 1734	ballet-jumps.webp	\N	f	0	2	Ballet Jumps	Barre. t=8.00-14.00s	0	ballet-jumps.jpg	15032388608	0	f	f	1	0	f	https://www.youtube.com/watch?v=OAt6be0hqMs	939	\N	\N	58367
 1700	\N	\N	t	0	3	Wachs' Mental Minus: Blur - Lens Off / Clear - Lens On	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	536870912	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	75	58247
 221	front-raise-alt.webp	\N	t	0	2	Front Raise	t=2.90-15.67s. t-alt=9.45-20.90s. You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	262144	front-raise.jpg	34359738368	0	f	f	1	0	t	\N	60	\N	\N	61319
@@ -4679,10 +4681,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 620	tib-raises.webp	\N	t	0	2	Toe Raises	aka. Tib Raises. Ankle dorsiflection. t=22.00-28.95s	0	tib-raises-alt.jpg	67633152	0	f	f	1	0	t	https://www.youtube.com/watch?v=Utyi88eO5V8	177	\N	\N	60415
 1343	\N	Duplciate of Standing Figure 4 Stretch	f	0	1	Half-Lotus Toe Balance L1	aka: Half-Lotus Toe Stand. 	18014398509481984	half-lotus-toe-balance.jpg	3072	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=GrdPqCjNASo	681	50	\N	516999
 95	\N	\N	f	0	1	Pronated Grip Active Hang	Palms are facing away.	458820	dead-hang.jpg	108086391056908320	8388800	f	f	1	0	\N	\N	457	\N	\N	60295
-311	calf-raises.webp	\N	t	0	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises-one-leg.jpg	67109888	0	t	f	5	0	t	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	10	\N	50	60416
 590	tricep-pushdown.webp	\N	t	0	2	Tricep Pushdown	\N	0	tricep-pushdown.jpg	4198400	0	f	f	1	0	t	\N	27	\N	\N	60295
 2254	\N	\N	f	0	2	Presenting w/ a Lectern	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=tD2sy3NrJUc	1057	\N	\N	58247
 2257	\N	\N	f	0	2	Concluding Thoughts	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=YFim4XSNvyc	1057	\N	75	58247
+311	calf-raises.webp	\N	t	0	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises-one-leg.jpg	67109888	0	t	f	5	0	t	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	10	\N	75	60416
 1740	small-battement.webp	\N	t	0	2	Small Battement	Barre. t=7.55-11.55s.	0	small-battement.jpg	8192	0	t	f	1	0	\N	https://www.youtube.com/watch?v=rANDA1cyUOk	960	\N	\N	58367
 722	reverse-lunge-knee-drive.webp	\N	f	64	2	Reverse Lunge to Knee Drive	\N	12884901888	reverse-lunge-knee-drive.jpg	2197826304	0	t	f	19	0	f	https://www.youtube.com/watch?v=erZnw1J38z4	395	\N	\N	58367
 35	rows-horizontal.webp	\N	f	2	2	Neutral-Grip Horizontal Rows	\N	147462	horizontal-rows.jpg	108086528500039776	0	f	f	1	0	t	\N	49	\N	50	1920
@@ -4890,7 +4892,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1732	\N	\N	f	0	1	Standing Bow Stretch	\N	18014398509481984	standing-bow-stretch.jpg	0	9728	t	f	24	0	\N	https://www.youtube.com/watch?v=TXNgRNsqcPo	937	\N	\N	459648
 1733	\N	\N	f	0	1	One-Arm Lord of the Dance Stretch	\N	18014398509481984	lord-of-the-dance-one-arm.jpg	0	9728	t	f	24	0	\N	https://www.youtube.com/watch?v=TXNgRNsqcPo	298	\N	75	459648
 875	nordic-hamstrings-assisted.webp	\N	t	0	2	Assisted Nordic Hamstring Curl	\N	2147483776	nordic-hamstrings-assisted.jpg	33554944	0	f	f	1	0	t	https://www.youtube.com/watch?v=6z7Fl98jGAQ	110	50	\N	59399
-2305	\N	\N	f	0	2	Prone Breathing on Swiss Ball	\N	0	kegals-alt.jpg	1649267441664	1099780063232	f	f	5	0	\N	\N	615	\N	\N	58247
 1496	\N	\N	f	0	1	Low Lunge Quad Stretch w/ Reach	Different from Kneeling Hip Flexor Stretches (Couch Stretch) because the back knee is angled further back--not straight under the hip.	0	low-lunge-quad.jpg	8388736	25438216	t	f	8	0	\N	https://www.youtube.com/watch?v=cNLr4lu7gRM	938	\N	50	516999
 1401	\N	\N	f	0	1	Assisted King Pigeon Stretch	\N	0	assisted-king-pigeon-stretch.jpg	0	15049172992	t	f	8	0	\N	https://www.youtube.com/watch?v=qSj8WJ9N2CU	935	50	\N	516999
 1362	rolling-like-a-ball.webp	\N	f	0	2	Rocking Seal	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	129	2147483648	f	f	8	0	f	https://www.youtube.com/watch?v=G5zO03AJlwU	782	\N	\N	58367
@@ -5304,8 +5305,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2083	\N	\N	f	0	1	Piriformis Strengthening	Works the piriformis muscle.	0	butterfly-forward-fold.jpg	15049162752	0	f	f	1	0	t	https://www.youtube.com/watch?v=Lli_rI4Dj0Y	1056	\N	\N	58247
 2211	\N	\N	f	0	2	Scales and Triads	aka: Siren.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=3eT2NoTYwNA	1097	\N	\N	58247
 2073	\N	\N	t	0	2	Thomas Kettlebell Flexion	\N	0	dead-bug.jpg	16777216	16777216	t	f	9	0	t	\N	1054	\N	50	58247
+314	calf-raises.webp	\N	t	0	2	Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises.jpg	67109888	0	f	f	5	0	t	https://www.youtube.com/watch?v=k8ipHzKeAkQ	10	\N	\N	60416
 2212	\N	\N	t	0	2	Supine Hip Flexion	\N	0	supine-leg-cycle.jpg	50339840	0	f	f	1	0	t	https://www.youtube.com/watch?v=2Cna5By_kAw	1047	\N	\N	58247
-314	calf-raises.webp	\N	t	0	2	Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises.jpg	67109888	0	f	f	5	0	t	https://www.youtube.com/watch?v=k8ipHzKeAkQ	10	50	\N	60416
 570	calf-raises.webp	\N	t	0	2	One-Leg Bent-Knee Calf Raises	Ankle plantar flexion.	524288	calf-raises-one-leg.jpg	67109888	0	t	f	5	0	t	https://www.youtube.com/watch?v=4i53Hkh1rdY	261	\N	50	60416
 2208	good-mornings.webp	\N	t	16	2	Hip Hinge Pelvic Alignment	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	108086391056892000	good-morning.jpg	2164261760	0	f	t	1	0	f	https://www.youtube.com/watch?v=Nsetokf2S0g	1024	\N	\N	58247
 1625	\N	\N	f	0	3	Scalene Medius Strengthening	\N	0	scalene-strengthening.jpg	288230377225453568	0	t	t	33	0	t	\N	832	75	\N	58247
@@ -5388,7 +5389,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2178	hula-hoop.webp	\N	f	0	2	Head Slides	\N	0	hula-hoop.jpg	145	0	f	t	4	8192	\N	https://www.youtube.com/watch?v=BH7fIPEPvoY	1089	\N	\N	896
 2269	\N	\N	f	0	3	Hanging Calf Stretch	Supinate the ankle to deepen the stretch.	0	calf-stretch-against-wall.jpg	0	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=EiDJCXirgh8	1009	\N	\N	516999
 981	\N	\N	t	0	1	Banded Tibial Internal Rotation	aka: Closed Chain Tibia Twists; Closed Chain Tibial Rotations.	0	hip-flexor-stretch.jpg	117440512	0	t	f	1	0	\N	\N	410	\N	\N	58247
-2270	\N	\N	f	0	2	Arch Pronations	t-5.75-19.52s	0	foot-smash.jpg	201326592	201327616	t	f	40	0	\N	https://www.youtube.com/watch?v=jyfDnq4Uqog	1103	\N	\N	58247
+2270	\N	\N	f	0	2	Arch Pronations	t-5.75-19.52s	0	foot-smash.jpg	201327616	201326592	f	f	40	0	\N	https://www.youtube.com/watch?v=jyfDnq4Uqog	1103	\N	\N	58247
 2271	\N	\N	f	0	2	Tib Turns	t-5.75-19.52s	0	foot-smash.jpg	201326592	201327616	t	f	40	0	\N	https://www.youtube.com/watch?v=U_HQFOCJolk	1104	\N	\N	58247
 2256	\N	\N	f	0	2	Delivering Your Close	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=dje_APPI6Q0	1057	\N	75	58247
 2275	\N	\N	f	0	2	Flexor Carpi Ulnaris & Radialis Rehab	For Golfer's elbow, ulnar nerve entrapment, and wrist pain.	0	wrist-bend.jpg	6307840	0	t	f	33	0	t	https://www.youtube.com/watch?v=RrgLPgguKJ0	1106	\N	\N	58247
@@ -5422,12 +5423,12 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2296	\N	\N	f	0	2	How to Express Yourself Clearly	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=0N__kF7JX3A	1112	\N	\N	58247
 2297	\N	\N	f	0	2	Improve Your Public Speaking	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=TAGQMsy_VZY	1057	\N	\N	58247
 2299	\N	\N	f	0	2	Why Swearing Will Improve Your Public Speaking	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=qmw2wyjdiiA	1057	\N	\N	58247
+2305	\N	\N	f	0	2	Prone Breathing on Swiss Ball	Allow tracking both reps and secs.	0	kegals-alt.jpg	1649267441664	1099780063232	f	f	5	0	t	\N	615	\N	\N	58247
 2292	\N	\N	f	0	2	How to Speak Louder	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=2_ICM6ACDpQ	1112	\N	\N	58247
 2279	\N	\N	t	0	2	Tibialis Posterior Strengthening	\N	0	standing-peroneal-strengthening.jpg	67633152	0	t	f	33	0	f	https://www.youtube.com/watch?v=e6813ij9Ll8	1107	\N	\N	58247
 600	\N	\N	t	0	2	Wrist Curls	aka: Wrist Flexion.	0	wrist-curl.jpg	6307840	0	f	f	1	0	f	\N	85	\N	\N	60295
 2298	\N	\N	f	0	2	How We Speak Can Harm or Heal	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=WU-vtwlQIOA	1112	\N	\N	58247
 2300	\N	\N	f	0	2	Daily Articulation Exercises	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=3Qjr9nWh5cU	835	\N	50	58247
-695	overhead-carry.webp	\N	t	384	2	One-Hand Overhead Carry	No triceps b/c the arms are straight.	82196	overhead-carry.jpg	262289	0	t	t	20	0	\N	\N	224	\N	50	1920
 2302	calf-raises.webp	\N	f	0	2	Straight-Leg Calf Raises w/ Big Toe Extension	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	f	t	1	0	t	https://www.youtube.com/watch?v=qvpJvzoFLsA	440	\N	\N	58367
 921	calf-raises.webp	\N	f	0	2	One-Leg Straight-Leg Calf Raises w/ Big Toe Extension	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	t	t	1	0	t	https://www.youtube.com/watch?v=stUQ7ekPJMM	440	\N	75	58367
 528	\N	\N	f	0	3	Wall Walking Handstand	Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	4096	wall-hand-stand.jpg	108086391057154277	0	f	f	1	0	t	https://www.youtube.com/watch?v=VpuoE246W1Y	37	25	\N	521215
@@ -5466,14 +5467,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2335	\N	\N	f	0	2	Vowels	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=JN4wR8znaSk	835	\N	\N	58247
 2336	\N	\N	f	0	2	Yawning	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=SyvOZJZddyc	1122	\N	50	58247
 2337	\N	\N	f	0	2	Early Onset	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=_Qt_o_9b9KM	835	\N	50	58247
-2321	\N	\N	f	0	2	Vocal Dynamics	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Tfq2CJnPLb0	1121	\N	\N	58247
-2322	\N	\N	f	0	2	Vocal Dynamics 7	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=8GoXxC2Grys	1121	\N	\N	58247
-2324	\N	\N	f	0	2	Vocal Dynamics: Ha He	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=LxJvS8427fM	1121	\N	\N	58247
-2325	\N	\N	f	0	2	Vocal Dynamics 4	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=VV8hUTJohg8	1121	\N	\N	58247
-2326	\N	\N	f	0	2	Vocal Dynamics 3	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=zqsjef8pV7c	1121	\N	\N	58247
-2327	\N	\N	f	0	2	Vocal Dynamics 2	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=L2-odOvuxDY	1121	\N	\N	58247
-2328	\N	\N	f	0	2	Vocal Dynamics 1	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Tfq2CJnPLb0	1121	\N	\N	58247
-2329	\N	\N	f	0	2	Vocal Dynamics 8	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=u2lB4PjdAWQ	1121	\N	\N	58247
+2327	\N	\N	f	0	2	Vocal Dynamics 2	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=L2-odOvuxDY	1121	\N	\N	58247
+695	overhead-carry.webp	\N	t	384	2	One-Hand Overhead Carry	No triceps b/c the arms are straight.	82180	overhead-carry.jpg	262289	0	t	t	20	0	\N	\N	224	\N	50	1920
+2328	\N	\N	f	0	2	Vocal Dynamics 1	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Tfq2CJnPLb0	1121	\N	\N	58247
+2329	\N	\N	f	0	2	Vocal Dynamics 8	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=u2lB4PjdAWQ	1121	\N	\N	58247
+2339	\N	\N	f	0	2	BESS Test	\N	67109888	rocking-ankle-mobilization.jpg	0	0	t	f	16	0	\N	https://www.youtube.com/watch?v=fA392PbM3-A	1123	\N	\N	58247
+2340	\N	\N	f	0	2	Star Excursion Balance Test (SEBT)	\N	67109888	rocking-ankle-mobilization.jpg	0	0	t	f	16	0	\N	https://www.youtube.com/watch?v=4GMzE7NV3W0	1123	\N	\N	58247
+2338	\N	\N	f	0	2	Knee to Wall Test	\N	0	rocking-ankle-mobilization.jpg	0	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=PyECmvYrA1E	1123	\N	\N	58247
+2321	\N	\N	f	0	2	Vocal Dynamics	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Tfq2CJnPLb0	1121	\N	\N	58247
+2322	\N	\N	f	0	2	Vocal Dynamics: Ha Ha Ha Ha	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=8GoXxC2Grys	1121	\N	\N	58247
+2324	\N	\N	f	0	2	Vocal Dynamics: Ha He	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=LxJvS8427fM	1121	\N	\N	58247
+2325	\N	\N	f	0	2	Vocal Dynamics 4	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=VV8hUTJohg8	1121	\N	\N	58247
+2326	\N	\N	f	0	2	Vocal Dynamics 3	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=zqsjef8pV7c	1121	\N	\N	58247
 \.
 
 
@@ -5481,14 +5486,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 968, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 969, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1122, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1123, true);
 
 
 --
@@ -5502,14 +5507,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3562, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3563, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2337, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2341, true);
 
 
 --
@@ -5962,5 +5967,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict AoWbWVabrGkQTtwnRnMlplZWYtKVkrLFp5Txh6s8QFCA4UrbYQfavKFRZ8eHRV0
+\unrestrict CP3aJyyisuy9TFlJSjfs37FGGtRqqPZcAfvmefe5CELTgNweEPdJGstMyr1pXQx
 
