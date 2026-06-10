@@ -1,9 +1,7 @@
 ﻿using ADay.Core.Models.Footnote;
 using ADay.Data;
 using ADay.Data.Entities.Footnote;
-using Data;
 using Data.Repos;
-using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
