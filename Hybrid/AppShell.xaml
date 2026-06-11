@@ -13,14 +13,14 @@
     </Shell.FlyoutHeader>
 
     <ShellContent Title="Daily Workout"
-                    Route="NewsletterPage"
-                    Icon="{StaticResource Workout}"
-                    ContentTemplate="{DataTemplate local:NewsletterPage}" />
+                  Route="NewsletterPage"
+                  Icon="{StaticResource Workout}"
+                  ContentTemplate="{DataTemplate local:NewsletterPage}" />
 
-    <ShellContent Title="Workouts"
-                    Route="NewslettersPage"
-                    Icon="{StaticResource Workouts}"
-                    ContentTemplate="{DataTemplate local:NewslettersPage}" />
+    <ShellContent Title="Past Workouts"
+                  Route="NewslettersPage"
+                  Icon="{StaticResource Workouts}"
+                  ContentTemplate="{DataTemplate local:NewslettersPage}" />
 
     <MenuItem Text="Website"
               IconImageSource="{StaticResource Website}"
