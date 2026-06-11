@@ -62,7 +62,7 @@ public partial class UserController
         }
 
         // UserVariation's are created when querying for a variation.
-        var exerciseVariation = (await new QueryBuilder(section)
+        var exerciseVariation = (await new SystemQueryBuilder(section)
             .WithExercises(x => x.AddVariations([userVariation]))
             .Build().Query(_serviceScopeFactory, OrderBy.None))
             .SingleOrDefault();

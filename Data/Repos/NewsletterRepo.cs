@@ -353,10 +353,6 @@ public partial class NewsletterRepo
                         options.IgnoreProgressions = true;
                         options.IgnorePrerequisites = true;
                     })
-                    .WithSelectionOptions(options =>
-                    {
-                        options.UniqueExercises = false;
-                    })
                     .WithExercises(options =>
                     {
                         options.AddPastVariations(newsletter.UserWorkoutVariations);

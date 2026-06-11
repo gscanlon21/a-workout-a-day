@@ -14,11 +14,11 @@ namespace Data.Query.Runners;
 /// <summary>
 /// Builds and runs an EF Core query for selecting exercises.
 /// </summary>
-public abstract class QueryRunnerBase
+public abstract class BaseQueryRunner
 {
     protected readonly Section section;
 
-    public QueryRunnerBase(Section sec)
+    public BaseQueryRunner(Section sec)
     {
         section = sec;
     }
@@ -61,7 +61,7 @@ public abstract class QueryRunnerBase
     }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
-    protected class ExerciseVariationsQueryResults
+    public class ExerciseVariationsQueryResults
         : IExerciseVariationCombo
     {
         /// <summary>EF Core can't optimize constructors.</summary>
@@ -79,7 +79,7 @@ public abstract class QueryRunnerBase
     }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
-    protected class InProgressQueryResults(ExerciseVariationsQueryResults queryResult)
+    public class InProgressQueryResults(ExerciseVariationsQueryResults queryResult)
         : IExerciseVariationCombo
     {
         public Exercise Exercise { get; } = queryResult.Exercise;
@@ -234,18 +234,18 @@ public abstract class QueryRunnerBase
             includePrerequisites: SelectionOptions.IncludePrerequisites,
             includeInstructions: SelectionOptions.IncludeInstructions)));
 
-        filteredQuery = Filters.FilterSection(filteredQuery, section);
-        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
-        filteredQuery = Filters.FilterEquipment(filteredQuery, EquipmentOptions.Equipment);
-        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
-        filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
-        filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
-        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPatternOptions.MovementPatterns);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroupOptions.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (c, n) => c | n), include: true, MuscleGroupOptions.MuscleTarget);
-        //filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
+        filteredQuery = QueryFilters.FilterSection(filteredQuery, section);
+        filteredQuery = QueryFilters.FilterSkills(filteredQuery, SkillsOptions);
+        filteredQuery = QueryFilters.FilterEquipment(filteredQuery, EquipmentOptions.Equipment);
+        filteredQuery = QueryFilters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
+        filteredQuery = QueryFilters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
+        filteredQuery = QueryFilters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
+        filteredQuery = QueryFilters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
+        filteredQuery = QueryFilters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
+        filteredQuery = QueryFilters.FilterMovementPattern(filteredQuery, MovementPatternOptions.MovementPatterns);
+        filteredQuery = QueryFilters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
+        filteredQuery = QueryFilters.FilterMuscleGroup(filteredQuery, MuscleGroupOptions.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (c, n) => c | n), include: true, MuscleGroupOptions.MuscleTarget);
+        //filteredQuery = QueryFilters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
 
         // When you perform comparisons with nullable types, if the value of one of the nullable types
         // ... is null and the other is not, all comparisons evaluate to false except for != (not equal).

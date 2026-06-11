@@ -50,7 +50,7 @@ public class ExercisesController : ViewController
         }
 
         // Filtering down to the main/warmup/cooldown sections if nothing is filtered to reduce memory/CPU utilization.
-        var queryBuilder = new QueryBuilder(viewModel.Section ?? (viewModel.FormHasData ? Section.None : NullSections))
+        var queryBuilder = new SystemQueryBuilder(viewModel.Section ?? (viewModel.FormHasData ? Section.None : NullSections))
             .WithSelectionOptions(options =>
             {
                 options.IncludePrerequisites = viewModel.FormHasData;

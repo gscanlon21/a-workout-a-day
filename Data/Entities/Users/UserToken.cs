@@ -48,6 +48,6 @@ public class UserToken
     [Required]
     public DateTime Expires { get; init; } = DateTime.UtcNow.AddDays(1);
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserTokens))]
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserTokens))]
     public virtual User User { get; private init; } = null!;
 }

@@ -44,7 +44,6 @@ public partial class NewsletterRepo
            })
            .WithSelectionOptions(options =>
            {
-               options.UniqueExercises = true;
                options.Randomized = context.IsBackfill;
            })
            .Build()
@@ -80,7 +79,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -110,7 +108,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -149,7 +146,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -198,7 +194,6 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Static)
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -232,7 +227,6 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Static)
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -258,7 +252,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -307,7 +300,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -339,7 +331,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -371,7 +362,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -415,7 +405,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -443,7 +432,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -490,7 +478,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build() // Max of two core exercises. Take one when deloading.
@@ -545,7 +532,6 @@ public partial class NewsletterRepo
                 })
                 .WithSelectionOptions(options =>
                 {
-                    options.UniqueExercises = true;
                     options.Randomized = context.IsBackfill;
                     options.AllRefreshed = skills?.AllRefreshed ?? options.AllRefreshed;
                 })
@@ -605,7 +591,6 @@ public partial class NewsletterRepo
             .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Endurance])
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -656,7 +641,6 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
-                options.UniqueExercises = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -676,10 +660,6 @@ public partial class NewsletterRepo
             {
                 options.IgnoreProgressions = true;
                 options.IgnorePrerequisites = true;
-            })
-            .WithSelectionOptions(options =>
-            {
-                options.UniqueExercises = false;
             })
             .Build().Query(_serviceScopeFactory);
 

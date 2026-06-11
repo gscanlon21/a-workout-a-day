@@ -1,4 +1,3 @@
-using Core.Models.Options;
 using Microsoft.Extensions.Options;
 using System.Windows.Input;
 
