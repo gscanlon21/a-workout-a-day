@@ -6,7 +6,7 @@
              xmlns:lib="clr-namespace:Lib;assembly=Lib"
              x:DataType ="local:NewsletterPageViewModel"
              x:Class="Hybrid.NewsletterPage"
-             Title="Daily Workout"
+             Title="Current Workout"
              SafeAreaEdges="Container">
 
     <RefreshView x:Name="RefreshView" Refreshing="RefreshView_Refreshing">
