@@ -12,7 +12,7 @@
         <local:FlyoutHeader />
     </Shell.FlyoutHeader>
 
-    <ShellContent Title="Daily Workout"
+    <ShellContent Title="Current Workout"
                   Route="NewsletterPage"
                   Icon="{StaticResource Workout}"
                   ContentTemplate="{DataTemplate local:NewsletterPage}" />
