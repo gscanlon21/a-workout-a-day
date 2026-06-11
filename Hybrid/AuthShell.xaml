@@ -3,11 +3,18 @@
     x:Class="Hybrid.AuthShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:local="clr-namespace:Hybrid"
     x:DataType ="local:AuthShellViewModel"
     Shell.FlyoutBehavior="Flyout"
     Shell.FlyoutHeaderBehavior="Default">
-    
+
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior
+        StatusBarColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}"
+        StatusBarStyle="{AppThemeBinding Light=LightContent, Dark=LightContent}" />
+    </Shell.Behaviors>
+
     <Shell.FlyoutHeader>
         <local:FlyoutHeader />
     </Shell.FlyoutHeader>
