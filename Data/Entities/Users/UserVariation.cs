@@ -80,7 +80,7 @@ public class UserVariation
     [Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
     public int Secs { get; set; } = UserConsts.UserSecsDefault;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserVariations))]
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]

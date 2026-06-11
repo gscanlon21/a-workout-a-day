@@ -9,10 +9,10 @@ namespace Data.Entities.Users;
 [Table("user_prehab_skill")]
 public class UserPrehabSkill
 {
-    [ForeignKey(nameof(Entities.Users.User.Id))]
+    [ForeignKey(nameof(Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserPrehabSkills))]
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserPrehabSkills))]
     public virtual User User { get; private init; } = null!;
 
     public PrehabFocus PrehabFocus { get; init; }

@@ -11,9 +11,9 @@ namespace Data.Query.Runners;
 /// <summary>
 /// Builds and runs an EF Core query for selecting exercises.
 /// </summary>
-public class QueryRunner : QueryRunnerBase
+public class SystemQueryRunner : BaseQueryRunner
 {
-    public QueryRunner(Section section) : base(section) { }
+    public SystemQueryRunner(Section section) : base(section) { }
 
     protected override IQueryable<ExercisesQueryResults> Map(IQueryable<Exercise> exercises, bool includePrerequisites)
     {

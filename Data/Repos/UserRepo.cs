@@ -283,6 +283,7 @@ public class UserRepo
         var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks, includeToday: includeToday);
         var userMuscleTargets = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt =>
         {
+            // This is where UserMuscleStrength swapping occurs, and we replace the default muscle targets with ours.
             var range = user.UserMuscleStrengths.FirstOrDefault(ums => ums.MuscleGroup == mt.Key)?.Range ?? mt.Value;
             var target = tul ? range.End.Value : range.Start.Value; // Buffer the volume with an extra week of data.
             return (int)Math.Ceiling(rawValues ? target + (target / (double)weeks) : target);

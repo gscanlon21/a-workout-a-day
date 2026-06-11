@@ -50,10 +50,6 @@ public class PrerequisiteViewComponent : ViewComponent
             {
                 builder.AddExercisePrerequisites(prerequisites);
             })
-            .WithSelectionOptions(options =>
-            {
-                options.UniqueExercises = false;
-            })
             .Build()
             .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))
             .Select(r => r.AsType<ExerciseVariationDto>()!)

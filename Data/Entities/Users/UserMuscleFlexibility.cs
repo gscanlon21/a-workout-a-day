@@ -10,10 +10,10 @@ public class UserMuscleFlexibility
 {
     public MusculoskeletalSystem MuscleGroup { get; init; }
 
-    [ForeignKey(nameof(Entities.Users.User.Id))]
+    [ForeignKey(nameof(Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserMuscleFlexibilities))]
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserMuscleFlexibilities))]
     public virtual User User { get; private init; } = null!;
 
     [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]

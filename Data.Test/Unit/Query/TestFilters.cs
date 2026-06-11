@@ -41,7 +41,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetValuesExcluding(Section.None, Section.Debug))
         {
-            var results = Filters.FilterSection(ExerciseVariationsQuery!, filter).ToList();
+            var results = QueryFilters.FilterSection(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.Section.HasAnyFlag(filter)));
         }
     }
@@ -51,7 +51,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<Equipment>())
         {
-            var results = Filters.FilterEquipment(ExerciseVariationsQuery!, filter).ToList();
+            var results = QueryFilters.FilterEquipment(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.Instructions.All(i => i.Equipment.HasFlag(filter))));
         }
     }
@@ -61,7 +61,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<ExerciseFocus>())
         {
-            var results = Filters.FilterExerciseFocus(ExerciseVariationsQuery!, [filter]).ToList();
+            var results = QueryFilters.FilterExerciseFocus(ExerciseVariationsQuery!, [filter]).ToList();
             Assert.IsTrue(results.All(r => r.Variation.ExerciseFocus.HasAnyFlag(filter)));
         }
     }
@@ -71,7 +71,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MovementPattern>())
         {
-            var results = Filters.FilterMovementPattern(ExerciseVariationsQuery!, filter).ToList();
+            var results = QueryFilters.FilterMovementPattern(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.MovementPattern.HasAnyFlag(filter)));
         }
     }
@@ -81,7 +81,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MusculoskeletalSystem>())
         {
-            var results = Filters.FilterMuscleGroup(ExerciseVariationsQuery!, filter, include: true, (vm) => vm.Variation.Strengthens).ToList();
+            var results = QueryFilters.FilterMuscleGroup(ExerciseVariationsQuery!, filter, include: true, (vm) => vm.Variation.Strengthens).ToList();
             Assert.IsTrue(results.All(r => r.Variation.Strengthens.HasAnyFlag(filter)));
         }
     }
@@ -91,7 +91,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MuscleMovement>())
         {
-            var results = Filters.FilterMuscleMovement(ExerciseVariationsQuery!, filter).ToList();
+            var results = QueryFilters.FilterMuscleMovement(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.MuscleMovement.HasAnyFlag(filter)));
         }
     }
@@ -101,7 +101,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<SportsFocus>())
         {
-            var results = Filters.FilterSportsFocus(ExerciseVariationsQuery!, filter).ToList();
+            var results = QueryFilters.FilterSportsFocus(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.SportsFocus.HasAnyFlag(filter)));
         }
     }

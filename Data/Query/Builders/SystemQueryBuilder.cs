@@ -7,16 +7,16 @@ namespace Data.Query.Builders;
 /// <summary>
 /// Builds out the QueryRunner class with option customization.
 /// </summary>
-public class QueryBuilder : QueryBuilderBase
+public class SystemQueryBuilder : BaseQueryBuilder<SystemQueryBuilder>
 {
-    public QueryBuilder(Section section) : base(section) { }
+    public SystemQueryBuilder(Section section) : base(section) { }
 
     /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
     /// </summary>
-    public override QueryRunnerBase Build()
+    public override BaseQueryRunner Build()
     {
-        return new QueryRunner(Section)
+        return new SystemQueryRunner(Section)
         {
             SportsOptions = SportsOptions ?? new SportsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),

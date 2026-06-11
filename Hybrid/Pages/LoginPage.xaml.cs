@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Alerts;
-using Core.Models.Options;
 using Lib.Services;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;

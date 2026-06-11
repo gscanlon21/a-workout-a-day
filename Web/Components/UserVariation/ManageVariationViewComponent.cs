@@ -37,7 +37,7 @@ public class ManageVariationViewComponent : ViewComponent
             .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == parameters.VariationId);
 
         if (userVariation == null) { return Content(""); }
-        var exerciseVariation = (await new QueryBuilder(parameters.Section)
+        var exerciseVariation = (await new SystemQueryBuilder(parameters.Section)
             .WithExercises(x =>
             {
                 x.AddVariations([userVariation]);

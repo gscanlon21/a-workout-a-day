@@ -54,15 +54,11 @@ public class ManageExerciseViewComponent : ViewComponent
             {
                 x.AddExercises([userExercise]);
             })
-            .WithSelectionOptions(options =>
-            {
-                options.UniqueExercises = false;
-            })
             .Build()
             .Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
 
         // Need to query in the same section so user can manage it.
-        var allExerciseVariations = (await new QueryBuilder(parameters.Section)
+        var allExerciseVariations = (await new SystemQueryBuilder(parameters.Section)
             .WithExercises(x =>
             {
                 x.AddExercises([userExercise]);

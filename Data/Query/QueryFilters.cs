@@ -15,7 +15,7 @@ public interface IExerciseVariationCombo
     Variation Variation { get; }
 }
 
-public static class Filters
+public static class QueryFilters
 {
     /// <summary>
     ///     Filter exercises to ones that help with a specific sport.

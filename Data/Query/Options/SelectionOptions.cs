@@ -8,11 +8,6 @@ public class SelectionOptions : IOptions
     public bool IncludeInstructions { get; set; } = true;
 
     /// <summary>
-    /// Will further filter down the results to remove similar variations.
-    /// </summary>
-    public bool UniqueExercises { get; set; } = false;
-
-    /// <summary>
     /// Include all variations that are due for refresh.
     /// Skips variations that have any refresh padding.
     /// </summary>
