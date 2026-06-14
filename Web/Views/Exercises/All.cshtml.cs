@@ -1,5 +1,4 @@
 ﻿using Core.Dtos.Newsletter;
-using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;

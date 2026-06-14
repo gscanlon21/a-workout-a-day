@@ -1,4 +1,4 @@
-﻿namespace Data.Entities.Exercise;
+﻿namespace Data.Entities.Exercises;
 
 /// <summary>
 /// The number of secs/reps and sets that an exercise should be performed for.

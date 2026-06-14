@@ -47,10 +47,10 @@ public class UserExercise
     [Required]
     public DateOnly LastVisible { get; set; } = DateHelpers.Today;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
-    public virtual Exercise.Exercise Exercise { get; set; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Exercises.Exercise.UserExercises))]
+    public virtual Exercises.Exercise Exercise { get; set; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserExercises))]
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserExercises))]
     public virtual User User { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);

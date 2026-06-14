@@ -1,0 +1,246 @@
+﻿@model UpsertVariationViewModel
+@using Web.Code.Extensions
+
+<div class="alert alert-secondary mt-4">
+    <form asp-controller="@UpsertExerciseVariationController.Name" asp-action="@nameof(UpsertExerciseVariationController.UpsertVariation)"
+          asp-route-email="@Model.User.Email" asp-route-token="@Model.Parameters.Token" asp-route-exercise="@Model.Variation" method="post"
+          id="nutrient-form" class="row row-gap-3">
+
+        <input type="hidden" asp-for="Variation.Id" />
+
+        <div class="form-group">
+            <label asp-for="Variation.Name"></label>
+            <input asp-for="Variation.Name" class="form-control" />
+            <span asp-validation-for="Variation.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Notes"></label>
+            <input asp-for="Variation.Notes" class="form-control" />
+            <span asp-validation-for="Variation.Notes" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.DisabledReason"></label>
+            <input asp-for="Variation.DisabledReason" class="form-control" />
+            <span asp-validation-for="Variation.DisabledReason" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.AnimatedImage"></label>
+            <input asp-for="Variation.AnimatedImage" class="form-control" />
+            <span asp-validation-for="Variation.AnimatedImage" class="text-danger"></span>
+        </div>
+
+        <div class="form-check">
+            <label asp-for="Variation.IsWeighted"></label>
+            <input asp-for="Variation.IsWeighted" class="form-check-input" />
+            <span asp-validation-for="Variation.IsWeighted" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.MovementPattern"></label>
+            <select asp-for="Variation.MovementPattern" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<MovementPattern>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Variation.MovementPattern" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.MuscleMovement"></label>
+            <select asp-for="Variation.MuscleMovement" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<MuscleMovement>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Variation.MuscleMovement" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Stabilizes"></label>
+            <input asp-for="Variation.Stabilizes" class="form-control" />
+            <span asp-validation-for="Variation.Stabilizes" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.StaticImage"></label>
+            <input asp-for="Variation.StaticImage" class="form-control" />
+            <span asp-validation-for="Variation.StaticImage" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Strengthens"></label>
+            <input asp-for="Variation.Strengthens" class="form-control" />
+            <span asp-validation-for="Variation.Strengthens" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Stretches"></label>
+            <input asp-for="Variation.Stretches" class="form-control" />
+            <span asp-validation-for="Variation.Stretches" class="text-danger"></span>
+        </div>
+
+        <div class="form-check">
+            <label asp-for="Variation.Unilateral"></label>
+            <input asp-for="Variation.Unilateral" class="form-check-input" />
+            <span asp-validation-for="Variation.Unilateral" class="text-danger"></span>
+        </div>
+
+        <div class="form-check">
+            <label asp-for="Variation.UseCaution"></label>
+            <input asp-for="Variation.UseCaution" class="form-check-input" />
+            <span asp-validation-for="Variation.UseCaution" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.ExerciseFocus"></label>
+            <input asp-for="Variation.ExerciseFocus" class="form-control" />
+            <span asp-validation-for="Variation.ExerciseFocus" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.SportsFocus"></label>
+            <select asp-for="Variation.SportsFocus" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<SportsFocus>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Variation.SportsFocus" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.PauseReps"></label>
+            <input asp-for="Variation.PauseReps" class="form-control" />
+            <span asp-validation-for="Variation.PauseReps" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.DefaultInstruction"></label>
+            <input asp-for="Variation.DefaultInstruction" class="form-control" />
+            <span asp-validation-for="Variation.DefaultInstruction" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Progression.Max"></label>
+            <input asp-for="Variation.Progression.Max" class="form-control" />
+            <span asp-validation-for="Variation.Progression.Max" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Progression.Min"></label>
+            <input asp-for="Variation.Progression.Min" class="form-control" />
+            <span asp-validation-for="Variation.Progression.Min" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Variation.Section"></label>
+            <select asp-for="Variation.Section" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<Section>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Variation.Section" class="text-danger"></span>
+        </div>
+
+        <details class="mb-3">
+            <summary><b>Edit Instructions</b></summary>
+
+            <div class="mt-1 ps-3">
+                @for (int i = 0; i < Model.Variation.Instructions.Count; i++)
+                {
+                    var instruction = Model.Variation.Instructions[i];
+                    <div class="instruction-block @(instruction.DisabledReason != null ? "d-none" : "")" data-index="@i">
+                        <input type="hidden" asp-for="Variation.Instructions[i].Id" />
+                        <input type="hidden" asp-for="Variation.Instructions[i].ParentId" />
+                        <input type="hidden" asp-for="Variation.Instructions[i].VariationId" />
+
+                        <div class="row">
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].Name" class="control-label"></label>
+                                <input asp-for="Variation.Instructions[i].Name" class="form-control" />
+                                <span asp-validation-for="Variation.Instructions[i].Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].Link" class="control-label"></label>
+                                <input asp-for="Variation.Instructions[i].Link" class="form-control" />
+                                <span asp-validation-for="Variation.Instructions[i].Link" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].Equipment" class="control-label"></label>
+                                <select asp-for="Variation.Instructions[i].EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
+                                        asp-items="@(EnumExtensions.GetSingleValues<Equipment>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))">
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].Order" class="control-label"></label>
+                                <input asp-for="Variation.Instructions[i].Order" class="form-control" type="number" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].DisabledReason" class="control-label"></label>
+                                <input asp-for="Variation.Instructions[i].DisabledReason" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col">
+                                <label asp-for="Variation.Instructions[i].Notes" class="control-label"></label>
+                                <textarea asp-for="Variation.Instructions[i].Notes" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="btn-group">
+                    <button id="instruction-add-button" type="button" class="btn btn-outline-primary">Add</button>
+                    <button id="instruction-remove-button" type="button" class="btn btn-outline-secondary">Remove</button>
+                </div>
+            </div>
+
+            <script type="module">
+                document.getElementById('instruction-add-button').addEventListener('click', (e) => {
+                    const items = Array.from(document.getElementsByClassName('instruction-block'));
+                    for (const item of items) {
+                        if (item.classList.contains('d-none')) {
+                            item.classList.remove('d-none');
+
+                            const idx = item.dataset.index;
+                            document.getElementById('disabled-' + idx).value = 'False';
+
+                            break;
+                        }
+                    }
+
+                    document.getElementById('instruction-remove-button').classList.remove('d-none');
+                    if (items.every(x => !x.classList.contains('d-none'))) {
+                        e.currentTarget.classList.add('d-none');
+                    }
+                });
+
+                document.getElementById('instruction-remove-button').addEventListener('click', (e) => {
+                    const items = Array.from(document.getElementsByClassName('instruction-block'));
+                    for (const item of items.reverse()) {
+                        if (!item.classList.contains('d-none')) {
+                            item.classList.add('d-none');
+
+                            const idx = item.dataset.index;
+                            document.getElementById('disabled-' + idx).value = 'True';
+
+                            break;
+                        }
+                    }
+
+                    document.getElementById('instruction-add-button').classList.remove('d-none');
+                    if (items.filter(x => !x.classList.contains('d-none')).length === 1) {
+                        e.currentTarget.classList.add('d-none');
+                    }
+                });
+            </script>
+        </details>
+
+        <div class="col">
+            <button type="submit" class="btn btn-primary" form="nutrient-form">Save</button>
+        </div>
+    </form>
+</div>

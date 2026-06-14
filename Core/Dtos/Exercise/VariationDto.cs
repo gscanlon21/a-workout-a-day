@@ -1,5 +1,4 @@
 ﻿using Core.Dtos.User;
-using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;

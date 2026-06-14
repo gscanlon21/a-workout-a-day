@@ -1,6 +1,5 @@
 ﻿using ADay.Core.Models.Footnote;
 using Core.Dtos.Newsletter;
-using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;

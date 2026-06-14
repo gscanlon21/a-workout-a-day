@@ -1,7 +1,7 @@
 ﻿using Core.Dtos.Exercise;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Data.Query.Options;
 using Microsoft.Extensions.DependencyInjection;
 using static Core.Code.Extensions.EnumerableExtensions;

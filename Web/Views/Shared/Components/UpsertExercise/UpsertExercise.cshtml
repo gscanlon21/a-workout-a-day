@@ -1,0 +1,80 @@
+﻿@model UpsertExerciseViewModel
+@using Core.Models.Exercise.Skills
+@using Web.Code.Extensions
+
+<div class="mt-4">
+    <form asp-controller="@UpsertExerciseVariationController.Name" asp-action="@nameof(UpsertExerciseVariationController.UpsertExercise)"
+          asp-route-email="@Model.User.Email" asp-route-token="@Model.Parameters.Token" asp-route-exercise="@Model.Exercise" method="post"
+          id="nutrient-form" class="row row-gap-3">
+
+        <input type="hidden" asp-for="Exercise.Id" />
+
+        <div class="form-group">
+            <label asp-for="Exercise.Name"></label>
+            <input asp-for="Exercise.Name" class="form-control" />
+            <span asp-validation-for="Exercise.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.Notes"></label>
+            <input asp-for="Exercise.Notes" class="form-control" />
+            <span asp-validation-for="Exercise.Notes" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.DisabledReason"></label>
+            <input asp-for="Exercise.DisabledReason" class="form-control" />
+            <span asp-validation-for="Exercise.DisabledReason" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.CervicalSkills"></label>
+            <select asp-for="Exercise.CervicalSkillsBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleValues<CervicalSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Exercise.CervicalSkills" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.LumbarSkills"></label>
+            <select asp-for="Exercise.LumbarSkillsBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleValues<LumbarSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Exercise.LumbarSkills" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.ThoracicSkills"></label>
+            <select asp-for="Exercise.ThoracicSkillsBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleValues<ThoracicSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Exercise.ThoracicSkills" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.VisualSkills"></label>
+            <select asp-for="Exercise.VisualSkillsBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleValues<VisualSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Exercise.VisualSkills" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.VocalSkills"></label>
+            <select asp-for="Exercise.VocalSkillsBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleValues<VocalSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem()))'>
+            </select>
+            <span asp-validation-for="Exercise.VocalSkills" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Exercise.StartingProgression"></label>
+            <input asp-for="Exercise.StartingProgression" class="form-control" />
+            <span asp-validation-for="Exercise.StartingProgression" class="text-danger"></span>
+        </div>
+
+        <div class="col">
+            <button type="submit" class="btn btn-primary" form="nutrient-form">Save</button>
+        </div>
+    </form>
+</div>

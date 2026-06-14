@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 4ZyghobRPl7PVIgOlm838s3S0aVDsiS7BqTHHGK3Hb98mBC5HaOd0m5PByll68i
+\restrict heQQRamCFA965H3QRle5oA1Aee8phLlw5a9EiHCDSDD9NirEfggBMA4m8CT1DXH
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -615,7 +615,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 684	\N	Shoulder Pressing Hold	aka. Bhujapidasana	0	0	0	0	0	50
 794	\N	Flower Pressing	\N	0	0	0	0	0	50
 158	\N	Depth Drops	No prerequisites because the height can be adjusted to as little as 1-inch.	0	0	0	0	0	50
-444	\N	Churn the Pot	\N	0	0	0	0	0	50
 743	\N	Baby Crow Stretch	Not the same as Crow, the weight is placed on forearems, not hands. Using Ragdoll as prerequisite and not Forward Fold because the knees are bent.	0	0	0	0	0	50
 954	\N	Staff Stretches	If you don't use your arms, this requires a good amount of core strength.	0	0	0	0	0	50
 813	\N	Neck Stretches	\N	3	0	0	0	0	50
@@ -991,7 +990,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 673	\N	Archer Stretch	\N	0	0	0	0	0	50
 763	\N	Hot and Cold Therapy	aka. Contrast Baths	0	0	0	0	0	50
 689	\N	Swimming	\N	0	0	0	0	0	50
-697	\N	Balance Board	\N	0	0	0	0	0	50
 706	\N	Revolved Horse Stretch	aka. Revolved Goddess Stretch	0	0	0	0	0	50
 772	\N	Side Lunge Stretches on Toes	\N	0	0	0	0	0	50
 646	\N	Near/Far Phonetic Focus	Works on accommodation or focusing ability.	0	0	0	12305	0	50
@@ -1045,7 +1043,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 773	\N	Seated Legs Behind Head	Not Rehab/Prehab because the increased flexibility puts you at a higher risk of injury.	0	0	0	0	0	50
 702	\N	Sleeping Pigeon Stretches	aka. Sleeping Swan Stretch; Sleeping Pigeon Stretch. Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors. Hip Flexors and Hamstrings are stretched by legs being spread apart.	0	0	0	0	0	50
 952	\N	Fallen Star Stretches	alt: Wild Thing. aka: Fallen Triangle.	0	0	0	0	0	50
-311	\N	Single Leg Balance	\N	0	0	0	0	0	50
 740	\N	Tripod Headstands	\N	0	0	0	0	0	50
 938	\N	Low Lunge Quad Stretches	aka. Horse Rider Pose; Equestrian Pose; Low Lunge	0	0	0	0	0	50
 970	\N	Tripod Headstand Front Splits	\N	0	0	0	0	0	50
@@ -1097,6 +1094,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 85	\N	Wrist Curls	alt: Wrist Flexion; Wrist Extension.	0	0	0	0	0	50
 790	\N	Wrist Impingement	\N	0	0	0	0	0	50
 961	\N	90/90 Hip Lifts	aka: 90/90 Leg Lifts; Z-Sit Hip Lifts; Z-Sit Leg Lifts..	0	0	0	0	0	5
+311	\N	Single Leg Balance	alt: Standing Balance. Don't need single-leg-balance.webp	0	0	0	0	0	50
 228	\N	Heel Sits	\N	0	0	0	0	0	50
 342	\N	Finger Abduction	\N	0	0	0	0	0	50
 343	\N	Finger Adduction	\N	0	0	0	0	0	50
@@ -1332,8 +1330,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1060	\N	Snow Angels	\N	0	0	0	0	0	50
 1061	\N	Computer Tracking	\N	0	0	0	1	0	50
 1062	\N	Pec Minor Stretches	\N	0	0	0	0	0	50
-1063	\N	Tandem Balance	\N	0	0	0	0	0	50
-1064	\N	Semi-Tandem Balance	\N	0	0	0	0	0	50
+1063	\N	Tandem Balance	alt: Standing Balance.	0	0	0	0	0	50
 1066	\N	Floating Thunderbolt Stretches	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0	50
 388	\N	Thunderbolt Stretches	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0	50
 1067	\N	Belly Dancing	\N	0	0	0	0	0	50
@@ -1352,6 +1349,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1057	\N	Public Speaking	\N	0	0	0	0	1	50
 220	\N	Hip Mobilizations	aka: Hip Distractions; Hip Mobility.	0	0	0	0	0	50
 1065	Duplicate of Walking Rehabilitation.	Heel-to-Toe Walk	\N	0	0	0	0	0	50
+1064	\N	Semi-Tandem Balance	alt: Standing Balance.	0	0	0	0	0	50
 1081	\N	Waving Dancing	\N	0	0	0	0	0	50
 1082	\N	Self Touch	\N	0	0	0	0	0	50
 1083	\N	Face Yoga	Smile	0	0	0	0	0	50
@@ -1376,7 +1374,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1097	\N	Vocal Practice	Pronunciation, Diction, Enunciation.	0	0	0	0	1	50
 1099	\N	Ankle Proprioception	\N	0	0	0	0	0	5
 1027	\N	Ankle Sprains	\N	0	0	0	0	0	5
-1100	\N	Walking Rehabilitation	\N	0	0	0	0	0	5
 1101	\N	Plantar Plate	\N	0	0	0	0	0	50
 1102	\N	Hammer Toe	\N	0	0	0	0	0	50
 577	\N	Seated Calf Stretches	\N	0	0	0	0	0	50
@@ -1387,16 +1384,13 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 601	\N	Look, Ready, Touch, Back	aka. Space Fixator	0	0	0	449	0	5
 666	\N	Ready, Touch, Look, Back	aka. Space Fixator	0	0	0	449	0	5
 222	\N	L-Sit	aka: Floating Stick Pose; Floating Staff Pose; Lifted Staff Pose.	0	0	0	0	0	5
-1111	\N	Wobble Board	\N	0	0	0	0	0	50
 1112	\N	Improve Your Voice	\N	0	0	0	0	1	50
 1113	\N	Body Language	\N	0	0	0	0	0	50
 1114	\N	Reverse Wrist Curls	alt: Wrist Flexion; Wrist Extension.	0	0	0	0	0	50
 1115	\N	Capsulitis	\N	0	0	0	0	0	50
 789	\N	Wrist Ulnar/Radial Deviation Strengthening	alt: Wrist Ulnar Deviation; Wrist Radial Deviation.	0	0	0	0	0	50
 1116	\N	Jaw Release	\N	0	0	0	0	0	50
-1118	\N	Lip Trills	aka: Lip Rolls.	0	0	0	0	1	50
 1106	\N	Elbow Rehab	\N	0	0	0	0	0	5
-1107	\N	Ankle Rehab	\N	0	0	0	0	0	5
 333	\N	Wrist Twists	aka: Forearm Twists; Forearm Rotations; Wrist Twists; Wrist Rotations; Wrist Pronation; Wrist Supination.	0	0	0	0	0	50
 1119	\N	Tongue Trills	aka: Tongue Rolls.	0	0	0	0	1	50
 1120	\N	Tongue Twisters	\N	0	0	0	0	24	50
@@ -1405,6 +1399,17 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1122	\N	Yawning	\N	0	0	0	0	1	50
 1117	\N	Reading Out Loud	Pronunciation, Diction, Enunciation.	0	0	0	0	1	50
 1124	\N	Foot Extensor Tendonitis	\N	0	0	0	0	0	50
+1125	\N	Tibialis Anterior Strengthening	\N	0	0	0	0	0	50
+1126	\N	Tibialis Posterior Strengthening	\N	0	0	0	0	0	50
+1130	\N	180° Balance Board: Frontal Plane	aka: Rocker Board. alt: Wobble Board, Standing Balance.	0	0	0	0	0	50
+1107	\N	Preoneal Strengthening	alt: Ankle Inversion; Ankle Eversion.	0	0	0	0	0	5
+1127	\N	Pelvic Drop	alt: Trendelenburg Sign.	0	0	0	0	0	50
+1100	\N	Walking Rehabilitation	alt: Gait.	0	0	0	0	0	5
+697	\N	180° Balance Board: Sagittal Plane	aka: Rocker Board. alt: Wobble Board, Standing Balance.	0	0	0	0	0	50
+1118	\N	Lip Trills	aka: Lip Rolls.	0	0	0	0	0	5
+1128	\N	Unstable Hand Planks	\N	0	0	0	0	0	50
+444	\N	Unstable Forearm Planks	\N	0	0	0	0	0	50
+1111	\N	360° Balance Board	aka: Wobble Board. alt: Rocker Board, Standing Balance.	0	0	0	0	0	50
 \.
 
 
@@ -2064,6 +2069,8 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1114	840	50
 265	317	50
 1117	739	50
+1128	207	75
+1111	1130	50
 \.
 
 
@@ -2801,7 +2808,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2112	2181	1272	Moved to separate variation.	\N	Infinity walk.	\N	0	3
 2111	2181	1272	Moved to separate variation.	\N	Read with the beat of a metronome.	\N	0	4
 2087	2086	1268	\N	\N	Lay out the yarn or rope on the floor in a pattern with lots of left and right turning right angles.	\N	0	-1
-3164	\N	1389	\N	https://www.youtube.com/watch?v=ORaahew2WSU	\N	\N	16	\N
 3184	\N	1882	\N	https://www.youtube.com/watch?v=SaRZmm7o68c	Mew Indicator Line	\N	0	\N
 3230	\N	1916	\N	\N	Tap/bump your hands according to the figures	\N	0	1
 2336	2333	1262	\N	\N	Stand 8-10' from the far chart, hung on the wall at eye level. Hold the near chart really close to your eyes, slightly below eye level. Each chart should be clear, but the small chart should be near enough to your eyes that you have to work to make it clear. It might even be slightly uncomfortable.	\N	0	-1
@@ -3364,8 +3370,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2744	\N	1575	\N	https://www.youtube.com/watch?v=SLfXiM5ENzU	\N	\N	192	\N
 2762	\N	1626	\N	https://www.youtube.com/watch?v=1EG7z_qsYNY	\N	\N	192	\N
 2767	\N	1637	\N	https://www.youtube.com/watch?v=hgFxm5KIF7M	\N	\N	192	\N
-2673	\N	1389	\N	https://www.youtube.com/watch?v=35fhzkjWGAc	\N	\N	262144	\N
-2768	\N	1646	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
 2771	\N	1647	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192	\N
 2698	2403	1255	\N	\N	Can you hold it there for 3 seconds, then slowly bring it back to center?	\N	0	100
 2751	\N	1600	\N	https://mskneurology.com/how-truly-treat-thoracic-outlet-syndrome/	Treatment	\N	0	-1
@@ -3709,6 +3713,41 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3562	\N	2319	\N	https://www.youtube.com/watch?v=zwp_3Zpfn0Q	Additional Tongue Twisters	\N	0	\N
 3563	\N	2086	\N	https://ascallion.com/media/scripts/	Voice Over Scripts	\N	0	100
 3498	\N	2086	\N	https://app.skybrary.org/	Skybrary	\N	0	101
+3564	\N	2344	\N	https://www.youtube.com/watch?v=eFxnmgRTuAM	\N	\N	192	\N
+3566	\N	2346	\N	https://www.youtube.com/watch?v=k50t6Hek8jo	[P]rehab	\N	0	\N
+3567	\N	2346	\N	https://www.youtube.com/watch?v=jZSuEaabaZA	Precision Movement	\N	0	\N
+3570	\N	2288	\N	https://www.youtube.com/watch?v=ORaahew2WSU	\N	\N	16	102
+3573	\N	2381	\N	https://www.youtube.com/watch?v=a9aNHJPLHHM	DIY Balance Board	\N	0	-1
+3574	\N	2380	\N	https://www.youtube.com/watch?v=a9aNHJPLHHM	DIY Balance Board	\N	0	-1
+3575	\N	2289	\N	https://www.youtube.com/watch?v=a9aNHJPLHHM	DIY Balance Board	\N	0	-1
+3576	\N	2288	\N	https://www.youtube.com/watch?v=a9aNHJPLHHM	DIY Balance Board	\N	0	-1
+3577	\N	1646	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
+3578	\N	1389	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
+3579	\N	886	\N	https://www.youtube.com/watch?v=LkVfT3_-Ji8	Towel	\N	0	\N
+3580	\N	2034	\N	https://www.youtube.com/watch?v=fznzQdb4j0Y	Towel	\N	0	\N
+3581	\N	2036	\N	https://www.youtube.com/watch?v=_lmVJcVXvE8	\N	\N	2	\N
+3584	\N	2391	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
+3586	\N	2390	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
+3164	\N	1389	This is a wobble board.	https://www.youtube.com/watch?v=ORaahew2WSU	\N	\N	16	102
+3587	\N	586	\N	https://www.youtube.com/watch?v=i9HApXP7_s4	\N	\N	8192	\N
+3588	\N	2392	\N	https://www.youtube.com/watch?v=2yenA3JNh5Q	\N	\N	8192	\N
+3589	\N	2392	\N	https://www.youtube.com/watch?v=OWAOqA2falY	\N	\N	262144	\N
+3590	\N	2395	\N	https://www.youtube.com/watch?v=OWAOqA2falY	\N	\N	262144	\N
+3591	\N	2395	\N	https://www.youtube.com/watch?v=2yenA3JNh5Q	\N	\N	8192	\N
+3592	\N	2394	\N	https://www.youtube.com/watch?v=2yenA3JNh5Q	\N	\N	8192	\N
+3593	\N	2394	\N	https://www.youtube.com/watch?v=OWAOqA2falY	\N	\N	262144	\N
+3594	\N	2393	\N	https://www.youtube.com/watch?v=OWAOqA2falY	\N	\N	262144	\N
+3595	\N	2393	\N	https://www.youtube.com/watch?v=2yenA3JNh5Q	\N	\N	8192	\N
+3596	\N	2396	\N	https://www.youtube.com/watch?v=o88lejX8iQ8	\N	\N	262144	101
+3597	\N	2396	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
+2768	\N	1646	\N	https://www.youtube.com/watch?v=GUrBB_DoZCI	\N	\N	262144	\N
+2673	\N	1389	\N	https://www.youtube.com/watch?v=F7ucHZiqoLk	\N	\N	262144	101
+3568	\N	2289	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
+3569	\N	2288	\N	https://www.youtube.com/watch?v=35fhzkjWGAc	\N	\N	262144	101
+3571	\N	2381	\N	https://www.youtube.com/watch?v=3quQxkYwhVE	\N	\N	262144	101
+3572	\N	2380	\N	https://www.youtube.com/watch?v=ZtDbAFa8AkE	\N	\N	262144	101
+3582	\N	2391	\N	https://www.youtube.com/watch?v=TDRFPTs54cw	\N	\N	262144	101
+3585	\N	2390	\N	https://www.youtube.com/watch?v=TDRFPTs54cw	\N	\N	262144	\N
 \.
 
 
@@ -4015,7 +4054,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2272	\N	\N	f	0	2	Ankle Instability	\N	0	bug-squash.jpg	67108864	0	t	f	1	0	\N	\N	1105	\N	\N	58247
 1135	\N	Combined with Moist Heat Eye Compress	f	0	2	Eye Massage	\N	0	moist-heat-eye-compress.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=bGJqucoHmjs	571	\N	\N	16383
 1636	\N	\N	f	0	1	Bug Squash	\N	524417	bug-squash.jpg	33556480	0	t	f	33	0	t	https://www.youtube.com/watch?v=wbQBOV2oIDU	857	\N	\N	58247
-461	\N	\N	f	0	1	Churn the Pot on Ball	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	\N	\N	4096
 1481	\N	\N	f	0	1	Legs Behind Head	\N	0	legs-behind-head.jpg	0	2415920000	f	t	8	0	\N	https://www.youtube.com/watch?v=Bk6lCfZbxs4	773	\N	50	516999
 1715	ball-slam.webp	\N	t	0	2	Rotational Ball Slam	\N	68719476736	ball-slam.jpg	34368127040	0	f	f	3	385	\N	\N	140	\N	50	896
 1879	\N	\N	f	0	2	Tongue and Lip Ties	\N	0	tongue-press.jpg	0	3377699720527872	f	f	8	0	\N	https://www.youtube.com/watch?v=KGQ-KWEhZYA	988	\N	\N	58247
@@ -4044,6 +4082,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 190	\N	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	f	0	2	Plank Shoulder Taps	\N	8192	plank-shoulder-taps.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=C6At19Q9i2Q	207	75	50	7367
 1181	\N	Duplicate of Flipper Accommodation	t	0	2	Red/Green Flipper Reading	\N	0	red-green-flipper-lens.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=TlP-BPGbCJM	661	\N	\N	6343
 2021	\N	\N	f	0	3	Scalene Anterior Strengthening	\N	0	scalene-strengthening.jpg	288230377225453568	0	t	t	33	0	t	\N	832	75	\N	58247
+461	\N	\N	f	0	1	Churn the Pot on Ball	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	\N	75	4096
 1880	\N	\N	f	0	2	Airway Classification	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=yyTGwJGAFCo	988	\N	\N	58247
 1927	\N	\N	f	0	2	Mendelsohn Maneuver	\N	0	tongue-press.jpg	1128098930098176	0	f	f	5	0	t	https://www.youtube.com/watch?v=-LsqOnh8JTs	623	\N	\N	58247
 825	\N	\N	f	64	2	Assisted ATG Split Squat	w-4100px.	0	atg-split-squat-assisted.jpg	2264926976	117448704	t	f	9	64	t	https://www.youtube.com/watch?v=RlKS_n8thAk	264	50	\N	61439
@@ -4548,8 +4587,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 860	\N	\N	f	0	1	Scale Stretch	\N	0	lotus-stretch.jpg	4100	40960	f	f	8	0	\N	https://www.youtube.com/watch?v=01b17_CpyIU	304	\N	\N	516999
 1284	\N	\N	f	0	2	Hart Chart w/ Infinity Circles	Works on ability to organize and track visually, moving your eyes accurately, quickly and efficiently from one point to another. May use both eyes or wear an eye patch.	536870912	accommodative-rock.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	659	90	75	58247
 850	knee-hugs.webp	\N	f	0	2	Walking Knee Hugs	\N	18014398509481984	knee-hugs.jpg	8192	2147484096	f	f	24	0	t	https://www.youtube.com/watch?v=LM8tAla03us	670	\N	\N	58367
-1646	balance-board.webp	\N	f	0	3	One-Leg Balance Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	0	\N	\N	697	\N	75	521215
 685	\N	\N	t	0	2	Pullover Dead Bug	\N	262144	pullover-dead-bug-alt.jpg	8409	0	f	f	1	0	t	\N	493	\N	\N	5112
+1646	balance-board.webp	\N	f	0	3	Side-to-Side One-Leg Rocker Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	16383	\N	\N	697	\N	75	521215
 1492	\N	\N	f	0	1	Block-Assisted Cow Face Legs Stretch	\N	0	cow-face-legs.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=PmdYXmCq62I	752	50	\N	516999
 714	\N	\N	t	0	2	Supine Hamstring Floss	Supine Hamstring Stretch is the static variation.	0	supine-hamstring-floss.jpg	0	2147485184	t	f	8	0	t	\N	293	\N	\N	58367
 906	\N	\N	f	0	3	Reverse Kegals	\N	0	kegals-alt.jpg	0	268435456	f	f	8	0	t	https://www.youtube.com/watch?v=YMLytmxNcZs	326	\N	\N	58247
@@ -4584,8 +4623,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1578	\N	\N	f	0	3	Deep Cervical Flexor/Extensor Strengthening	aka. Deep Neck Flexor/Extensor Strengthening	0	standing-cervical-flexor-head-tilt.jpg	1073741824	0	t	t	33	0	f	https://www.youtube.com/watch?v=uzaT0Hi-YIs	818	\N	\N	58247
 1551	\N	\N	f	0	2	Derma Rolling	1st generation microneedling.	0	derma-rolling.jpg	140737488355328	140737488355328	f	t	40	0	\N	\N	796	\N	\N	58247
 627	\N	\N	f	0	1	Pronated Grip Arch Hang	Palms are facing away.	458820	dead-hang.jpg	108086391056908320	8388800	f	f	9	0	\N	\N	36	\N	\N	60295
-1389	balance-board.webp	\N	f	0	3	Balance Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	0	\N	\N	697	\N	25	521215
 1827	\N	\N	f	0	2	Sciatic Nerve Glide	\N	0	knee-extension.jpg	0	512	t	t	8	0	f	https://www.youtube.com/watch?v=HkXkUjffCYw	760	\N	\N	58247
+1389	balance-board.webp	\N	f	0	3	Side-to-Side Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	697	\N	\N	521215
 473	standing-hamstring-curl.webp	\N	t	0	2	Single-Leg Standing Hamstring Curl	t=16.50-25.50s. If the user is too injured to be able to do the recovery exercise with weights, then they should be in physical therapy.	0	standing-hamstring-curl.jpg	33554944	0	t	f	1	0	t	\N	184	\N	\N	60415
 1553	\N	What was I thinking?	f	0	1	Morning Skin Routine: Use Notes	\N	0	skin-care-morning.jpg	140737488355328	140737488355328	f	f	25	0	\N	https://www.youtube.com/watch?v=0JMOv0G7p0Y	798	\N	\N	6343
 1255	\N	Split into separate variations.	t	0	2	Vertical Cohen Circle Chart	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	\N	\N	58247
@@ -4729,7 +4768,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1594	\N	\N	f	0	1	Standing Deep Cervical Extensor Strengthening	\N	0	standing-deep-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	\N	https://www.youtube.com/watch?v=jOHVUSUmGFw	820	\N	\N	58247
 192	\N	\N	f	0	1	One-Leg Plank	\N	8192	plank-one-leg.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=b8RNli1Bjl4	207	80	70	62343
 1637	\N	\N	t	0	1	Spanish Squats	These are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees.	524288	spanish-squats.jpg	33556480	0	f	f	17	0	t	\N	858	\N	\N	60295
-1550	\N	\N	f	0	1	Red Light Therapy	shadows-55	0	red-light-therapy.jpg	145136071737344	0	f	f	32	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	320391
 424	walking.webp	\N	f	0	2	Walking (in place)	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=i1FPheYZpPs	99	\N	50	58367
 1651	marsden-ball.webp	\N	f	0	2	Marsden Ball: Hoop	\N	536870912	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
 1645	\N	\N	t	32	2	Offset Overhead Squats	\N	67110017	offset-overhead-squats.jpg	15082720016	0	t	t	17	0	t	\N	864	\N	\N	60295
@@ -5217,22 +5255,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 376	\N	\N	f	0	1	Pyramid Stretch	\N	0	pyramid-stretch.jpg	0	2164261376	t	f	8	0	\N	https://www.youtube.com/watch?v=I-eY06IDLmM	80	\N	50	516999
 1476	\N	\N	f	0	1	Pyramid Stretch w/ Arms Behind	\N	0	pyramid-arms-behind-alt.jpg	0	2164261376	t	f	8	0	\N	https://www.youtube.com/watch?v=I-eY06IDLmM	80	\N	75	516999
 2096	\N	\N	f	0	1	Revolved Pyramid Stretch	\N	0	revolved-pyramid-stretch.jpg	0	2164261376	t	f	8	0	\N	https://www.youtube.com/watch?v=I-eY06IDLmM	80	\N	75	516999
-886	\N	\N	f	0	1	Single Leg Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	50	516999
-887	\N	\N	f	0	1	Assisted Single Leg Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=2L6OLqqw3SI	311	50	\N	516999
+2034	\N	\N	f	0	1	Single Leg Balance w/ Eyes Closed	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	75	516999
 767	\N	\N	f	0	1	Revolved Head-to-Knee	aka. Parivrtta Janu Sirsasana. brightness-20.	0	head-to-knee-revolved.jpg	0	2164261776	t	f	8	0	\N	https://www.youtube.com/watch?v=805EgEKRpMw	757	\N	\N	516999
 1634	falling-safely.webp	\N	f	0	2	Fall Safely: Rolling Practice	t(s)=4.5s.	0	falling-safely.jpg	117440512	0	f	f	1	0	f	https://www.youtube.com/watch?v=XsVK2Yf2akQ	855	\N	\N	58247
 1632	falling-safely.webp	\N	f	0	2	How to Fall Forwards Safely	t(s)=4.5s.	0	falling-safely.jpg	117440512	0	f	f	1	0	t	https://www.youtube.com/watch?v=MZ329FGa5u4	855	\N	\N	58247
-2034	\N	\N	f	0	1	Single Leg Balance w/ Eyes Closed	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	75	516999
-2035	\N	\N	f	0	1	Single Leg Balance Kettlebell Toss	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	\N	311	\N	90	516999
-2036	\N	\N	f	0	1	Single Leg Balance Ball Toss	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=Le3a1QmziKs	311	\N	90	516999
+887	\N	\N	f	0	1	Assisted Single Leg Balance	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=2L6OLqqw3SI	311	10	\N	516999
+886	\N	\N	f	0	1	Single Leg Balance	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	75	50	516999
+2035	\N	Combined w/ Single Leg Balance Ball Toss.	f	0	1	Single Leg Balance Kettlebell Toss	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	\N	311	\N	90	516999
+2036	\N	\N	f	0	1	Single Leg Balance Ball Toss	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=Le3a1QmziKs	311	\N	90	516999
 965	\N	\N	f	0	1	Cow Face Arms Stretch	\N	0	cow-face-arms-alt.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	398	\N	50	516999
 2098	\N	\N	f	0	1	Pec Minor Stretch	\N	0	doorway-pec-stretch.jpg	0	35184372154378	f	f	8	0	\N	https://www.youtube.com/watch?v=xbtf-4fBlas	1062	\N	\N	516999
 907	marble-pick-up.webp	\N	f	0	2	Toe Marble Pick-up	\N	0	marble-pick-up.jpg	18014398643699712	0	t	f	1	0	t	https://www.youtube.com/watch?v=4_OFxSHtzUo	328	\N	\N	58247
 2108	hula-hoop.webp	\N	f	0	2	Salsa Dancing	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=yQSNo38nWVg	1068	\N	\N	896
-2099	\N	\N	f	0	1	Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	\N	50	516999
-2100	\N	\N	f	0	1	Assisted Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	50	\N	516999
-2101	\N	\N	f	0	1	Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	\N	50	516999
-2102	\N	\N	f	0	1	Assisted Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	50	\N	516999
 2104	\N	\N	f	0	1	Supported Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	516999
 968	\N	\N	f	0	1	Floating Thunderbolt Stretch	Knees are elevated off of the ground.	0	thunderbolt-stretch-alt.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	1066	\N	\N	516999
 2105	cossack-squats-alt.webp	\N	f	32	2	Heel-Elevated Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=pvSXwi33Woc	383	50	25	60415
@@ -5247,10 +5281,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2110	hula-hoop.webp	\N	f	0	2	Waacking/Whacking Dancing	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=3K62qZ2hGyw	1078	\N	\N	896
 2111	hula-hoop.webp	\N	f	0	2	Locking Dancing	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=3K62qZ2hGyw	1077	\N	\N	896
 1599	\N	\N	f	0	3	Cervical Postural Fallacies	Information. aka: Neck Posture.	131072	levator-scapulae-strengthening.jpg	108086392130633760	0	f	t	1	0	\N	https://www.youtube.com/watch?v=AGCQYqUJ4c8	829	\N	\N	58247
+2099	\N	\N	f	0	1	Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	\N	50	516999
+2100	\N	\N	f	0	1	Assisted Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	50	\N	516999
 2103	toe-walk.webp	\N	f	0	2	Heel-to-Toe Walk	\N	18014398643699712	toe-walk.jpg	67109888	0	f	f	16	0	\N	https://www.youtube.com/watch?v=n-f_dk7_WYg	1100	\N	\N	57351
 2107	hula-hoop.webp	\N	f	0	2	Hip Lifts & Basic Shimmy	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=3K62qZ2hGyw	1088	\N	\N	896
 2120	hula-hoop.webp	\N	f	0	2	Body Wave	aka: Body Roll.	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=CSD0dhibOzY	1080	\N	\N	896
 2124	\N	\N	f	0	3	Face Yoga	\N	0	tongue-press.jpg	1125899906842624	0	t	f	1	0	t	https://www.youtube.com/watch?v=MrqCKMXLfJs	1083	\N	\N	58247
+2101	\N	\N	f	0	1	Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	\N	50	516999
+2102	\N	\N	f	0	1	Assisted Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	50	\N	516999
 2131	\N	\N	f	0	2	Pitch Glides	Requires a straw.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	621	\N	50	58247
 2132	\N	\N	f	0	2	Pitch Glide Pulsations	Requires a straw.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	621	\N	60	58247
 2133	\N	\N	f	0	2	Scales	Requires a straw.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	621	\N	70	58247
@@ -5399,12 +5437,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2024	\N	\N	f	0	1	One-Leg L-Sit	\N	108086391057023008	l-sit-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=aD-3YLg6gc0	222	75	50	7040
 226	tricep-extension-lying.webp	\N	t	0	2	Lying Tricep Extension	aka: Skull Crushers.	0	tricep-extension-lying.jpg	4198400	0	f	t	1	0	t	\N	27	\N	\N	2944
 1935	tricep-extension-lying.webp	\N	t	0	2	JM Press	aka: Chest Crushers.	0	tricep-extension-lying.jpg	4198400	0	f	t	1	0	t	\N	1012	\N	\N	2944
-2288	balance-board.webp	\N	f	0	3	Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	0	\N	https://www.youtube.com/watch?v=Lx5ykCjizpk	1111	\N	25	521215
 2286	\N	\N	f	0	2	Distal Tibiofibular Ligament Taping	Wrap the tape loosely around the ankle above the mortise with your ankle in a neutral positon.	67108864	standing-peroneal-strengthening.jpg	0	0	t	f	16	0	\N	https://www.youtube.com/watch?v=SqmCCOuxFzM	1050	\N	\N	57351
 1324	dips-assisted-bent-knee.webp	\N	t	4	2	Bent-Knee Bench Dips	t=0.00-14.70s.	108086391057023020	dips-assisted-bent-knee.jpg	4096	0	f	t	1	0	t	https://www.hybridcalisthenics.com/bent-knee-bench-dips	7	20	\N	2944
 1321	dips-assisted.webp	\N	t	4	2	Jackknife Parallel Dips	\N	108086391057285156	dips-assisted.jpg	4104	0	f	t	1	0	t	\N	7	75	50	2944
 334	dips-full.webp	\N	f	4	2	Parallel Dips	\N	108086391057285156	full-dips.jpg	4104	0	f	t	1	0	t	\N	7	\N	90	2944
-2290	balance-board.webp	\N	f	0	3	DIY Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	0	\N	https://www.youtube.com/watch?v=a9aNHJPLHHM	1111	25	\N	521215
 2280	\N	\N	t	0	2	Peroneus Longus, Brevis, and Tertius Strengthening	\N	0	standing-peroneal-strengthening.jpg	144115188142964736	0	t	f	33	0	f	https://www.youtube.com/watch?v=mTN_Zysrmc8	1107	\N	\N	58247
 1610	\N	\N	f	0	2	Wrist Flexion Stretch	\N	0	wrist-bend.jpg	0	6307840	t	f	8	0	\N	https://www.youtube.com/watch?v=F1ObKbbqOCg	788	50	\N	58247
 2281	\N	\N	f	0	2	Wrist Extension Stretch	\N	0	wrist-extension-inpingement.jpg	0	6307840	t	f	8	0	f	https://www.youtube.com/watch?v=cOYA0cTIwzM	788	50	\N	58247
@@ -5413,8 +5449,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2293	\N	\N	f	0	2	How to Stop Mumbling	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=dzLLM9Orcd8	1112	\N	\N	58247
 240	overhead-press.webp	\N	t	4	2	Neutral-Grip Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	108086528496177192	overhead-press.jpg	103079215108	0	f	t	1	0	t	\N	43	\N	\N	1920
 1534	\N	\N	t	0	1	Iso Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	108086528496177192	overhead-press.jpg	103079215108	0	f	t	1	0	\N	\N	43	\N	\N	1920
-2289	balance-board.webp	\N	f	0	3	One-Leg Wobble Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	0	\N	https://www.youtube.com/watch?v=Lx5ykCjizpk	1111	\N	75	521215
-2291	balance-board.webp	\N	f	0	3	DIY Balance Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	0	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	697	25	\N	521215
 1584	\N	\N	t	0	2	Wrist Radial Deviation Strengthening	Bringing thumb to forearm. Strengthening the thumb side of the forearm.	0	wrist-radial-strengthening.jpg	6307840	0	t	f	1	0	f	https://www.youtube.com/watch?v=pwodoGsoIpM	789	50	\N	58247
 2282	\N	\N	t	0	2	Wrist Ulnar & Radial Deviation Strengthening	\N	0	wrist-ulnar-strengthening.jpg	6307840	0	t	f	1	0	f	https://www.youtube.com/watch?v=bht7_EsCjoA	789	\N	50	58247
 2295	\N	\N	f	0	2	Why Your Voice Lacks Depth	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=FcXBlV2Juck	1112	\N	\N	58247
@@ -5423,9 +5457,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2299	\N	\N	f	0	2	Why Swearing Will Improve Your Public Speaking	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=qmw2wyjdiiA	1057	\N	\N	58247
 2305	\N	\N	f	0	2	Prone Breathing on Swiss Ball	Allow tracking both reps and secs.	0	kegals-alt.jpg	1649267441664	1099780063232	f	f	5	0	t	\N	615	\N	\N	58247
 2292	\N	\N	f	0	2	How to Speak Louder	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=2_ICM6ACDpQ	1112	\N	\N	58247
-2279	\N	\N	t	0	2	Tibialis Posterior Strengthening	\N	0	standing-peroneal-strengthening.jpg	67633152	0	t	f	33	0	f	https://www.youtube.com/watch?v=e6813ij9Ll8	1107	\N	\N	58247
 600	\N	\N	t	0	2	Wrist Curls	aka: Wrist Flexion.	0	wrist-curl.jpg	6307840	0	f	f	1	0	f	\N	85	\N	\N	60295
 2298	\N	\N	f	0	2	How We Speak Can Harm or Heal	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=WU-vtwlQIOA	1112	\N	\N	58247
+2279	\N	\N	t	0	2	Tibialis Posterior Strengthening	\N	0	standing-peroneal-strengthening.jpg	67633152	0	t	f	33	0	f	https://www.youtube.com/watch?v=e6813ij9Ll8	1126	\N	\N	58247
+2289	balance-board.webp	\N	f	0	3	One-Leg Wobble Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	16383	\N	\N	1111	\N	75	521215
+2288	balance-board.webp	\N	f	0	3	Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	16383	\N	\N	1111	\N	50	521215
 2300	\N	\N	f	0	2	Daily Articulation Exercises	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=3Qjr9nWh5cU	835	\N	50	58247
 2302	calf-raises.webp	\N	f	0	2	Straight-Leg Calf Raises w/ Big Toe Extension	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	f	t	1	0	t	https://www.youtube.com/watch?v=qvpJvzoFLsA	440	\N	\N	58367
 921	calf-raises.webp	\N	f	0	2	One-Leg Straight-Leg Calf Raises w/ Big Toe Extension	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	t	t	1	0	t	https://www.youtube.com/watch?v=stUQ7ekPJMM	440	\N	75	58367
@@ -5455,7 +5491,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2313	\N	\N	f	0	2	Head Voice	\N	0	vocal-projection.jpg	549755813888	0	t	f	5	0	t	https://www.youtube.com/watch?v=oYQxhnEW6J4	619	\N	50	58247
 2314	\N	\N	f	0	2	Vocal Resonance: Humming	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=lxjXoopvcRQ	838	\N	\N	58247
 2315	\N	\N	f	0	2	Jaw Release	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=oQsFSqDafOA	1116	\N	\N	58247
-2317	\N	\N	f	0	2	Lip Trills	aka: Lip Rolls.	0	reading.jpg	549755813888	0	f	f	5	0	t	https://www.youtube.com/watch?v=va8PnY-vy3c	1118	\N	\N	58247
+2317	\N	\N	f	0	2	Lip Trills 1/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=va8PnY-vy3c	1118	20	\N	58247
+2390	balance-board.webp	\N	f	0	3	Front-to-Back One-Leg Rocker Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	16383	\N	\N	1130	\N	75	521215
 2330	\N	\N	f	0	2	Ma May Me Mow Moo	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=lMVMu5bRF_s	835	\N	\N	58247
 2331	\N	\N	f	0	2	Mable	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=DkwJVhjqhy0	835	\N	\N	58247
 2332	\N	\N	f	0	2	Yogi Mogu	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=eEqLFwL4NGg	835	\N	\N	58247
@@ -5475,13 +5512,36 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2320	\N	\N	f	0	2	Tongue Twisters: Word Parts	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=mZ9UJHXgj58	1120	\N	\N	58247
 2306	\N	This is three in one. Split into parts.	f	0	2	Vocal Resonance: (Nae, Nja, Ng)	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=zH37yxXzoj8	838	\N	\N	58247
 2338	\N	\N	f	0	2	Knee to Wall Test	\N	0	rocking-ankle-mobilization.jpg	0	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=PyECmvYrA1E	1123	\N	\N	58247
+2348	\N	\N	f	0	2	Lip Trills 3/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=FUkKSXL8utw	1118	60	40	58247
 2321	\N	\N	f	0	2	Vocal Dynamics	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Tfq2CJnPLb0	1121	\N	\N	58247
 2322	\N	\N	f	0	2	Vocal Dynamics: Ha Ha Ha Ha	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=8GoXxC2Grys	1121	\N	\N	58247
 2324	\N	\N	f	0	2	Vocal Dynamics: Ha He	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=LxJvS8427fM	1121	\N	\N	58247
 2325	\N	\N	f	0	2	Vocal Dynamics 4	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=VV8hUTJohg8	1121	\N	\N	58247
 2326	\N	\N	f	0	2	Vocal Dynamics 3	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=zqsjef8pV7c	1121	\N	\N	58247
 2342	\N	\N	f	0	2	Peroneal Nerve Glide	aka: Fibular Nerve Glide.	0	ulnar-nerve-glide.jpg	0	162129586585862144	t	t	8	0	f	https://www.youtube.com/watch?v=XtaSmpgoqEc	760	\N	\N	58247
+2346	walking.webp	\N	f	0	2	Pelvic Drop	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	\N	1127	\N	\N	57351
 2343	foot-smash.webp	\N	f	0	2	Foot Extensor Tendonitis	t-5.75-19.52s	0	foot-smash.jpg	162129586585862144	0	t	f	32	0	\N	https://www.youtube.com/watch?v=FSFOJ5tzMaA	1124	\N	\N	58247
+2349	\N	\N	f	0	2	Lip Trills 4/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=TSwYcN7SiLU	1118	80	60	58247
+2344	\N	\N	t	0	2	Tibialis Anterior Strengthening	Keep your toes flexed to deactivate the long toe extensors.	0	standing-peroneal-strengthening.jpg	67633152	0	t	f	33	0	t	https://www.youtube.com/watch?v=t68ewNtdtas	1125	\N	\N	58247
+2396	balance-board.webp	\N	f	0	3	Walk the Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	16383	\N	\N	1130	\N	90	521215
+2350	\N	\N	f	0	2	Lip Trills 5/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=3x-ddMvwJbY	1118	\N	80	58247
+2347	\N	\N	f	0	2	Lip Trills 2/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=geGDrkK6ic4	1118	40	20	58247
+1550	\N	\N	f	0	1	Red Light Therapy	shadows-55	145136071737344	red-light-therapy.jpg	145136071737344	145136071737344	f	f	32	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	320391
+2392	\N	\N	f	0	1	Unstable Forearm Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	\N	50	4096
+2393	\N	\N	f	0	1	Knee Unstable Forearm Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	50	\N	4096
+2394	\N	\N	f	0	1	Unstable Hand Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	1128	\N	50	4096
+2384	\N	\N	f	0	1	Single Leg Balance Around the World	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=s3rDPh3PFtU	311	\N	75	516999
+2385	\N	\N	f	0	1	Assisted Single Leg Balance Leg Backwards w/ Eyes Closed	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=FTPvyV8DwFs	311	50	25	516999
+2386	\N	\N	f	0	1	Assisted Single Leg Balance Leg Forwards w/ Eyes Closed	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=oxVDe917wk0	311	50	25	516999
+2395	\N	\N	f	0	1	Knee Unstable Hand Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	1128	50	\N	4096
+2382	\N	\N	f	0	1	Assisted Single Leg Balance Leg Forwards	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=5p7FY4bSYqo	311	25	10	516999
+2383	\N	\N	f	0	1	Assisted Single Leg Balance Leg Backwards	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=Sl3gMNkGHow	311	25	10	516999
+2389	\N	\N	f	0	1	Assisted Single Leg Balance Clocks	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=CHgi4ns_iQk	311	50	25	516999
+2387	\N	\N	f	0	1	Assisted Single Leg Balance w/ Lateral Leg Swings	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=1VlaNbgO5JI	311	50	25	516999
+2388	\N	\N	f	0	1	Single Leg Balance w/ Knee Touch	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=g_uXMs_y0ME	311	90	75	516999
+2391	balance-board.webp	\N	f	0	3	Front-to-Back Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1130	75	\N	521215
+2380	balance-board.webp	\N	f	0	3	Seated Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1111	25	\N	521215
+2381	balance-board.webp	\N	f	0	3	Seated One-Leg Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1111	50	25	521215
 \.
 
 
@@ -5489,14 +5549,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 970, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 1006, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1124, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1130, true);
 
 
 --
@@ -5510,14 +5570,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3563, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3597, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2343, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2396, true);
 
 
 --
@@ -5970,5 +6030,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 4ZyghobRPl7PVIgOlm838s3S0aVDsiS7BqTHHGK3Hb98mBC5HaOd0m5PByll68i
+\unrestrict heQQRamCFA965H3QRle5oA1Aee8phLlw5a9EiHCDSDD9NirEfggBMA4m8CT1DXH
 

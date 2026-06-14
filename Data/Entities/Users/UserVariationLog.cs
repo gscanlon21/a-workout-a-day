@@ -1,4 +1,4 @@
-﻿using Data.Entities.Exercise;
+﻿using Data.Entities.Exercises;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;

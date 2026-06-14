@@ -1,8 +1,7 @@
 ﻿using Core.Code.Extensions;
-using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Data.Query;
 using Data.Test.Code;
 using Data.Test.Code.Attributes;

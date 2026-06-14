@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.Exercise;
+namespace Data.Entities.Exercises;
 
 /// <summary>
 /// Pre-requisite exercises for other exercises.
@@ -24,10 +24,10 @@ public class ExercisePrerequisite
     /// <summary>
     /// The postrequisite exercise.
     /// </summary>
-    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Prerequisites))]
+    [JsonIgnore, InverseProperty(nameof(Exercises.Exercise.Prerequisites))]
     public virtual Exercise Exercise { get; private init; } = null!;
 
-    [InverseProperty(nameof(Entities.Exercise.Exercise.Postrequisites))]
+    [InverseProperty(nameof(Exercises.Exercise.Postrequisites))]
     public virtual Exercise PrerequisiteExercise { get; private init; } = null!;
 
     /// <summary>

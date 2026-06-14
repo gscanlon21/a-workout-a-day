@@ -1,5 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -41,6 +41,6 @@ public class UserWorkoutVariation
     [JsonIgnore, InverseProperty(nameof(Newsletter.UserWorkout.UserWorkoutVariations))]
     public virtual UserWorkout UserWorkout { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserWorkoutVariations))]
+    [JsonIgnore, InverseProperty(nameof(Exercises.Variation.UserWorkoutVariations))]
     public virtual Variation Variation { get; private init; } = null!;
 }
