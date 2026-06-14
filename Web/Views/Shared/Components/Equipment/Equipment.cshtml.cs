@@ -1,5 +1,4 @@
-﻿
-namespace Web.Views.Shared.Components.Equipment;
+﻿namespace Web.Views.Shared.Components.Equipment;
 
 public class EquipmentViewModel
 {
@@ -12,11 +11,11 @@ public class EquipmentViewModel
         MissingResistanceEquipment = 2,
     }
 
-    public const Core.Models.Equipment.Equipment ResistanceEquipments =
-        Core.Models.Equipment.Equipment.ResistanceBands
-        | Core.Models.Equipment.Equipment.GymnasticRings
-        | Core.Models.Equipment.Equipment.Dumbbells
-        | Core.Models.Equipment.Equipment.Barbell
-        | Core.Models.Equipment.Equipment.Kettlebells
-        | Core.Models.Equipment.Equipment.TRXSystem;
+    public const Core.Models.Exercise.Equipment ResistanceEquipments =
+        Core.Models.Exercise.Equipment.ResistanceBands
+        | Core.Models.Exercise.Equipment.GymnasticRings
+        | Core.Models.Exercise.Equipment.Dumbbells
+        | Core.Models.Exercise.Equipment.Barbell
+        | Core.Models.Exercise.Equipment.Kettlebells
+        | Core.Models.Exercise.Equipment.TRXSystem;
 }

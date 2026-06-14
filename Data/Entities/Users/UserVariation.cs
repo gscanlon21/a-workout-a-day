@@ -1,5 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -83,7 +83,7 @@ public class UserVariation
     [JsonIgnore, InverseProperty(nameof(Users.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]
+    [JsonIgnore, InverseProperty(nameof(Exercises.Variation.UserVariations))]
     public virtual Variation Variation { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariationLog.UserVariation))]

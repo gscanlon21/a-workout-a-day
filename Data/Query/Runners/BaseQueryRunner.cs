@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Data.Entities.Users;
 using Data.Query.Options;
 using Microsoft.EntityFrameworkCore;

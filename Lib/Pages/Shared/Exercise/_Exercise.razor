@@ -97,19 +97,27 @@
     <Lib.Pages.Shared.Exercise._Proficiency Proficiency="Model.Proficiency" Variation="Model.Variation" Intensity="User?.Intensity" FirstTimeViewing="Model.UserFirstTimeViewing" MinFontSize="User?.MinFontSize" />
     <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" MinFontSize="User?.MinFontSize" />
 
-    @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
+    @if (Verbosity.HasAnyFlag(Verbosity.Strengthens | Verbosity.Stabilizes | Verbosity.Stretches)
+        && EnumHelpers.AllEqual(Model.Variation.Strengthens, Model.Variation.Stabilizes, Model.Variation.Stretches))
     {
-        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Works</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
     }
-
-    @if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
+    else
     {
-        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName2(DisplayType.ShortName)</div>
-    }
+        if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
+        {
+            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
+        }
 
-    @if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
-    {
-        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName2(DisplayType.ShortName)</div>
+        if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
+        {
+            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName2(DisplayType.ShortName)</div>
+        }
+
+        if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
+        {
+            <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName2(DisplayType.ShortName)</div>
+        }
     }
 
     @if (Verbosity.HasFlag(Verbosity.Debug))

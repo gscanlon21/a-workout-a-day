@@ -1,8 +1,7 @@
-﻿using Core.Models.Equipment;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Data.Query.Options;
 using System.Linq.Expressions;
 using System.Reflection;

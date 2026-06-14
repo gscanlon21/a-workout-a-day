@@ -73,7 +73,7 @@ public class User : IUser
     /// User prefers static instead of dynamic images?
     /// </summary>
     [Required]
-    public Core.Models.Equipment.Equipment Equipment { get; set; }
+    public Equipment Equipment { get; set; }
 
     /// <summary>
     /// User would like to receive emails on their off days recommending mobility and stretching exercises?

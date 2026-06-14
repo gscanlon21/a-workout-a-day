@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Data.Entities.Equipment;
 using Data.Entities.Newsletter;
 using Data.Entities.Users;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.Exercise;
+namespace Data.Entities.Exercises;
 
 // TODO: Implement IValidatableObject and setup model validation instead of using the /exercises/check route
 /// <summary>
@@ -38,19 +37,19 @@ public class Variation
     /// <summary>
     /// The filename.ext of the animated content image
     /// </summary>
-    public string? AnimatedImage { get; set; }
+    public string? AnimatedImage { get; private init; }
 
     /// <summary>
     /// Does this variation work one side at a time or both sides at once?
     /// </summary>
     [Required]
-    public bool Unilateral { get; set; }
+    public bool Unilateral { get; private init; }
 
     /// <summary>
     /// Is this variation dangerous and needs to be exercised with caution?
     /// </summary>
     [Required]
-    public bool UseCaution { get; set; }
+    public bool UseCaution { get; private init; }
 
     /// <summary>
     /// Can the variation be performed with weights?
@@ -58,12 +57,12 @@ public class Variation
     /// This controls whether the Pounds selector shows to the user.
     /// </summary>
     [Required]
-    public bool IsWeighted { get; set; }
+    public bool IsWeighted { get; private init; }
 
     /// <summary>
     /// Count reps or time?
     /// </summary>
-    public bool? PauseReps { get; set; }
+    public bool? PauseReps { get; private init; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
@@ -104,7 +103,7 @@ public class Variation
 
     public virtual int ExerciseId { get; private init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Variations))]
+    [JsonIgnore, InverseProperty(nameof(Exercises.Exercise.Variations))]
     public virtual Exercise Exercise { get; private init; } = null!;
 
     /// <summary>
@@ -146,7 +145,7 @@ public class Variation
 
     // Cannot have an InverseProperty because we have two navigation properties to Instruction
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual ICollection<Instruction> Instructions { get; private init; } = [];
+    public virtual IList<Instruction> Instructions { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;

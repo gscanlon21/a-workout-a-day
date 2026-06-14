@@ -1,7 +1,4 @@
 ﻿@model ManageExerciseVariationViewModel
-@using System.Numerics
-@using Core.Models.Exercise
-@using Core.Consts
 @using Web.Components.UserVariation
 @using Web.Components.UserExercise
 
@@ -22,6 +19,7 @@
         <div class="row gy-4">
             <div class="col-12">
                 @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
+                @await Component.InvokeAsync(UpsertVariationViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
 
             @if (Model.Parameters.Section == Section.None)
@@ -50,6 +48,7 @@
                 <h5 class="mb-1">Exercise</h5>
                 <div class="alert alert-secondary shadow mb-0">
                     @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+                    @await Component.InvokeAsync(UpsertExerciseViewComponent.Name, new { Model.User, Model.Parameters })
                 </div>
             </div>
 

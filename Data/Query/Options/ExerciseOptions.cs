@@ -1,5 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Data.Entities.Exercise;
+using Data.Entities.Exercises;
 using Data.Entities.Newsletter;
 using Data.Entities.Users;
 

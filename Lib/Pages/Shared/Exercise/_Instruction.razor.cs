@@ -1,5 +1,6 @@
 ﻿using Core.Dtos.Exercise;
 using Core.Dtos.User;
+using Core.Models.Exercise;
 
 namespace Lib.Pages.Shared.Exercise;
 
@@ -34,7 +35,7 @@ public class InstructionViewModel(InstructionDto instruction, UserNewsletterDto?
     /// </summary>
     private string? GetEquipmentDisplayName()
     {
-        var equipments = EnumExtensions.GetSingleValues<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
+        var equipments = EnumExtensions.GetSingleValues<Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
         if (equipments.Count == 0)
         {
             return null;

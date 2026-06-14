@@ -21,7 +21,7 @@ public class ManageExerciseViewModel
     public required Data.Entities.Users.UserExercise UserExercise { get; init; }
 
     [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations for all sections.")]
-    public required Data.Entities.Exercise.Exercise Exercise { get; init; }
+    public required Data.Entities.Exercises.Exercise Exercise { get; init; }
 
 
     public required IList<ExerciseVariationDto> ExerciseVariations { get; init; } = null!;

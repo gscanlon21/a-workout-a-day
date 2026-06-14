@@ -1,5 +1,4 @@
-﻿using Core.Models.Equipment;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.Users;
 using System.Linq.Expressions;

@@ -1,14 +1,14 @@
-﻿using Data.Entities.Exercise;
+﻿using Core.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.Equipment;
+namespace Data.Entities.Exercises;
 
 /// <summary>
-/// Equipment that can be switched out for one another.
+/// A variation's instructions.
 /// </summary>
 [Table("instruction")]
 [Index(nameof(ParentId))]
@@ -40,9 +40,20 @@ public class Instruction
     /// </summary>
     public string? Link { get; private init; }
 
-    public Core.Models.Equipment.Equipment Equipment { get; private init; }
+    public Equipment Equipment { get; private set; }
 
     public string? DisabledReason { get; private init; } = null;
+
+
+    [NotMapped]
+    public Equipment[]? EquipmentBinder
+    {
+        get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
+        set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
+    }
+
+
+    #region Navigation Properties
 
     [InverseProperty(nameof(Parent))]
     public virtual ICollection<Instruction> Children { get; private init; } = [];
@@ -50,6 +61,8 @@ public class Instruction
     [JsonIgnore, InverseProperty(nameof(Children))]
     public virtual Instruction? Parent { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]
+    [JsonIgnore, InverseProperty(nameof(Exercises.Variation.Instructions))]
     public virtual Variation Variation { get; private init; } = null!;
+
+    #endregion
 }

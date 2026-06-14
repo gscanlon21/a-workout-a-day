@@ -1,4 +1,4 @@
-﻿using Core.Models.Equipment;
+﻿using Core.Models.Exercise;
 
 namespace Data.Query.Options;
 

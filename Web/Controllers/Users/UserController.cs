@@ -221,37 +221,37 @@ public partial class UserController : ViewController
     public async Task<IActionResult> EditAdvanced(string email, string token, AdvancedViewModel viewModel)
     {
         var user = await _userRepo.GetUser(email, token, Includes.All) ?? throw new ArgumentException(string.Empty, nameof(email));
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            try
-            {
-                user.ExtendedWarmup = viewModel.ExtendedWarmup;
-                user.IgnorePrerequisites = viewModel.IgnorePrerequisites;
-                user.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
-                user.AtLeastXUniqueMusclesPerExercise_Accessory = viewModel.AtLeastXUniqueMusclesPerExercise_Accessory;
-                user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
-                user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
-                user.WeightSecondaryXTimesLess = viewModel.WeightSecondaryXTimesLess;
-                user.WeightCoreXTimesLess = viewModel.WeightCoreXTimesLess;
-                user.FootnoteCountBottom = viewModel.FootnoteCountBottom;
-                user.FootnoteCountTop = viewModel.FootnoteCountTop;
-
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // If the user does not exist.
-                if (!await _context.Users.AnyAsync(e => e.Email == viewModel.Email))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
+        }
+
+        try
+        {
+            user.ExtendedWarmup = viewModel.ExtendedWarmup;
+            user.IgnorePrerequisites = viewModel.IgnorePrerequisites;
+            user.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
+            user.AtLeastXUniqueMusclesPerExercise_Accessory = viewModel.AtLeastXUniqueMusclesPerExercise_Accessory;
+            user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
+            user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
+            user.WeightSecondaryXTimesLess = viewModel.WeightSecondaryXTimesLess;
+            user.WeightCoreXTimesLess = viewModel.WeightCoreXTimesLess;
+            user.FootnoteCountBottom = viewModel.FootnoteCountBottom;
+            user.FootnoteCountTop = viewModel.FootnoteCountTop;
+
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            // If the user does not exist.
+            if (!await _context.Users.AnyAsync(e => e.Email == viewModel.Email))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
         }
 
         return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });

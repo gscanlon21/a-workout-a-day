@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Core.Models.Equipment;
-
+namespace Core.Models.Exercise;
 
 /// <summary>
 /// Equipment used in an exercise.

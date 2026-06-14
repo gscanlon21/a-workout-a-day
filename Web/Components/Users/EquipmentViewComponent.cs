@@ -1,4 +1,4 @@
-﻿using Core.Models.Equipment;
+﻿using Core.Models.Exercise;
 using Core.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.Equipment;
