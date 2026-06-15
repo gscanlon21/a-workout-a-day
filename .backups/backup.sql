@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict heQQRamCFA965H3QRle5oA1Aee8phLlw5a9EiHCDSDD9NirEfggBMA4m8CT1DXH
+\restrict qXSsiQKO7evp5MRgOtIkUYgQSqS4oDX32V3evzVhS60e22y6XBkXIHxt52kxJYc
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -1124,8 +1124,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 425	\N	Hammer Curls	\N	0	0	0	0	0	50
 254	\N	Flutter Kicks	\N	0	0	0	0	0	50
 429	\N	Overhead Sumo Squats	\N	0	0	0	0	0	50
-428	\N	Front Sumo Squats	\N	0	0	0	0	0	50
-427	\N	Front Squats	\N	0	0	0	0	0	50
 430	\N	Suitcase Sumo Squats	\N	0	0	0	0	0	50
 414	\N	Suitcase Squats	\N	0	0	0	0	0	50
 426	\N	Goblet Squats	\N	0	0	0	0	0	50
@@ -1191,6 +1189,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 282	\N	Shoulder External Rotation	\N	0	0	0	0	0	50
 293	\N	Hamstring Floss	These are dynamic stretches.	0	0	0	0	0	50
 289	\N	Hamstring Catches	\N	0	0	0	0	0	50
+428	\N	Weighted Sumo Squats	\N	0	0	0	0	0	50
 390	\N	Cat Pulling its Tail Stretch	\N	0	0	0	0	0	50
 387	Splitting up into parts.	Neck Myofacial Releases	aka. Cervical Myofacial Releases	16	0	0	0	0	50
 416	\N	Hamstring Walk Outs	These are dynamic stretches.	0	0	0	0	0	50
@@ -1249,7 +1248,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 94	\N	Shadow Boxing	\N	0	0	0	0	0	50
 99	\N	Walking	\N	0	0	0	0	0	50
 100	\N	Jogging	\N	0	0	0	0	0	50
-40	\N	Front Reverse Lunges	\N	0	0	0	0	0	50
 69	\N	Leg Cycle	\N	0	0	0	0	0	50
 439	\N	Revolved Chair Stretch	\N	0	0	0	0	0	50
 606	This isn't an exercise, more of a measurement tool.	Near-Point Convergence	\N	0	0	0	0	0	50
@@ -1275,6 +1273,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 705	\N	Figure 4 Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0	0	0	0	0	50
 584	\N	Lying IT Band Stretches	\N	0	0	0	0	0	50
 346	\N	Foot Doming	aka: Arch Lifts; Short Foot. 	0	0	0	0	0	50
+40	\N	Bodyweight Reverse Lunges	\N	0	0	0	0	0	50
 43	\N	Overhead Presses	aka. Shoulder Presses	0	0	0	0	0	50
 792	\N	Jackknife	Pilaties move	0	0	0	0	0	50
 824	\N	Oblique Myofascial Release	\N	0	0	0	0	0	50
@@ -1409,7 +1408,9 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1118	\N	Lip Trills	aka: Lip Rolls.	0	0	0	0	0	5
 1128	\N	Unstable Hand Planks	\N	0	0	0	0	0	50
 444	\N	Unstable Forearm Planks	\N	0	0	0	0	0	50
+1131	\N	Weighted Reverse Lunges	\N	0	0	0	0	0	50
 1111	\N	360° Balance Board	aka: Wobble Board. alt: Rocker Board, Standing Balance.	0	0	0	0	0	50
+427	\N	Weighted Squats	\N	0	0	0	0	0	50
 \.
 
 
@@ -2071,6 +2072,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1117	739	50
 1128	207	75
 1111	1130	50
+1131	40	50
 \.
 
 
@@ -3741,6 +3743,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3596	\N	2396	\N	https://www.youtube.com/watch?v=o88lejX8iQ8	\N	\N	262144	101
 3597	\N	2396	\N	https://www.youtube.com/watch?v=e5_dPyFZDa0	DIY Balance Board	\N	0	-1
 2768	\N	1646	\N	https://www.youtube.com/watch?v=GUrBB_DoZCI	\N	\N	262144	\N
+3598	\N	2205	\N	https://www.youtube.com/watch?v=1IlH0IIAVv8	\N	\N	192	\N
 2673	\N	1389	\N	https://www.youtube.com/watch?v=F7ucHZiqoLk	\N	\N	262144	101
 3568	\N	2289	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
 3569	\N	2288	\N	https://www.youtube.com/watch?v=35fhzkjWGAc	\N	\N	262144	101
@@ -3906,7 +3909,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1977	pushups-full-alt.webp	\N	f	1	2	Mike Tyson Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=j-oSVFU2eMc	1	\N	50	3968
 1817	\N	\N	f	0	1	Handstand Front Splits	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	108086391057109026	handstand-side-splits.jpg	262293	0	f	f	17	0	\N	https://www.youtube.com/watch?v=6Qz_t5X6j48	967	\N	\N	516999
 1749	sumo-cat-cow.webp	\N	f	0	2	Sumo Cat/Cow	Barre. t=10.00-20.75s.	17	sumo-cat-cow.jpg	128	108086391065411833	f	f	8	0	t	https://www.youtube.com/watch?v=14LSw3gBjoc	65	\N	\N	58367
-1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre.	32768	clamshells.jpg	70381629079808	0	t	f	1	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	75	60415
 1405	\N	\N	f	0	1	Revolved Horse Stretch	aka. Goddess Stretch; Sumo Stretch	12884901888	revolved-horse-stretch.jpg	2048	16810000	t	f	8	0	\N	https://www.youtube.com/watch?v=53lYnbu5klM	706	\N	\N	516999
 1837	\N	\N	f	0	1	Meditation 8: Negative Emotions	\N	0	meditation.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=OBysZAgthoI	978	80	70	320391
 2004	\N	\N	t	0	2	Seated Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188142964736	0	t	f	1	0	t	\N	1025	\N	\N	57351
@@ -4269,7 +4271,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 638	\N	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	f	5	2	Pushup to Downward Dog	\N	0	downward-dog-alt.jpg	75700637	75499264	f	f	9	0	t	https://www.youtube.com/watch?v=LCLfv60R9XA	194	\N	\N	30975
 1893	\N	\N	t	0	2	Mew Indicator Line	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=SaRZmm7o68c	988	\N	\N	58247
 1742	power-leg.webp	\N	t	0	1	Power Leg	Barre. t=8.00-16.00s. alt: Thigh Work.	18014413541867520	power-leg.jpg	3072	0	f	f	17	0	\N	https://www.youtube.com/watch?v=eUH_pTj6Pw0	940	\N	\N	60295
-317	air-squats.webp	\N	t	32	2	Front Squats	\N	0	air-squats.jpg	2197818112	0	f	f	1	0	t	\N	427	\N	\N	3968
 399	ball-squeezes-alt.webp	\N	f	0	2	Ball Squeezes	t=0.00-12.75s. t-alt=1.00-8.05s.	0	ball-squeezes-alt.jpg	1064960	0	f	f	1	0	t	https://www.youtube.com/watch?v=8h0tSMxLNG4	86	\N	\N	58247
 728	\N	\N	t	256	2	Landmine Twists (Arms Only)	\N	8704	tight-twist.jpg	209	0	f	f	3	0	t	\N	175	50	\N	62343
 893	chest-press-neutral.webp	\N	t	0	2	Standing Svend Press	aka. Crush Press; Squeeze Press	34359754756	bench-press-close-grip.jpg	12582920	0	f	f	17	0	t	\N	476	\N	\N	60295
@@ -4281,6 +4282,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1535	\N	\N	f	0	1	Lotus Shoulder Stand	\N	145	lotus-shoulder-stand.jpg	0	15049162752	t	t	24	0	\N	https://www.youtube.com/watch?v=ObQzDIhiUp8	784	\N	\N	516999
 1544	\N	Can't find a video.	f	0	1	Wrist Ulnar Stretches	\N	0	wrist-bend.jpg	6291456	6307840	t	f	8	0	\N	https://www.youtube.com/watch?v=AWeUQ6lFEJk	790	\N	\N	16383
 1799	flat-back-knee-pedals.webp	\N	t	0	2	Banded Gas Pedals	\N	0	flat-back-knee-pedals.jpg	15032388608	0	f	f	33	0	t	\N	959	\N	50	903
+317	air-squats.webp	\N	t	32	2	Front Squats	\N	0	air-squats.jpg	2197818112	0	f	f	1	0	t	\N	427	\N	\N	3968
 897	hip-airplane.webp	\N	t	0	3	Hip Airplane	t=0.00-8.25s.	17	hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=9svtEV4vkp0	248	\N	50	517119
 704	\N	\N	f	0	3	Hand Scapular Pushups	Serratus Pushups are a boxing exercise, not these.	139393	hand-plank.jpg	262144	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	441	\N	\N	62343
 894	chest-press-neutral.webp	\N	t	0	2	Supine Svend Press	aka. Crush Press; Squeeze Press	34359742464	bench-press-close-grip.jpg	8	0	f	f	1	0	t	\N	476	\N	\N	60295
@@ -4383,7 +4385,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 607	hanging-oblique-raises.webp	\N	f	0	2	Hanging Oblique Raises	\N	16512	hanging-oblique-raises.jpg	8209	0	t	f	1	0	t	\N	1035	\N	75	7040
 1253	\N	Merged with Eye Relaxation.	f	0	1	Eye Palming	\N	0	eye-palming.jpg	0	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=KtXKuYPOtkw	662	\N	\N	16383
 552	\N	More likely to cause tendon imflammation? Just stick with Full Chinups.	f	8	2	Archer Chinups	\N	131109	archer-pullups.jpg	12664898	12582912	f	f	1	0	t	\N	101	90	80	384
-804	clamshells.webp	\N	t	0	2	Clamshells	\N	0	clamshells.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=7iXpLxKs1sY	347	\N	\N	60415
 59	\N	\N	f	0	1	Clutch Flags	\N	108086644460355616	clutch-flags.jpg	16594	0	t	f	17	0	\N	https://www.hybridcalisthenics.com/clutch-flag	9	\N	75	3072
 27	\N	These are lateral squats/lunges.	f	32	2	Side Staggered Squats	\N	1025	squats-staggered-side.jpg	2264926976	0	f	f	1	0	t	https://www.hybridcalisthenics.com/side-staggered-squats	3	80	70	7111
 1729	squat-overhead.webp	\N	t	0	2	Overhead Sumo Squats	This is primarily mobility training. Not a functional movement.	1025	squat-overhead.jpg	2264926976	16777216	f	t	1	0	t	\N	429	\N	\N	2944
@@ -4414,6 +4415,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2085	\N	\N	f	0	2	Body Language Exercise	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=anB3tGJdvw0	1113	\N	\N	58247
 655	\N	\N	t	0	1	Arm Bar	This is a shoulder stability exercise, doesn't really strengthen triceps.	206158430208	turkish-get-up-1-4.jpg	8716288	8388616	t	f	17	0	\N	\N	205	\N	\N	3072
 628	\N	\N	f	0	1	Support Hold	\N	108086391057027327	support-hold.jpg	8732672	0	f	f	17	0	\N	\N	187	\N	\N	3968
+804	clamshells.webp	\N	t	0	2	Clamshells	\N	8192	clamshells.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=7iXpLxKs1sY	347	\N	\N	60415
 2086	\N	\N	f	0	3	Reading Out Loud	Pause reps so the user can track pages read (reps) or minutes read (secs).	0	reading.jpg	4947802324992	0	f	f	5	0	t	https://www.youtube.com/watch?v=Ug-XheN8I98	1117	\N	\N	58247
 1311	\N	\N	f	0	1	Straddle Elbow Lever	\N	20480	elbow-levers-straddle.jpg	2147483793	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/straddleelbowlevers	11	75	50	7168
 1759	\N	I don't think this is an actual yoga pose--more an intermediary flow.	f	0	1	Shiva Squat Stretch	\N	0	forward-bend.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=gmLS4RllgoQ	64	\N	50	30919
@@ -4711,7 +4713,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1330	leg-press-lunges-assisted-alt.webp	\N	t	64	2	Wall Press Lunges	\N	9216	leg-press-lunges-assisted.jpg	2147486464	0	t	f	1	0	t	https://www.hybridcalisthenics.com/wall-press-lunges	668	10	\N	61319
 902	\N	\N	f	0	2	Floor Angels	\N	0	floor-angels.jpg	108086391065411616	8716364	f	f	8	0	t	https://www.youtube.com/watch?v=w8_8VCwTFV4	73	50	\N	58367
 651	stiff-legged-deadlift.webp	\N	t	16	2	Stiff-Legged Deadlift	\N	108086528496058481	stiff-legged-deadlift.jpg	2164261504	0	f	t	1	0	t	\N	195	\N	\N	1792
-249	reverse-lunge.webp	\N	t	64	2	Reverse Lunge	\N	41984	reverse-lunge.jpg	2264926976	0	t	f	1	0	t	https://www.youtube.com/watch?v=qeJ3Si5r5y0	40	\N	50	3968
 898	curtsy-lunge.webp	\N	t	64	2	Curtsy Lunges	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	18014398509481984	curtsy-lunge.jpg	43008	0	t	t	17	0	t	https://www.youtube.com/watch?v=1MgFup8A_0c	321	\N	\N	60415
 1744	simple-toe-taps.webp	\N	f	0	2	Simple Toe Taps	Barre. t=9.15-26.75s	0	simple-toe-taps.jpg	15032388608	0	t	f	1	0	f	https://www.youtube.com/watch?v=mOKZM2Gfzoo	691	\N	\N	58367
 518	standing-single-leg-lift.webp	\N	t	0	2	Standing Straight Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=17.50-23.00s.	2049	standing-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	104	\N	75	60295
@@ -5224,11 +5225,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 504	toy-soldiers.webp	\N	f	256	2	Toy Soldiers	\N	0	toy-soldiers.jpg	8208	896	t	f	9	0	f	https://www.youtube.com/watch?v=cIqzwOUilR4	148	\N	\N	58367
 1367	leg-kicks.webp	\N	f	0	2	Double Leg Kicks	Pilates Stretch. t=4.25-15.75s.	0	flutter-kicks-reverse.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=4uNmkmzfV4c	254	\N	\N	58367
 785	scapular-retraction-prone.webp	\N	t	0	2	Prone Scapular Retraction	\N	0	scapular-retraction-prone.jpg	108086391057088548	8	f	f	9	0	t	https://www.youtube.com/watch?v=kbdjnPwCCD0	246	\N	\N	58367
-1745	clamshell-leg-kick.webp	\N	f	0	2	Clamshells w/ Leg Kick	t=10.15-23.25s.	0	clamshell-leg-kick.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=pZ45ntuQZ6M	347	\N	75	60415
 1650	marsden-ball.webp	\N	f	0	2	Marsden Ball: Beanbag	\N	536870912	marsden-ball.jpg	536870912	0	f	f	22	0	f	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
 1352	hundred-l3.webp	\N	f	0	2	Hundreds L3	Pilates Stretch. t=2.00-4.00s.	144	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=0lg1vN7m-vE	686	60	40	62463
 572	quadruped-glute-kickbacks.webp	\N	t	0	2	Quadruped Glute Kickbacks	\N	12884901888	quadruped-glute-kickbacks.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=TJbnvoFkLKI	164	\N	\N	60415
 422	shadow-boxing.webp	\N	t	0	2	Shadow Boxing	\N	17	shadow-boxing.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	\N	64511
+1745	clamshell-leg-kick.webp	\N	f	0	2	Clamshells w/ Leg Kick	t=10.15-23.25s.	10240	clamshell-leg-kick.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=pZ45ntuQZ6M	347	\N	75	60415
 891	toe-walk.webp	\N	f	0	2	Toe Walk	\N	18014398643699712	toe-walk.jpg	67109888	0	f	f	16	0	\N	https://www.youtube.com/watch?v=3d2S7a3D9YY	314	\N	\N	58367
 1126	glute-bridge-march.webp	\N	t	0	3	Hamstring Bridge March	\N	15032418304	glute-bridge-march.jpg	16785920	0	f	f	17	0	f	https://www.youtube.com/watch?v=9W9nxHC3LwM	565	\N	\N	60415
 1166	brock-string.webp	\N	f	0	2	Voluntary Convergence	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=E5Z27UqZyq0	599	\N	\N	393215
@@ -5331,10 +5332,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2199	\N	\N	f	0	3	Cervical Postural Pitfalls	Information. aka: Neck Posture.	131072	levator-scapulae-strengthening.jpg	108086392130633760	0	f	t	1	0	\N	https://www.youtube.com/watch?v=JAqtfOmSKIs	829	\N	\N	58247
 2200	\N	\N	f	0	2	Infraspinatus Strengthening	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=jI_ed8xxCYA	1095	\N	\N	57351
 2201	\N	\N	f	0	2	Iliacus	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=LLUEbE6VQ0k	1095	\N	\N	57351
-2202	\N	\N	f	0	2	Clamshell	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=MWO9Bvwnsjs	1095	\N	\N	57351
 2203	\N	\N	f	0	2	Pelvic Alignment	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=Nsetokf2S0g	1095	\N	\N	57351
 2204	\N	\N	f	0	2	Hip Abduction Strengthening	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=oMuVSlg1CGs	1095	\N	\N	57351
-2205	\N	\N	f	0	1	Piriformis et al. Strengthening	Works the piriformis muscle.	0	butterfly-forward-fold.jpg	15049162752	0	f	f	1	0	\N	https://www.youtube.com/watch?v=1IlH0IIAVv8	1056	\N	\N	58247
 2206	\N	\N	f	0	2	Longus Colli Strengthening	\N	0	longus-capitus-strengthening.jpg	1073741824	0	f	t	1	0	f	https://www.youtube.com/watch?v=W62pmitKBb0	848	\N	\N	58247
 2193	\N	\N	f	0	2	Psoas Activation?	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	\N	https://www.youtube.com/watch?v=WcTZIzwfLZg	1092	\N	\N	57351
 2083	\N	\N	f	0	1	Piriformis Strengthening	Works the piriformis muscle.	0	butterfly-forward-fold.jpg	15049162752	0	f	f	1	0	t	https://www.youtube.com/watch?v=Lli_rI4Dj0Y	1056	\N	\N	58247
@@ -5356,6 +5355,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2251	\N	\N	f	0	2	Movement	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=XHSYHNAziP4	1057	\N	\N	58247
 2252	\N	\N	f	0	2	Facial Expressions	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=nZaQpF-i5j4	1057	\N	\N	58247
 2187	\N	\N	f	0	2	Forward Resonance	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=g1SNE84svMo	838	\N	\N	58247
+2205	\N	\N	f	0	1	Piriformis et al. Strengthening	Works the piriformis muscle.	0	butterfly-forward-fold.jpg	15049162752	0	f	f	1	0	\N	https://www.youtube.com/watch?v=MWO9Bvwnsjs	1056	\N	\N	58247
+2202	\N	Duplicate of Piriformis et al. Strengthening	f	0	2	Proper Clamshell Exercise for the Piriformis and Deep Six Hip Rotators	\N	8192	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=MWO9Bvwnsjs	1056	\N	\N	57351
 2255	\N	\N	f	0	2	Presenting w/ Slides	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=XW9b5WC7sBU	1057	\N	\N	58247
 2185	\N	\N	f	0	2	Sidelying Assisted Hip Internal Rotation	\N	0	hip-circles.jpg	12884910080	32768	t	f	32	0	f	https://www.youtube.com/watch?v=pMnrMwbHxws	641	\N	\N	58247
 2087	\N	\N	f	0	1	Thomas Stretch	\N	0	dead-bug.jpg	0	16777216	t	f	8	0	\N	https://www.youtube.com/watch?v=m0Hvwbinh4Y	1054	\N	50	58247
@@ -5534,14 +5535,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2385	\N	\N	f	0	1	Assisted Single Leg Balance Leg Backwards w/ Eyes Closed	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=FTPvyV8DwFs	311	50	25	516999
 2386	\N	\N	f	0	1	Assisted Single Leg Balance Leg Forwards w/ Eyes Closed	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=oxVDe917wk0	311	50	25	516999
 2395	\N	\N	f	0	1	Knee Unstable Hand Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	1128	50	\N	4096
+2398	reverse-lunge.webp	\N	f	64	2	Reverse Lunge	\N	41984	reverse-lunge.jpg	2264926976	0	t	f	1	0	t	https://www.youtube.com/watch?v=qeJ3Si5r5y0	40	\N	50	3968
 2382	\N	\N	f	0	1	Assisted Single Leg Balance Leg Forwards	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=5p7FY4bSYqo	311	25	10	516999
 2383	\N	\N	f	0	1	Assisted Single Leg Balance Leg Backwards	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=Sl3gMNkGHow	311	25	10	516999
 2389	\N	\N	f	0	1	Assisted Single Leg Balance Clocks	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=CHgi4ns_iQk	311	50	25	516999
 2387	\N	\N	f	0	1	Assisted Single Leg Balance w/ Lateral Leg Swings	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=1VlaNbgO5JI	311	50	25	516999
 2388	\N	\N	f	0	1	Single Leg Balance w/ Knee Touch	\N	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	16383	\N	https://www.youtube.com/watch?v=g_uXMs_y0ME	311	90	75	516999
-2391	balance-board.webp	\N	f	0	3	Front-to-Back Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1130	75	\N	521215
+249	reverse-lunge.webp	\N	t	64	2	Front Reverse Lunge	\N	41984	reverse-lunge.jpg	2264926976	0	t	f	1	0	t	\N	1131	\N	\N	3968
+1375	feet-elevated-clamshells.webp	\N	f	0	2	Clamshells w/ Feet Elevated	Barre. t=1.35-12.86s.	40960	feet-elevated-clamshells.jpg	70381629079808	0	t	f	1	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	75	60415
 2380	balance-board.webp	\N	f	0	3	Seated Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1111	25	\N	521215
 2381	balance-board.webp	\N	f	0	3	Seated One-Leg Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1111	50	25	521215
+2391	balance-board.webp	\N	f	0	3	Front-to-Back Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1130	\N	\N	521215
+2397	\N	\N	f	0	1	Conscious Breathing	\N	0	meditation.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=6Js2c2Rs5j8	978	\N	95	320391
 \.
 
 
@@ -5549,14 +5554,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 1006, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 1008, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1130, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1131, true);
 
 
 --
@@ -5570,14 +5575,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3597, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3598, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2396, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2398, true);
 
 
 --
@@ -6030,5 +6035,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict heQQRamCFA965H3QRle5oA1Aee8phLlw5a9EiHCDSDD9NirEfggBMA4m8CT1DXH
+\unrestrict qXSsiQKO7evp5MRgOtIkUYgQSqS4oDX32V3evzVhS60e22y6XBkXIHxt52kxJYc
 
