@@ -393,10 +393,8 @@ public partial class NewsletterRepo
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
             })
-            .WithMuscleGroups(MuscleGroupContextBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore))
-            .WithExerciseFocus([ExerciseFocus.Power, ExerciseFocus.Agility, ExerciseFocus.Stamina])
             .WithSportsFocus(context.User.SportsFocus)
+            .WithExerciseFocus([ExerciseFocus.Power, ExerciseFocus.Agility, ExerciseFocus.Stamina, ExerciseFocus.Speed])
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
@@ -417,10 +415,8 @@ public partial class NewsletterRepo
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
             })
-            .WithMuscleGroups(MuscleGroupContextBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore))
-            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
             .WithSportsFocus(context.User.SportsFocus)
+            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability | ExerciseFocus.Endurance])
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
             .WithExcludeExercises(x =>
             {

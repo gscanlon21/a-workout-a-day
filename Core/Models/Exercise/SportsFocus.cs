@@ -55,10 +55,29 @@ public enum SportsFocus
     [Display(Name = "Dancing")]
     Dancing = 1 << 13, // 8192
 
+    [Display(Name = "Gardening")]
+    Gardening = 1 << 14, // 16384
+
     [Display(Name = "Speed Cleaning")]
-    SpeedCleaning = 1 << 14, // 16384
+    SpeedCleaning = 1 << 15, // 32768
+
+    [Display(Name = "Gardening & Speed Cleaning")]
+    GardeningSpeedCleaning = Gardening | SpeedCleaning,
 
     [Display(Name = "All")]
     All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball
         | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee | Dancing
 }
+
+/* Swap two SportsFocus.
+do $$
+declare 
+	BeginSportsFocus integer = 99;
+ 	EndSportsFocus integer = 99;
+ 	TempSportsFocus integer = 999;
+begin
+	update variation set "SportsFocus" = TempSportsFocus where "SportsFocus" = EndSportsFocus;
+	update variation set "SportsFocus" = EndSportsFocus where "SportsFocus" = BeginSportsFocus;
+	update variation set "SportsFocus" = BeginSportsFocus where "SportsFocus" = TempSportsFocus;
+end; $$;
+*/

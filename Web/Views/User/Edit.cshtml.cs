@@ -5,7 +5,9 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Users;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using Web.Code.Extensions;
 using Web.Controllers;
 
 namespace Web.Views.User;
@@ -158,6 +160,21 @@ public class UserEditViewModel : IValidatableObject
     [Display(Name = "Equipment", Description = "What equipment do you have access to?")]
     public Equipment Equipment { get; set; }
 
+
+    #region Select Lists
+    public IList<SelectListItem> GetSportsFocusSelectList()
+    {
+        if (User.Features.HasFlag(Features.Admin))
+        {
+            return EnumExtensions.GetValuesExcluding(SportsFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None);
+        }
+
+        return EnumExtensions.GetSingleOrNoneValues(SportsFocus.Gardening, SportsFocus.SpeedCleaning).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None);
+    }
+    #endregion
+
+
+    #region Form Binders
     public int[]? RehabSkillsBinder
     {
         get => RehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (RehabSkills & e) == e).ToArray();
@@ -193,7 +210,10 @@ public class UserEditViewModel : IValidatableObject
         get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
         set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
     }
+    #endregion
 
+
+    #region Validation
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (SecondSendHour == SendHour)
@@ -201,7 +221,10 @@ public class UserEditViewModel : IValidatableObject
             yield return new ValidationResult("Second Send Hour must be different than Send Hour.", [nameof(SecondSendHour)]);
         }
     }
+    #endregion
 
+
+    #region Sub Classes
     public class UserEditPrehabSkillViewModel
     {
         //[Obsolete("Public parameterless constructor required for model binding.", error: false)]
@@ -323,5 +346,6 @@ public class UserEditViewModel : IValidatableObject
             }
         }
     }
+    #endregion
 }
 

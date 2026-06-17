@@ -77,9 +77,12 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or less bits set.
     /// </summary>
-    public static T[] GetSingleOrNoneValues<T>() where T : struct, Enum
+    public static T[] GetSingleOrNoneValues<T>(params T[] excluding) where T : struct, Enum
     {
-        return Enum.GetValues<T>().Where(e => e.PopCount() <= 1).ToArray();
+        var exclude = excluding.Select(exclude => Convert.ToInt64(exclude));
+        return Enum.GetValues<T>().Where(e => e.PopCount() <= 1)
+            .Where(e => !exclude.Contains(Convert.ToInt64(e)))
+            .ToArray();
     }
 
     /// <summary>
@@ -89,7 +92,8 @@ public static class EnumExtensions
     {
         var excludeValues = Convert.ToInt64(excludingAny);
         return Enum.GetValues<T>().Where(e => e.PopCount() == 1)
-            .Where(e => excludeValues == 0 || (excludeValues & Convert.ToInt64(e)) == 0).ToArray();
+            .Where(e => excludeValues == 0 || (excludeValues & Convert.ToInt64(e)) == 0)
+            .ToArray();
     }
 
     /// <summary>
@@ -125,9 +129,7 @@ public static class EnumExtensions
     public static T[] GetValuesExcluding<T>(params T[] excludes) where T : struct, Enum
     {
         var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
-        return Enum.GetValues<T>()
-            .Where(e => !excludeValues.Contains(Convert.ToInt64(e)))
-            .ToArray();
+        return Enum.GetValues<T>().Where(e => !excludeValues.Contains(Convert.ToInt64(e))).ToArray();
     }
 
     /// <summary>

@@ -368,9 +368,7 @@
             {
                 <div class="mb-3">
                     <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
-                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                            asp-items='@(EnumExtensions.GetValuesExcluding(SportsFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None))'>
-                    </select>
+                    <select asp-for="SportsFocus" asp-items='@Model.GetSportsFocusSelectList()' class="form-control" aria-describedby="sports-help"></select>
                     <span asp-validation-for="SportsFocus" class="text-danger"></span>
                     <details id="sports-help" class="form-text">
                         <summary>@Html.DisplayDescriptionFor(_ => Model.SportsFocus)</summary>
