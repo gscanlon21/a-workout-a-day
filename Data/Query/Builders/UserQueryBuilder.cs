@@ -11,12 +11,13 @@ namespace Data.Query.Builders;
 /// <summary>
 /// Builds out the QueryRunner class with option customization.
 /// </summary>
-public class UserQueryBuilder : BaseQueryBuilder<UserQueryBuilder>
+public class UserQueryBuilder<TFilter> : BaseQueryBuilder<UserQueryBuilder<TFilter>>
+    where TFilter : BaseQueryFilter
 {
     private readonly User User;
 
-    private UserOptions? UserOptions;
-    private UserIgnoreOptions? UserIgnoreOptions;
+    public UserOptions? UserOptions { get; private set; }
+    public UserIgnoreOptions? UserIgnoreOptions { get; private set; }
 
     /// <summary>
     /// Looks for similar buckets of exercise variations.
@@ -30,7 +31,7 @@ public class UserQueryBuilder : BaseQueryBuilder<UserQueryBuilder>
     /// Filter variations according to the user's preferences.
     /// Sets the other relevant user preference options as well.
     /// </summary>
-    public UserQueryBuilder WithUser(Action<UserOptions>? optionsBuilder = null)
+    public UserQueryBuilder<TFilter> WithUser(Action<UserOptions>? optionsBuilder = null)
     {
         InvalidOptionsException.ThrowIfAlreadySet(UserOptions);
         UserOptions ??= new UserOptions(User, Section);
@@ -42,7 +43,7 @@ public class UserQueryBuilder : BaseQueryBuilder<UserQueryBuilder>
     /// Filter variations according to the user's preferences.
     /// Sets the other relevant user preference options as well.
     /// </summary>
-    public UserQueryBuilder WithUserIgnore(Action<UserIgnoreOptions>? optionsBuilder = null)
+    public UserQueryBuilder<TFilter> WithUserIgnore(Action<UserIgnoreOptions>? optionsBuilder = null)
     {
         InvalidOptionsException.ThrowIfAlreadySet(UserIgnoreOptions);
         UserIgnoreOptions ??= new UserIgnoreOptions(User);
@@ -69,23 +70,34 @@ public class UserQueryBuilder : BaseQueryBuilder<UserQueryBuilder>
             MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
             UserIgnoreOptions = UserIgnoreOptions ?? new UserIgnoreOptions(User),
             UserOptions = UserOptions ?? new UserOptions(User, Section),
-            QueryFilter = ExerciseOptions switch
-            {
-                null => new UserQueryFilter(Section)
-                {
-                    UserOptions = UserOptions ?? new UserOptions(User, Section),
-                    MuscleGroupOptions = MuscleGroupOptions ?? new MuscleGroupOptions(),
-                    MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
-                    ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
-                    SelectionOptions = SelectionOptions ?? new SelectionOptions(),
-                },
-                not null => new ExerciseQueryFilter(Section)
-                {
-                    ExerciseOptions = ExerciseOptions,
-                    UserOptions = UserOptions ?? new UserOptions(User, Section),
-                    SelectionOptions = SelectionOptions ?? new SelectionOptions(),
-                },
-            }
+            QueryFilter = CreateFilter(),
         };
+    }
+
+    private BaseQueryFilter CreateFilter()
+    {
+        if (typeof(TFilter) == typeof(UserQueryFilter))
+        {
+            return new UserQueryFilter(Section)
+            {
+                UserOptions = UserOptions ?? new UserOptions(User, Section),
+                MuscleGroupOptions = MuscleGroupOptions ?? new MuscleGroupOptions(),
+                MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
+                ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
+                SelectionOptions = SelectionOptions ?? new SelectionOptions(),
+            };
+        }
+
+        if (typeof(TFilter) == typeof(ExerciseQueryFilter))
+        {
+            return new ExerciseQueryFilter(Section)
+            {
+                ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
+                UserOptions = UserOptions ?? new UserOptions(User, Section),
+                SelectionOptions = SelectionOptions ?? new SelectionOptions(),
+            };
+        }
+
+        throw new NotImplementedException();
     }
 }

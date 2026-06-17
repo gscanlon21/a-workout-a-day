@@ -12,6 +12,7 @@ using Data.Entities.Users;
 using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -347,7 +348,7 @@ public partial class NewsletterRepo
             var exercises = new List<ExerciseVariationDto>(newsletter.UserWorkoutVariations.Count);
             foreach (var section in (Section[])[rootSection, .. EnumExtensions.GetSubValues(rootSection)])
             {
-                exercises.AddRange((await new UserQueryBuilder(user, section)
+                exercises.AddRange((await new UserQueryBuilder<ExerciseQueryFilter>(user, section)
                     .WithUser(options =>
                     {
                         options.IgnoreProgressions = true;

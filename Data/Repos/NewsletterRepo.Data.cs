@@ -6,6 +6,7 @@ using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
 using Data.Query.Builders.MuscleGroup;
+using Data.Query.Filters;
 
 namespace Data.Repos;
 
@@ -21,7 +22,7 @@ public partial class NewsletterRepo
     {
         // Warmup movement patterns should work the joints involved through their full range of motion.
         // The user can also do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupMobilization = context.User.ExtendedWarmup ? await new UserQueryBuilder(context.User, Section.WarmupMobilization)
+        var warmupMobilization = context.User.ExtendedWarmup ? await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupMobilization)
            .WithUser(options =>
            {
                options.NeedsDeload = context.NeedsDeload;
@@ -50,7 +51,7 @@ public partial class NewsletterRepo
            .Query(_serviceScopeFactory, OrderBy.None) : [];
 
         // Some warmup exercises require weights to perform, such as Halos.
-        var warmupActivation = await new UserQueryBuilder(context.User, Section.WarmupActivation)
+        var warmupActivation = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupActivation)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -84,7 +85,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None);
 
-        var warmupPotentiation = await new UserQueryBuilder(context.User, Section.WarmupPotentiation)
+        var warmupPotentiation = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupPotentiation)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -114,7 +115,7 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get the heart rate up. Can work any muscle.
-        var warmupRaise = await new UserQueryBuilder(context.User, Section.WarmupRaise)
+        var warmupRaise = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupRaise)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -166,7 +167,7 @@ public partial class NewsletterRepo
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
         // These should be yoga poses that aren't quite flexibility focused.
-        var cooldownStabilization = await new UserQueryBuilder(context.User, Section.CooldownStabilization)
+        var cooldownStabilization = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.CooldownStabilization)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -200,7 +201,7 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // These should be static stretches and yoga poses.
-        var cooldownStretching = await new UserQueryBuilder(context.User, Section.CooldownStretching)
+        var cooldownStretching = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.CooldownStretching)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -232,7 +233,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None);
 
-        var cooldownRelaxation = await new UserQueryBuilder(context.User, Section.CooldownRelaxation)
+        var cooldownRelaxation = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.CooldownRelaxation)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -275,7 +276,7 @@ public partial class NewsletterRepo
         }
 
         // Range of motion, muscle activation.
-        var rehabMechanics = await new UserQueryBuilder(context.User, Section.RehabMechanics)
+        var rehabMechanics = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.RehabMechanics)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -306,7 +307,7 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Learning to tolerate the complex and chaotic real world environment.
-        var rehabVelocity = await new UserQueryBuilder(context.User, Section.RehabVelocity)
+        var rehabVelocity = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.RehabVelocity)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -337,7 +338,7 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get back to normal muscle output w/o other muscles compensating.
-        var rehabStrength = await new UserQueryBuilder(context.User, Section.RehabStrengthening)
+        var rehabStrength = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.RehabStrengthening)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -386,7 +387,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var sportsPlyo = await new UserQueryBuilder(context.User, Section.SportsPower)
+        var sportsPlyo = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.SportsPower)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -410,7 +411,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
-        var sportsStrength = await new UserQueryBuilder(context.User, Section.SportsStrengthening)
+        var sportsStrength = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.SportsStrengthening)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -450,7 +451,7 @@ public partial class NewsletterRepo
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
         // Always include the core exercise, regardless of a deload week or if the user is new to fitness.
-        return await new UserQueryBuilder(context.User, Section.Core)
+        return await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Core)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -504,7 +505,7 @@ public partial class NewsletterRepo
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            prehabResults.AddRange(await new UserQueryBuilder(context.User, Section.Prehab)
+            prehabResults.AddRange(await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Prehab)
                 .WithUser(options =>
                 {
                     options.NeedsDeload = context.NeedsDeload;
@@ -562,7 +563,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        return await new UserQueryBuilder(context.User, Section.Functional)
+        return await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Functional)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -616,7 +617,7 @@ public partial class NewsletterRepo
         }
 
         var rotations = await _userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
-        return await new UserQueryBuilder(context.User, Section.Accessory)
+        return await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Accessory)
             .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
@@ -655,7 +656,7 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<IList<QueryResults>> GetDebugExercises(User user)
     {
-        var exerciseVariations = await new UserQueryBuilder(user, Section.Debug)
+        var exerciseVariations = await new UserQueryBuilder<ExerciseQueryFilter>(user, Section.Debug)
             .WithUser(options =>
             {
                 options.IgnoreProgressions = true;
