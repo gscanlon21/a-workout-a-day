@@ -30,14 +30,16 @@ public static class QueryFilters
         {
             if (includeNone)
             {
-                query = query.Where(i =>
-                    i.Variation.SportsFocus.HasFlag(sportsFocus.Value)
-                    || i.Variation.SportsFocus == SportsFocus.None
+                // Has any flag.
+                query = query.Where(ev =>
+                    ev.Variation.SportsFocus == SportsFocus.None
+                    || (ev.Variation.SportsFocus & sportsFocus.Value) != 0
                 );
             }
             else
             {
-                query = query.Where(i => i.Variation.SportsFocus.HasFlag(sportsFocus.Value));
+                // Has any flag.
+                query = query.Where(ev => (ev.Variation.SportsFocus & sportsFocus.Value) != 0);
             }
         }
 
