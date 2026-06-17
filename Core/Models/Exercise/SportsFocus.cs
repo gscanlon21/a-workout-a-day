@@ -55,6 +55,9 @@ public enum SportsFocus
     [Display(Name = "Dancing")]
     Dancing = 1 << 13, // 8192
 
+    [Display(Name = "Speed Cleaning")]
+    SpeedCleaning = 1 << 14, // 16384
+
     [Display(Name = "All")]
     All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball
         | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee | Dancing
