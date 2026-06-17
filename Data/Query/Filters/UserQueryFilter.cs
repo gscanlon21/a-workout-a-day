@@ -1,5 +1,6 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Exercise.Skills;
+using Core.Models.Newsletter;
 using Data.Code.Extensions;
 using Data.Query.Options;
 using Data.Query.Options.Users;
@@ -12,9 +13,9 @@ namespace Data.Query.Filters;
 
 public class UserQueryFilter : BaseQueryFilter
 {
-    protected readonly Core.Models.Newsletter.Section section;
+    protected readonly Section section;
 
-    public UserQueryFilter(Core.Models.Newsletter.Section sec)
+    public UserQueryFilter(Section sec)
     {
         section = sec;
     }

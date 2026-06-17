@@ -4,6 +4,7 @@ using Core.Models.Newsletter;
 using Data;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.IgnoredExerciseVariations;
@@ -35,7 +36,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();
 
         // Pass in user so the user can see variation comments.
-        var ignoredExercises = await new UserQueryBuilder(user, Section.None)
+        var ignoredExercises = await new UserQueryBuilder<ExerciseQueryFilter>(user, Section.None)
             // Don't ignore exercises.
             .WithUserIgnore(options =>
             {
@@ -53,7 +54,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         foreach (var sectionGroup in user.UserVariations.Where(uv => uv.Ignore).GroupBy(uv => uv.Section))
         {
             // Pass in user so the user can see variation comments.
-            ignoredVariations.AddRange(await new UserQueryBuilder(user, sectionGroup.Key)
+            ignoredVariations.AddRange(await new UserQueryBuilder<ExerciseQueryFilter>(user, sectionGroup.Key)
                 // Don't ignore variations.
                 .WithUserIgnore(options =>
                 {

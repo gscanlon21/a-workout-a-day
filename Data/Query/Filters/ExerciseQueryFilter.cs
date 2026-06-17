@@ -1,4 +1,5 @@
-﻿using Data.Query.Options;
+﻿using Core.Models.Newsletter;
+using Data.Query.Options;
 using Data.Query.Options.Users;
 using Microsoft.Extensions.DependencyInjection;
 using static Core.Code.Extensions.EnumerableExtensions;
@@ -8,9 +9,9 @@ namespace Data.Query.Filters;
 
 public class ExerciseQueryFilter : BaseQueryFilter
 {
-    protected readonly Core.Models.Newsletter.Section section;
+    protected readonly Section section;
 
-    public ExerciseQueryFilter(Core.Models.Newsletter.Section sec)
+    public ExerciseQueryFilter(Section sec)
     {
         section = sec;
     }

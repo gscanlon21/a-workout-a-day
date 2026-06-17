@@ -5,6 +5,7 @@ using Data;
 using Data.Entities.Users;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.ManageExercise;
@@ -42,7 +43,7 @@ public class ManageExerciseViewComponent : ViewComponent
             .IgnoreQueryFilters().FirstOrDefaultAsync();
 
         if (userExercise == null) { return Content(""); }
-        var exerciseVariations = await new UserQueryBuilder(user, parameters.Section)
+        var exerciseVariations = await new UserQueryBuilder<ExerciseQueryFilter>(user, parameters.Section)
             // Need to pass in a user to show the user's progression level.
             .WithUser(options =>
             {

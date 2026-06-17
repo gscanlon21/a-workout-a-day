@@ -6,6 +6,7 @@ using Data;
 using Data.Entities.Users;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.Prerequisite;
@@ -38,7 +39,7 @@ public class PrerequisiteViewComponent : ViewComponent
             .Where(ep => ep.ExerciseId == parameters.ExerciseId)
             .IgnoreQueryFilters().ToListAsync();
 
-        var prerequisiteExercises = (await new UserQueryBuilder(user, Section.None)
+        var prerequisiteExercises = (await new UserQueryBuilder<ExerciseQueryFilter>(user, Section.None)
             // NOTE: Prerequisites hidden by use caution will be skipped.
             // Need a user to grab the UserExercise record.
             .WithUser(options =>
