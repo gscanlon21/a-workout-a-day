@@ -11,7 +11,7 @@ public class SelectionOptions : IOptions
     /// Include all variations that are due for refresh.
     /// Skips variations that have any refresh padding.
     /// </summary>
-    public bool AllRefreshed { get; set; } = false;
+    public bool OnlyRefreshed { get; set; } = false;
 
     /// <summary>
     /// Orders the variations in a random order 

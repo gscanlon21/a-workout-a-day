@@ -147,7 +147,7 @@ public partial class UserController : ViewController
                 UserId = umm.UserId,
                 Skills = umm.Skills,
                 PrehabFocus = umm.PrehabFocus,
-                AllRefreshed = umm.AllRefreshed,
+                OnlyRefreshed = umm.OnlyRefreshed,
             }));
 
             // Reset the RehabSkills if the user changed their RehabFocus.
