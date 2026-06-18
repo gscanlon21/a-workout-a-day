@@ -215,7 +215,7 @@ public abstract class BaseQueryRunner
             }
 
             // Filter out padded refresh variations.
-            if (SelectionOptions.AllRefreshed)
+            if (SelectionOptions.OnlyRefreshed)
             {
                 // Include lagged refresh variations (RefreshAfter != null), so they always show up while pending refresh.
                 exerciseVariations = exerciseVariations.Where(vm => vm.UserVariation.LastSeen == null || vm.UserVariation.LastSeen <= DateHelpers.Today);

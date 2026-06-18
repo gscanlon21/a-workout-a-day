@@ -404,6 +404,7 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
+                options.OnlyRefreshed = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -429,6 +430,7 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
+                options.OnlyRefreshed = true;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -497,7 +499,7 @@ public partial class NewsletterRepo
 
         var prehabResults = new List<QueryResults>();
         // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
-        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).OrderBy(_ => Guid.NewGuid()))
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).ShuffleInline())
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
@@ -530,7 +532,7 @@ public partial class NewsletterRepo
                 .WithSelectionOptions(options =>
                 {
                     options.Randomized = context.IsBackfill;
-                    options.AllRefreshed = skills?.AllRefreshed ?? options.AllRefreshed;
+                    options.OnlyRefreshed = skills?.OnlyRefreshed ?? options.OnlyRefreshed;
                 })
                 .Build()
                 .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));

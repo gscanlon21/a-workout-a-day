@@ -322,10 +322,10 @@
                                         <div id="count-help" class="form-text w-100">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Count)</div>
                                     </div>
                                     <div class="mb-2 form-check">
-                                        <label asp-for="UserPrehabSkills[i].AllRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</label>
-                                        <input class="form-check-input" asp-for="UserPrehabSkills[i].AllRefreshed" aria-describedby="refresh-help" />
-                                        <span asp-validation-for="UserPrehabSkills[i].AllRefreshed" class="text-danger"></span>
-                                        <div id="refresh-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</div>
+                                        <label asp-for="UserPrehabSkills[i].OnlyRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].OnlyRefreshed)</label>
+                                        <input class="form-check-input" asp-for="UserPrehabSkills[i].OnlyRefreshed" aria-describedby="refresh-help" />
+                                        <span asp-validation-for="UserPrehabSkills[i].OnlyRefreshed" class="text-danger"></span>
+                                        <div id="refresh-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].OnlyRefreshed)</div>
                                     </div>
                                 </div>
                             }

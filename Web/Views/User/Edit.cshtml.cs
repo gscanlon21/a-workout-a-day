@@ -236,7 +236,7 @@ public class UserEditViewModel : IValidatableObject
             UserId = userMuscleMobility.UserId;
             Skills = userMuscleMobility.Skills;
             PrehabFocus = userMuscleMobility.PrehabFocus;
-            AllRefreshed = userMuscleMobility.AllRefreshed;
+            OnlyRefreshed = userMuscleMobility.OnlyRefreshed;
         }
 
         public PrehabFocus PrehabFocus { get; init; }
@@ -248,7 +248,7 @@ public class UserEditViewModel : IValidatableObject
         public int Count { get; set; }
 
         [Display(Name = "Only Refreshed Exercises?", Description = "Skip exercises with refresh padding.")]
-        public bool AllRefreshed { get; set; }
+        public bool OnlyRefreshed { get; set; }
 
         [Display(Name = "Skills", Description = "What skills to focus on?")]
         public int Skills { get; set; }
