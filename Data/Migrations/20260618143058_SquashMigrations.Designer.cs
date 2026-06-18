@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260430141542_SquashMigrations")]
+    [Migration("20260618143058_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,12 +20,75 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.Exercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CervicalSkills")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DisabledReason")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LumbarSkills")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StartingProgression")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(50);
+
+                    b.Property<int>("ThoracicSkills")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VisualSkills")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VocalSkills")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("exercise");
+                });
+
+            modelBuilder.Entity("Data.Entities.Exercises.ExercisePrerequisite", b =>
+                {
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PrerequisiteExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Proficiency")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(50);
+
+                    b.HasKey("ExerciseId", "PrerequisiteExerciseId");
+
+                    b.HasIndex("PrerequisiteExerciseId");
+
+                    b.ToTable("exercise_prerequisite");
+                });
+
+            modelBuilder.Entity("Data.Entities.Exercises.Instruction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,70 +135,7 @@ namespace Data.Migrations
                     b.ToTable("instruction");
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CervicalSkills")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
-                    b.Property<int>("LumbarSkills")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("StartingProgression")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(50);
-
-                    b.Property<int>("ThoracicSkills")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VisualSkills")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VocalSkills")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("exercise");
-                });
-
-            modelBuilder.Entity("Data.Entities.Exercise.ExercisePrerequisite", b =>
-                {
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PrerequisiteExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Proficiency")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(50);
-
-                    b.HasKey("ExerciseId", "PrerequisiteExerciseId");
-
-                    b.HasIndex("PrerequisiteExerciseId");
-
-                    b.ToTable("exercise_prerequisite");
-                });
-
-            modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.Variation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -573,11 +573,11 @@ namespace Data.Migrations
                     b.Property<long>("PrehabFocus")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("AllRefreshed")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Count")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("OnlyRefreshed")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Skills")
                         .HasColumnType("integer");
@@ -705,32 +705,15 @@ namespace Data.Migrations
                     b.ToTable("user_variation_log");
                 });
 
-            modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.ExercisePrerequisite", b =>
                 {
-                    b.HasOne("Data.Entities.Equipment.Instruction", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
-
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
-                        .WithMany("Instructions")
-                        .HasForeignKey("VariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Parent");
-
-                    b.Navigation("Variation");
-                });
-
-            modelBuilder.Entity("Data.Entities.Exercise.ExercisePrerequisite", b =>
-                {
-                    b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
+                    b.HasOne("Data.Entities.Exercises.Exercise", "Exercise")
                         .WithMany("Prerequisites")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Exercise.Exercise", "PrerequisiteExercise")
+                    b.HasOne("Data.Entities.Exercises.Exercise", "PrerequisiteExercise")
                         .WithMany("Postrequisites")
                         .HasForeignKey("PrerequisiteExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -741,15 +724,32 @@ namespace Data.Migrations
                     b.Navigation("PrerequisiteExercise");
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.Instruction", b =>
                 {
-                    b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
+                    b.HasOne("Data.Entities.Exercises.Instruction", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Data.Entities.Exercises.Variation", "Variation")
+                        .WithMany("Instructions")
+                        .HasForeignKey("VariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("Variation");
+                });
+
+            modelBuilder.Entity("Data.Entities.Exercises.Variation", b =>
+                {
+                    b.HasOne("Data.Entities.Exercises.Exercise", "Exercise")
                         .WithMany("Variations")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Data.Entities.Exercise.Progression", "Progression", b1 =>
+                    b.OwnsOne("Data.Entities.Exercises.Progression", "Progression", b1 =>
                         {
                             b1.Property<int>("VariationId")
                                 .HasColumnType("integer");
@@ -841,7 +841,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
+                    b.HasOne("Data.Entities.Exercises.Variation", "Variation")
                         .WithMany("UserWorkoutVariations")
                         .HasForeignKey("VariationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -854,7 +854,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Users.UserExercise", b =>
                 {
-                    b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
+                    b.HasOne("Data.Entities.Exercises.Exercise", "Exercise")
                         .WithMany("UserExercises")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -974,7 +974,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
+                    b.HasOne("Data.Entities.Exercises.Variation", "Variation")
                         .WithMany("UserVariations")
                         .HasForeignKey("VariationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -996,12 +996,7 @@ namespace Data.Migrations
                     b.Navigation("UserVariation");
                 });
 
-            modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
-                {
-                    b.Navigation("Children");
-                });
-
-            modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.Exercise", b =>
                 {
                     b.Navigation("Postrequisites");
 
@@ -1012,7 +1007,12 @@ namespace Data.Migrations
                     b.Navigation("Variations");
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
+            modelBuilder.Entity("Data.Entities.Exercises.Instruction", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("Data.Entities.Exercises.Variation", b =>
                 {
                     b.Navigation("Instructions");
 

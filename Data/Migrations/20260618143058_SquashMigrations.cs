@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -307,7 +308,7 @@ namespace Data.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
-                    AllRefreshed = table.Column<bool>(type: "boolean", nullable: false),
+                    OnlyRefreshed = table.Column<bool>(type: "boolean", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Skills = table.Column<int>(type: "integer", nullable: false)
                 },
