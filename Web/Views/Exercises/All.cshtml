@@ -67,7 +67,7 @@
         <div class="mb-2">
             <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
             <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding(SportsFocus.None, SportsFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem()))'>
+                    asp-items='@(EnumExtensions.GetSingleValues<SportsFocus>().AsSelectListItems(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem()))'>
             </select>
         </div>
         <div class="mb-2">

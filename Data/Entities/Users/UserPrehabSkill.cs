@@ -21,7 +21,7 @@ public class UserPrehabSkill
     /// Should this prehab focus only select variations that are due for refresh?
     /// Skips variations that have refresh padding, regardless of available variations.
     /// </summary>
-    public bool AllRefreshed { get; set; }
+    public bool OnlyRefreshed { get; set; }
 
     [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]
     public int Count { get; set; } = UserConsts.PrehabCountDefault;
@@ -31,5 +31,5 @@ public class UserPrehabSkill
     /// <summary>
     /// Cap the max number of exercises to the max listed Skill types.
     /// </summary>
-    public int? SkillCount => AllRefreshed ? Count : Math.Clamp(BitOperations.PopCount((ulong)Skills), UserConsts.PrehabCountMin, Count);
+    public int? SkillCount => OnlyRefreshed ? Count : Math.Clamp(BitOperations.PopCount((ulong)Skills), UserConsts.PrehabCountMin, Count);
 }

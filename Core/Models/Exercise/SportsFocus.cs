@@ -61,7 +61,7 @@ public enum SportsFocus
     [Display(Name = "Speed Cleaning")]
     SpeedCleaning = 1 << 15, // 32768
 
-    [Display(Name = "Gardening & Speed Cleaning")]
+    [Display(Name = "Gardening & Cleaning")]
     GardeningSpeedCleaning = Gardening | SpeedCleaning,
 
     [Display(Name = "All")]
