@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict qXSsiQKO7evp5MRgOtIkUYgQSqS4oDX32V3evzVhS60e22y6XBkXIHxt52kxJYc
+\restrict xJt3w9q4ymVTnhrdZWSzoIlIySmV8zfR2HJljtHY3SfOb168aEQmlA0IXZwuVU1
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -1411,6 +1411,9 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1131	\N	Weighted Reverse Lunges	\N	0	0	0	0	0	50
 1111	\N	360° Balance Board	aka: Wobble Board. alt: Rocker Board, Standing Balance.	0	0	0	0	0	50
 427	\N	Weighted Squats	\N	0	0	0	0	0	50
+1132	\N	Cleaning the Kitchen	\N	0	0	0	0	0	50
+1133	\N	Cleaning the Bathroom	\N	0	0	0	0	0	50
+1134	\N	Cleaning	\N	0	0	0	0	0	50
 \.
 
 
@@ -4202,7 +4205,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1811	\N	\N	f	0	1	One-Leg Forearm Scorpion Balance	Head isn't touching the mat. Legs are bent back.	266240	forearm-scorpion-one-leg.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	965	50	25	521095
 1864	\N	\N	f	0	1	Bending Forearm Side Plank	\N	81604411392	forearm-side-plank-bending.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=krrxMqVQPCU	216	\N	75	62343
 1886	\N	\N	f	0	2	Saliva Swallow	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=T-IyVyrR8RY	988	\N	\N	58247
-1411	\N	\N	f	0	1	Reading	\N	0	reading.jpg	4398046511104	0	f	f	5	0	\N	https://levarburton.com/podcasts/	739	\N	\N	320391
 2042	split-squat.webp	\N	t	64	2	Foot-Elevated Split Squat	Allows a greater range of motion.	32768	split-squat.jpg	2332035840	0	t	f	1	0	t	https://www.youtube.com/watch?v=-1p7J51pLc0	109	\N	75	3968
 1559	\N	\N	f	0	1	Half Crow Stretch	Not the same as Crane, the arms are bent here.	24576	crow-stretch-half.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=tiUWqHhTliI	234	50	\N	516999
 239	reverse-curl.webp	\N	t	0	2	Reverse Curl	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	2	reverse-barbell-curl.jpg	4210688	4194304	t	f	1	0	f	\N	424	\N	\N	3968
@@ -4219,6 +4221,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 800	seated-fast-feet.webp	\N	f	0	2	Seated Fast Feet	Not the same as Seated Toe Taps.	0	seated-toe-taps.jpg	12032	0	f	f	2	0	\N	https://www.youtube.com/watch?v=YlGxadOe0ek	257	50	\N	58367
 1490	quadruped-plank-reach.webp	\N	f	256	1	Quadruped Plank w/ Reach	t=0.50-16.00s	8192	quadruped-plank-shoulder-taps.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=RUjjKrORHpI	91	\N	50	62343
 1865	\N	\N	f	0	1	Forearm Side Star Knee Balance	\N	68719509504	forearm-side-star-knee-balance.jpg	12884902289	0	t	f	17	0	\N	https://www.youtube.com/watch?v=-9toG6869YY	217	50	\N	62343
+1411	\N	\N	f	0	1	Reading	\N	0	reading.jpg	4398046511104	0	f	f	5	16384	\N	https://levarburton.com/podcasts/	739	\N	\N	320391
 93	burpee.webp	\N	f	0	2	Burpees	\N	4096	burpee.jpg	3852	0	f	f	3	0	\N	https://www.youtube.com/watch?v=auBLPXO8Fww	35	\N	\N	60415
 1413	\N	\N	f	0	1	Wall Supported Tripod Headstand	\N	4096	tripod-headstand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=1062O70V_3Q	740	75	50	521095
 1887	\N	\N	f	0	2	Lip Seal	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=udmPJZUDE-U	988	\N	\N	58247
@@ -4431,7 +4434,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1315	\N	\N	f	0	1	Diagonal Elbow Lever	\N	20480	elbow-levers-one-leg.jpg	2147483793	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/diagonalelbowlevers	11	20	10	7168
 51	\N	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	f	4	2	Wall Walking Bridges	\N	32	wallwalking-bridges.jpg	4480	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/wallwalking-bridges	5	95	85	6407
 1348	\N	\N	f	0	1	Assisted Flying Crow Stretch	\N	24576	assisted-flying-crow-stretch.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	683	50	\N	516999
-1548	gardening.webp	\N	f	0	1	Gardening	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	0	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	320391
 815	chinups-assisted.webp	\N	f	8	2	Assisted Chinups	\N	108086391057088548	full-chinups.jpg	12599362	12582912	f	f	1	0	t	\N	101	50	25	1792
 1461	\N	\N	f	0	1	Half Bird of Paradise	\N	18014411394384017	half-bird-of-paradise.jpg	0	16809984	t	f	24	0	\N	https://www.youtube.com/watch?v=wIJzVgTTVew	301	50	\N	516999
 233	\N	I would say stationary wide push ups are a waste, less movement, more strain on elbows and easier to cause a little injury.	f	1	2	Wide-Grip Pushups	\N	34359742609	wide-grip-pushups.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=rr6eFNNDQdU	1	\N	50	3968
@@ -4443,7 +4445,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 455	\N	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	f	0	2	Semicircle Mountain Climbers	\N	0	mountain-climbers.jpg	50343697	0	f	f	7	0	\N	https://www.youtube.com/watch?v=kH8umBSULc4	32	\N	50	58367
 1358	jackknife.webp	\N	f	0	3	Jackknife	Pilates Stretch. t=0.00-24.75s.	8320	jackknife.jpg	17	0	f	t	1	0	t	https://www.youtube.com/watch?v=OA1MloQcPu0	792	\N	\N	5112
 1392	\N	\N	f	0	1	Hands Clasped Behind Back	aka. Anjali Mudra behind the back.	0	hands-clasped-behind-back.jpg	0	34370240520	f	f	8	0	\N	https://www.youtube.com/watch?v=4761fh3shKM	698	\N	\N	516999
-1549	\N	\N	f	0	1	Flower Pressing	\N	0	flower-pressing-alt.jpg	4398046511104	0	f	f	5	0	\N	https://www.youtube.com/watch?v=7ietZSy3WnA	794	\N	\N	320391
 1057	squat-rear.webp	\N	t	32	2	Back Squats	aka: Rear Squats.	1025	back-squats.jpg	2264926976	0	f	f	1	0	t	\N	497	\N	\N	1920
 777	\N	Duplicate of Dumbbell Rows.	t	2	2	Seal Rows	\N	147462	seal-rows.jpg	137443147872	4194304	f	f	1	0	t	\N	49	\N	\N	256
 1323	dips-assisted.webp	\N	t	4	2	Bench Dips	\N	108086391057023020	bench-dips.jpg	4096	0	f	t	1	0	t	https://www.hybridcalisthenics.com/bench-dips	7	40	20	2944
@@ -4451,8 +4452,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2310	\N	\N	f	0	2	Vocal Resonance: (Nay)	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=_GaDDPISr5M	838	\N	\N	58247
 594	\N	\N	f	0	2	Matrix Squats	\N	8193	matrix-squat.jpg	33556480	0	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	\N	50	2944
 2311	\N	\N	f	0	2	Vocal Resonance: (NJA)	aka: Humming.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Ok0uGGE_zeM	838	\N	\N	58247
+1548	gardening.webp	\N	f	0	1	Gardening	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	16384	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	320391
 2319	\N	\N	f	0	2	Tongue Twisters	Pause reps so the user can track reps or secs.	0	reading.jpg	3377699720527872	0	f	f	5	0	\N	https://www.youtube.com/watch?v=CvB1rKNb2LA	1120	\N	50	58247
 2323	\N	\N	f	0	2	Vocal Dynamics 6	Pause reps so the user can track reps or secs.	0	reading.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=KhNwyF1PInM	1121	\N	\N	58247
+1549	\N	\N	f	0	1	Flower Pressing	\N	0	flower-pressing-alt.jpg	4398046511104	0	f	f	5	16384	\N	https://www.youtube.com/watch?v=7ietZSy3WnA	794	\N	\N	320391
 725	\N	Duplicate of Chest Fly. Although there is a Crossover Fly where you actually cross your arms over each other.	t	0	2	Bear Hug	\N	0	bodyweight-fly.jpg	262156	0	f	f	1	0	t	\N	50	\N	\N	768
 441	inner-thigh-leg-lift-lying.webp	\N	t	0	2	Side-Lying Inner Thigh Leg Lift	\N	12884901888	side-lying-inner-thigh-leg-lift.jpg	32768	0	t	f	1	0	t	https://www.youtube.com/watch?v=_BR4ZodkJ2M	102	\N	\N	60415
 229	\N	More or less a duplicate of the Bench Press.	t	1	2	Alternating Dumbbell Bench Press (Top Down)	\N	0	bench-press-alternating.jpg	20490	65540	t	f	1	0	t	\N	46	\N	25	256
@@ -5528,6 +5531,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2350	\N	\N	f	0	2	Lip Trills 5/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=3x-ddMvwJbY	1118	\N	80	58247
 2347	\N	\N	f	0	2	Lip Trills 2/5	aka: Lip Rolls.	0	reading.jpg	1127549174284288	0	f	f	5	0	t	https://www.youtube.com/watch?v=geGDrkK6ic4	1118	40	20	58247
 1550	\N	\N	f	0	1	Red Light Therapy	shadows-55	145136071737344	red-light-therapy.jpg	145136071737344	145136071737344	f	f	32	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	320391
+2405	\N	\N	f	0	3	Clean the Stove	\N	0	cleaning.jpg	0	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1132	\N	\N	896
 2392	\N	\N	f	0	1	Unstable Forearm Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	\N	50	4096
 2393	\N	\N	f	0	1	Knee Unstable Forearm Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	444	50	\N	4096
 2394	\N	\N	f	0	1	Unstable Hand Plank	\N	270336	stir-the-pot.jpg	145	0	f	f	17	0	\N	\N	1128	\N	50	4096
@@ -5547,6 +5551,17 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2381	balance-board.webp	\N	f	0	3	Seated One-Leg Wobble Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1111	50	25	521215
 2391	balance-board.webp	\N	f	0	3	Front-to-Back Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	f	16	16383	\N	\N	1130	\N	\N	521215
 2397	\N	\N	f	0	1	Conscious Breathing	\N	0	meditation.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=6Js2c2Rs5j8	978	\N	95	320391
+2401	\N	\N	f	0	3	Clean Ceiling Fans	\N	0	cleaning.jpg	0	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=OeuHWceb8E4	1134	\N	\N	896
+2399	\N	\N	f	0	3	Clean the Kitchen	\N	0	cleaning.jpg	0	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=OYbIWeASTMI	1134	\N	\N	896
+2404	gardening.webp	\N	f	0	1	Identify New Growth	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	16384	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	896
+2402	gardening.webp	\N	f	0	1	Pull Weeds	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	16384	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	896
+2406	\N	\N	f	0	3	Clean the Toilet	\N	0	cleaning.jpg	0	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1133	\N	\N	896
+2403	gardening.webp	\N	f	0	1	Prune Overgrowth	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	16384	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	896
+2400	\N	\N	f	0	3	Clean the Bathroom	\N	0	cleaning.jpg	0	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1134	\N	\N	896
+2408	\N	\N	f	0	3	Clean the Kitchen Sink	\N	0	cleaning.jpg	145	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1132	\N	\N	896
+2407	\N	\N	f	0	3	Clean the Kitchen Cabinets	\N	0	cleaning.jpg	145	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1132	\N	\N	896
+2409	\N	\N	f	0	3	Clean the Bathroom Sink	\N	0	cleaning.jpg	145	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1133	\N	\N	896
+2410	\N	\N	f	0	3	Clean the Shower	\N	0	cleaning.jpg	145	0	f	f	6	32768	\N	https://www.youtube.com/watch?v=3CFoZl0T3GQ	1133	\N	\N	896
 \.
 
 
@@ -5554,14 +5569,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 1008, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 1010, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1131, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1136, true);
 
 
 --
@@ -5582,7 +5597,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 3598, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2398, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2410, true);
 
 
 --
@@ -6035,5 +6050,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict qXSsiQKO7evp5MRgOtIkUYgQSqS4oDX32V3evzVhS60e22y6XBkXIHxt52kxJYc
+\unrestrict xJt3w9q4ymVTnhrdZWSzoIlIySmV8zfR2HJljtHY3SfOb168aEQmlA0IXZwuVU1
 
