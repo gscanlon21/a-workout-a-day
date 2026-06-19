@@ -16,11 +16,11 @@ namespace Data.Query.Runners;
 /// </summary>
 public abstract class BaseQueryRunner
 {
-    protected readonly Section section;
+    protected readonly Section _section;
 
-    public BaseQueryRunner(Section sec)
+    public BaseQueryRunner(Section section)
     {
-        section = sec;
+        _section = section;
     }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
@@ -234,7 +234,7 @@ public abstract class BaseQueryRunner
             includePrerequisites: SelectionOptions.IncludePrerequisites,
             includeInstructions: SelectionOptions.IncludeInstructions)));
 
-        filteredQuery = QueryFilters.FilterSection(filteredQuery, section);
+        filteredQuery = QueryFilters.FilterSection(filteredQuery, _section);
         filteredQuery = QueryFilters.FilterSkills(filteredQuery, SkillsOptions);
         filteredQuery = QueryFilters.FilterEquipment(filteredQuery, EquipmentOptions.Equipment);
         filteredQuery = QueryFilters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);

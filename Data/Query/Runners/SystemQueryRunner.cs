@@ -92,7 +92,7 @@ public class SystemQueryRunner : BaseQueryRunner
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         var queryResults = await QueryPartial(context);
-        return queryResults.Select(r => new QueryResults(section, r.Exercise, r.Variation, r.UserExercise, r.UserVariation, r.Prerequisites, r.Postrequisites, r.EasierVariation, r.HarderVariation, Intensity.None))
+        return queryResults.Select(r => new QueryResults(_section, r.Exercise, r.Variation, r.UserExercise, r.UserVariation, r.Prerequisites, r.Postrequisites, r.EasierVariation, r.HarderVariation, Intensity.None))
             .OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)
             .ThenBy(vm => vm.Variation.Progression.Max, NullOrder.NullsLast)
             .ThenBy(vm => vm.Variation.Name)

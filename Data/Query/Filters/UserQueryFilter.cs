@@ -5,7 +5,6 @@ using Data.Code.Extensions;
 using Data.Query.Options;
 using Data.Query.Options.Users;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Cryptography;
 using static Core.Code.Extensions.EnumerableExtensions;
 using static Data.Query.Runners.BaseQueryRunner;
 
@@ -30,31 +29,6 @@ public class UserQueryFilter : BaseQueryFilter
     {
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-
-        // Order after the query or you get cartesian explosion.
-        if (SelectionOptions.Randomized)
-        {
-            // Randomize the order. Useful for the backfill because
-            // ... those workouts don't update the last seen date.
-            filteredResults.ShuffleInPlace();
-        }
-        else
-        {
-            // Don't need to order if there is no user context. Variations that have a refresh delay should be ordered first.
-            filteredResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
-            // Then show exercise variations that the user has least recently seen.
-            // Adding the two in case there is a warmup and main variation in the same exercise.
-            // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
-            // Mostly for the demo, show mostly random exercises.
-            // TODO? Order by the number of postrequisites descending?
-            // NOTE: When the two variation's LastSeen dates are the same:
-            // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
-            // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
-            .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
-            // Don't re-order the list on each read.
-            .ToList();
-        }
 
         var muscleTarget = MuscleGroupOptions.MuscleTarget.Compile();
         var secondaryMuscleTarget = MuscleGroupOptions.SecondaryMuscleTarget?.Compile();
