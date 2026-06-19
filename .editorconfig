@@ -21,6 +21,9 @@ dotnet_diagnostic.CS0162.severity = silent
 # IDE0305: Simplify collection initialization
 dotnet_diagnostic.IDE0305.severity = silent
 
+# CA1069: Enums should not have duplicate values
+dotnet_diagnostic.CA1069.severity = warning
+
 # Dead Code Rules
 dotnet_diagnostic.CA1801.severity = warning
 dotnet_diagnostic.CA1804.severity = warning

@@ -1,5 +1,4 @@
 ﻿using ADay.Core.Models.Theme;
-using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Newsletter;
@@ -115,7 +114,7 @@ public static class SectionExtensions
         not Section.None when Section.Main.HasFlag(section) => Theme.Violet,
         not Section.None when Section.Sports.HasFlag(section) => Theme.Orange,
         not Section.None when Section.Rehab.HasFlag(section) => Theme.Green,
-        not Section.None when Section.Prehab.HasFlag(section) => Theme.Green,
+        not Section.None when Section.Prehab.HasFlag(section) => Theme.Teal,
         _ => Theme.None,
     };
 }
