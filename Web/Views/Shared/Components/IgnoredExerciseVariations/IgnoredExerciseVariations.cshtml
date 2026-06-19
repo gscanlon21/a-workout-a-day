@@ -1,7 +1,5 @@
 ﻿@model IgnoredExerciseVariationsViewModel
-@using Core.Models.Exercise
-@using Core.Models.User
-
+@using ADay.Core.Models.Theme
 
 @if (Model.IgnoredVariations.Any())
 {
@@ -33,6 +31,6 @@
             <span class="float-end">@Model.IgnoredExercises.GroupBy(vm => vm.Exercise).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredExercises' param-Theme='ExerciseTheme.None' param-Verbosity="Model.Verbosity" />
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredExercises' param-Theme='Theme.None' param-Verbosity="Model.Verbosity" />
     </details>
 }

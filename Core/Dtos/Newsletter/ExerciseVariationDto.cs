@@ -1,6 +1,6 @@
-﻿using Core.Dtos.Exercise;
+﻿using ADay.Core.Models.Theme;
+using Core.Dtos.Exercise;
 using Core.Dtos.User;
-using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using System.Diagnostics;
 
@@ -9,8 +9,9 @@ namespace Core.Dtos.Newsletter;
 [DebuggerDisplay("{Section,nq}: {Variation,nq}")]
 public class ExerciseVariationDto
 {
+    public Theme Theme { get; init; }
+
     public Section Section { get; init; }
-    public ExerciseTheme Theme { get; init; }
 
     public ExerciseDto Exercise { get; init; } = null!;
 

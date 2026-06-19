@@ -1,6 +1,5 @@
 ﻿@model PrerequisiteViewModel
-@using Core.Models.Exercise
-@using Data.Entities.Users
+@using ADay.Core.Models.Theme
 @using Lib.Pages.Shared.Exercise
 
 @if (Model.VisiblePrerequisites.Any() || Model.InvisiblePrerequisites.Any())
@@ -13,12 +12,12 @@
 
         @foreach (var exercise in Model.InvisiblePrerequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
+            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='Theme.Red' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
         }
 
         @foreach (var exercise in Model.VisiblePrerequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
+            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='Theme.Green' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
         }
     </details>
 }
