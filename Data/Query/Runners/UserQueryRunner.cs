@@ -10,6 +10,7 @@ using Data.Query.Options.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using static Core.Code.Extensions.EnumerableExtensions;
 
 namespace Data.Query.Runners;
@@ -99,7 +100,7 @@ public class UserQueryRunner : BaseQueryRunner
         return variations.Select(v => new VariationsQueryResults()
         {
             Variation = v,
-            UserVariation = v.UserVariations.First(uv => !UserOptions.NoUser && uv.UserId == UserOptions.Id && uv.Section == section)
+            UserVariation = v.UserVariations.First(uv => !UserOptions.NoUser && uv.UserId == UserOptions.Id && uv.Section == _section)
         });
     }
 
@@ -159,7 +160,7 @@ public class UserQueryRunner : BaseQueryRunner
         var filteredQuery = base.Filter(exerciseVariations, ignoreExclusions: ignoreExclusions);
 
         // Not in a workout context, ignore user filtering.
-        if (!UserOptions.NoUser && section != Section.None)
+        if (!UserOptions.NoUser && _section != Section.None)
         {
             // Filter down to variations the user owns equipment for.
             filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment);
@@ -344,6 +345,31 @@ public class UserQueryRunner : BaseQueryRunner
             ).ToList();
         }
 
+        // Order after the query or you get cartesian explosion.
+        if (SelectionOptions.Randomized)
+        {
+            // Randomize the order. Useful for the backfill because
+            // ... those workouts don't update the last seen date.
+            filteredResults.ShuffleInPlace();
+        }
+        else if (_section != Section.None)
+        {
+            // Don't need to order if there is no user context. Variations that have a refresh delay should be ordered first.
+            filteredResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
+            // Then show exercise variations that the user has least recently seen.
+            // Adding the two in case there is a warmup and main variation in the same exercise.
+            // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
+            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
+            // Mostly for the demo, show mostly random exercises.
+            // TODO? Order by the number of postrequisites descending?
+            // NOTE: When the two variation's LastSeen dates are the same:
+            // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
+            // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
+            .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
+            // Don't re-order the list on each read.
+            .ToList();
+        }
+
         return await QueryFilter.Filter(filteredResults, factory, orderBy, take);
     }
 
@@ -357,7 +383,7 @@ public class UserQueryRunner : BaseQueryRunner
         // We don't want to check if the user has ignored all variations if they are not in are section.
         // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
         // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
-        allExercisesVariationsQuery = QueryFilters.FilterSection(allExercisesVariationsQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
+        allExercisesVariationsQuery = QueryFilters.FilterSection(allExercisesVariationsQuery, Section.Warmup | Section.Cooldown | Section.Main | _section);
 
         // We don't want to check if the user has ignored all variations if they are not in are sports focus.
         // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
@@ -412,7 +438,7 @@ public class UserQueryRunner : BaseQueryRunner
         // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
         // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
         // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
-        checkPrerequisitesFromQuery = QueryFilters.FilterSection(checkPrerequisitesFromQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
+        checkPrerequisitesFromQuery = QueryFilters.FilterSection(checkPrerequisitesFromQuery, Section.Warmup | Section.Cooldown | Section.Main | _section);
 
         // We don't check Depth Drops as a prerequisite for our exercise if that is a Basketball exercise and not a Soccer exercise.
         // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
@@ -527,7 +553,7 @@ public class UserQueryRunner : BaseQueryRunner
             {
                 VariationId = queryResult.Variation.Id,
                 UserId = UserOptions.Id,
-                Section = section
+                Section = _section
             };
 
             if (userVariationsCreated.Add(queryResult.UserVariation))
