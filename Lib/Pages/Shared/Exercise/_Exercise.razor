@@ -1,6 +1,7 @@
 ﻿@page "/exercise/exercise"
 @inject DisplayHelper DH
 @inject IOptions<SiteSettings> SiteSettings
+@using ADay.Core.Models.Theme
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.Exercise
@@ -8,32 +9,10 @@
 @using Core.Dtos.Newsletter
 @using Core.Dtos.User
 
-@{ 
-    var borderColor = Model.Theme switch
-    {
-        ExerciseTheme.Warmup => "palevioletred",
-        ExerciseTheme.Main => "mediumpurple",
-        ExerciseTheme.Cooldown => "lightskyblue",
-        ExerciseTheme.Extra => "lightgreen",
-        ExerciseTheme.Other => "lightsalmon",
-        _ => "currentColor"
-    };
-
-    var backgroundColor = Model.Theme switch
-    {
-        ExerciseTheme.Warmup => "rgba(250,200,200,.1)",
-        ExerciseTheme.Main => "rgba(250,200,250,.1)",
-        ExerciseTheme.Cooldown => "rgba(200,200,250,.1)",
-        ExerciseTheme.Extra => "rgba(200,250,200,.1)",
-        ExerciseTheme.Other => "rgba(250,200,150,.1)",
-        _ => "transparent"
-    };
-}
-
 @* Use `em` for spacing and font sizes--it's more consistent across fonts/mediums. *@
 <div class="exercise" style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;
-            border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
-            border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
+            border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @Model.Theme.Color();background-color:@Model.Theme.BackgroundColor();
+            border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @Model.Theme.Color() @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
 
     <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:@FontHelpers.AdjustEm(1.2, User?.MinFontSize);line-height:1.2;display:flex;gap:.8ch;">
         <span style="flex:1 1 auto;">

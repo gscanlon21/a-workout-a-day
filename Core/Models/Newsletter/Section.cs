@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using ADay.Core.Models.Theme;
+using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Newsletter;
@@ -107,14 +108,14 @@ public enum Section
 
 public static class SectionExtensions
 {
-    public static ExerciseTheme AsTheme(this Section section) => section switch
+    public static Theme AsTheme(this Section section) => section switch
     {
-        not Section.None when Section.Warmup.HasFlag(section) => ExerciseTheme.Warmup,
-        not Section.None when Section.Cooldown.HasFlag(section) => ExerciseTheme.Cooldown,
-        not Section.None when Section.Main.HasFlag(section) => ExerciseTheme.Main,
-        not Section.None when Section.Sports.HasFlag(section) => ExerciseTheme.Other,
-        not Section.None when Section.Rehab.HasFlag(section) => ExerciseTheme.Extra,
-        not Section.None when Section.Prehab.HasFlag(section) => ExerciseTheme.Extra,
-        _ => ExerciseTheme.None,
+        not Section.None when Section.Warmup.HasFlag(section) => Theme.Red,
+        not Section.None when Section.Cooldown.HasFlag(section) => Theme.Blue,
+        not Section.None when Section.Main.HasFlag(section) => Theme.Violet,
+        not Section.None when Section.Sports.HasFlag(section) => Theme.Orange,
+        not Section.None when Section.Rehab.HasFlag(section) => Theme.Green,
+        not Section.None when Section.Prehab.HasFlag(section) => Theme.Green,
+        _ => Theme.None,
     };
 }

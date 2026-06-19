@@ -1,4 +1,5 @@
 ﻿@model ExercisesViewModel
+@using ADay.Core.Models.Theme
 @using Core.Models.Exercise
 @using Core.Models.Exercise.Skills
 @using Web.Code.Extensions
@@ -113,6 +114,6 @@
 </details>
 
 <section> @* Wrapper section for ::deep styles. *@
-    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.None' param-Verbosity="@(Model.FormHasData? Verbosity.Debug: Verbosity.All)" />
+    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='Theme.None' param-Verbosity="@(Model.FormHasData? Verbosity.Debug: Verbosity.All)" />
     <component type="typeof(Lib.Pages.Shared.Newsletter.Footnote)" render-mode="Static" param-Count='int.MaxValue' param-Verbosity='Verbosity.Debug' />
 </section>

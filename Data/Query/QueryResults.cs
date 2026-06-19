@@ -1,4 +1,5 @@
-﻿using Core.Dtos.Exercise;
+﻿using ADay.Core.Models.Theme;
+using Core.Dtos.Exercise;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.Exercises;
@@ -11,7 +12,7 @@ namespace Data.Query;
 [DebuggerDisplay("{Exercise}: {Variation}")]
 public class QueryResults : IExerciseVariationCombo
 {
-    private ExerciseTheme? _theme;
+    private Theme? _theme;
 
     public QueryResults(Section section, Exercise exercise, Variation variation,
         UserExercise? userExercise, UserVariation? userVariation,
@@ -33,7 +34,7 @@ public class QueryResults : IExerciseVariationCombo
     }
 
     public Section Section { get; private init; }
-    public ExerciseTheme Theme
+    public Theme Theme
     {
         get => _theme ?? Section.AsTheme();
         set => _theme = value;

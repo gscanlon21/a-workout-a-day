@@ -1,4 +1,5 @@
-﻿using Core.Dtos.Newsletter;
+﻿using ADay.Core.Models.Theme;
+using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Exercise;
 using Data;
@@ -68,7 +69,7 @@ public class ManageExerciseViewComponent : ViewComponent
             .ToList();
 
         // Let the user know that they are not seeing these variations.
-        allExerciseVariations.ForEach(vm => vm.Theme = ExerciseTheme.None);
+        allExerciseVariations.ForEach(vm => vm.Theme = Theme.None);
 
         // Showing all variations even if the user cannot see them so they can find out why.
         var finalExerciseVariations = exerciseVariations.UnionBy(allExerciseVariations, vm => vm.Variation);
