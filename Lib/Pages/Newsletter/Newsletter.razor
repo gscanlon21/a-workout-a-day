@@ -4,10 +4,10 @@
 @inject NavigationManager Navigation
 @inject NewsletterService NewsletterService
 @inject IOptions<SiteSettings> SiteSettings
-@using ADay.Core.Models.Theme
 @using Core.Models.User
 @using Core.Models
 @using Core.Dtos.Newsletter
+@using Core.Models.Newsletter
 @using Shared.Exercise
 
 @if (Error != null)
@@ -67,22 +67,22 @@ else
     <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.User" Count="Model.User.FootnoteCountTop" />
     
     <div style="margin-block:1rem;">
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="Theme.Green" Title="@(new ExerciseSection.Titles($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", "Use light weights, if any. Do these throughout the day."))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="Section.Rehab.AsTheme()" Title="@(new ExerciseSection.Titles($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", "Use light weights, if any. Do these throughout the day."))" />
 
         <Lib.Pages.Shared.Newsletter._UserRecoveryMessage User='Model.User' />
 
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.WarmupExercises" Theme="Theme.Red" Title="@(new ExerciseSection.Titles("Warmup", "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio."))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.WarmupExercises" Theme="Section.Warmup.AsTheme()" Title="@(new ExerciseSection.Titles("Warmup", "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio."))" />
 
         <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.UserWorkout' />
 
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.SportsExercises" Theme="Theme.Orange" Title="@(new ExerciseSection.Titles(Model.User.SportsFocus.GetSingleDisplayName()))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.SportsExercises" Theme="Section.Sports.AsTheme()" Title="@(new ExerciseSection.Titles(Model.User.SportsFocus.GetSingleDisplayName()))" />
 
         @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="Theme.Violet" Title="@(isDebugWorkout ? null : new ExerciseSection.Titles("Workout", mainDesc, "&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i>"))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="Section.Main.AsTheme()" Title="@(isDebugWorkout ? null : new ExerciseSection.Titles("Workout", mainDesc, "&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i>"))" />
 
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.PrehabExercises" Theme="Theme.Green" Title="@(new ExerciseSection.Titles("Prehab", "Use light weights, if any. Rest between sets for 30s or less for muscular endurance."))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.PrehabExercises" Theme="Section.Prehab.AsTheme()" Title="@(new ExerciseSection.Titles("Prehab", "Use light weights, if any. Rest between sets for 30s or less for muscular endurance."))" />
 
-        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="Theme.Blue" Title="@(new ExerciseSection.Titles("Cooldown", "Remember to breathe. Expand your awareness."))" />
+        <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="Section.Cooldown.AsTheme()" Title="@(new ExerciseSection.Titles("Cooldown", "Remember to breathe. Expand your awareness."))" />
     </div>
 
     <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" HideFooter="Model.HideFooter" />
