@@ -169,7 +169,7 @@ public class UserEditViewModel : IValidatableObject
             return EnumExtensions.GetValuesExcluding(SportsFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None);
         }
 
-        return EnumExtensions.GetSingleOrNoneValues(SportsFocus.Gardening, SportsFocus.SpeedCleaning).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None);
+        return EnumExtensions.GetSingleOrNoneValues(SportsFocus.Cooking, SportsFocus.Cleaning, SportsFocus.Gardening).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None);
     }
     #endregion
 
