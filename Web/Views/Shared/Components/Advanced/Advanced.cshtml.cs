@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Models.Newsletter;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.Views.Shared.Components.Advanced;
 
@@ -25,7 +26,7 @@ public class AdvancedViewModel
         FootnoteCountTop = user.FootnoteCountTop;
     }
 
-    public bool IsNotDefault => ExtendedWarmup != false || IgnorePrerequisites != false
+    public bool IsNotDefault => ExtendedWarmup != ExtendedWarmup.None
         || AtLeastXUniqueMusclesPerExercise_Mobility != UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || AtLeastXUniqueMusclesPerExercise_Accessory != UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault
         || AtLeastXUniqueMusclesPerExercise_Flexibility != UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
@@ -33,14 +34,15 @@ public class AdvancedViewModel
         || WeightSecondaryXTimesLess != UserConsts.WeightSecondaryXTimesLessDefault
         || WeightCoreXTimesLess != UserConsts.WeightCoreXTimesLessDefault
         || FootnoteCountBottom != UserConsts.FootnoteCountBottomDefault
-        || FootnoteCountTop != UserConsts.FootnoteCountTopDefault;
+        || FootnoteCountTop != UserConsts.FootnoteCountTopDefault
+        || IgnorePrerequisites != false;
 
     public bool IsNewToFitness { get; init; }
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
-    [Display(Name = "Extended Warmup", Description = "Includes joint mobilization exercises.")]
-    public bool ExtendedWarmup { get; set; }
+    [Display(Name = "Extended Warmup", Description = "Increase the length of your warmup section.")]
+    public ExtendedWarmup ExtendedWarmup { get; set; }
 
     [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }

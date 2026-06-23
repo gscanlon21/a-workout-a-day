@@ -5,6 +5,7 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -270,8 +271,10 @@ public class User : IUser
     #endregion
     #region Advanced Preferences
 
-    public bool ExtendedWarmup { get; set; }
     public bool IgnorePrerequisites { get; set; }
+
+    [DefaultValue(ExtendedWarmup.None)]
+    public ExtendedWarmup ExtendedWarmup { get; set; }
 
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax)]
     public int AtLeastXUniqueMusclesPerExercise_Mobility { get; set; } = UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault;

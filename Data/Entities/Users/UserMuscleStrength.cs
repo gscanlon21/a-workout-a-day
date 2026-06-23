@@ -38,7 +38,7 @@ public class UserMuscleStrength
     /// 50-70 for minor muscle groups.
     /// 90-120 for major muscle groups.
     /// </summary>
-    public static readonly IDictionary<MusculoskeletalSystem, Range> MuscleTargets = new Dictionary<MusculoskeletalSystem, Range>
+    public static readonly Dictionary<MusculoskeletalSystem, Range> MuscleTargets = new()
     {
         [MusculoskeletalSystem.Obliques] = 120..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MusculoskeletalSystem.Abdominals] = 110..150, // Type 1 (slow-twitch) muscle fibers, for endurance.

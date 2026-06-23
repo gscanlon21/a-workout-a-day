@@ -382,8 +382,10 @@ namespace Data.Migrations
                     b.Property<int>("Equipment")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("ExtendedWarmup")
-                        .HasColumnType("boolean");
+                    b.Property<int>("ExtendedWarmup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Features")
                         .HasColumnType("integer");

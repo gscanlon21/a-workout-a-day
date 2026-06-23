@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -63,8 +62,8 @@ namespace Data.Migrations
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
                     NewsletterDisabledReason = table.Column<string>(type: "text", nullable: true),
                     Features = table.Column<int>(type: "integer", nullable: false),
-                    ExtendedWarmup = table.Column<bool>(type: "boolean", nullable: false),
                     IgnorePrerequisites = table.Column<bool>(type: "boolean", nullable: false),
+                    ExtendedWarmup = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     AtLeastXUniqueMusclesPerExercise_Mobility = table.Column<int>(type: "integer", nullable: false),
                     AtLeastXUniqueMusclesPerExercise_Flexibility = table.Column<int>(type: "integer", nullable: false),
                     AtLeastXUniqueMusclesPerExercise_Accessory = table.Column<int>(type: "integer", nullable: false),

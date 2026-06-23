@@ -1,6 +1,5 @@
 ﻿@model AdvancedViewModel
-@using Core.Models.Exercise
-@using Data.Entities.Users
+@using Web.Code.Extensions
 @using Core.Consts
 
 <details class="mt-4 mb-2 pt-1">
@@ -9,6 +8,23 @@
     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.EditAdvanced)" method="post"
           asp-route-email="@Model.Email" asp-route-token="@Model.Token"
          class="alert alert-secondary">
+
+        <div class="mb-3">
+            <label asp-for="ExtendedWarmup" class="control-label">@Html.DisplayNameFor(_ => Model.ExtendedWarmup)</label>
+            <select asp-for="ExtendedWarmup" class="form-control" aria-describedby="frequency-help"
+                    asp-items="@EnumExtensions.GetDisplayValues<ExtendedWarmup>().AsSelectListItems(EnumViewExtensions.EnumOrdering.Order)">
+            </select>
+            <span asp-validation-for="ExtendedWarmup" class="text-danger"></span>
+            <details id="extended-warmup-help" class="form-text">
+                <summary>What's this?</summary>
+
+                <div class="mt-1">
+                    <div><b>@ExtendedWarmup.None.GetSingleDisplayName()</b> - @ExtendedWarmup.None.GetSingleDisplayName(DisplayType.Description)</div>
+                    <div><b>@ExtendedWarmup.AllMuscleGroups.GetSingleDisplayName()</b> - @ExtendedWarmup.AllMuscleGroups.GetSingleDisplayName(DisplayType.Description)</div>
+                    <div><b>@ExtendedWarmup.JointMobilization.GetSingleDisplayName()</b> - @ExtendedWarmup.JointMobilization.GetSingleDisplayName(DisplayType.Description)</div>
+                </div>
+            </details>
+        </div>
 
         <div class="mb-3">
             <div class="mb-3">
@@ -173,13 +189,6 @@
                     <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
                     <div id="flexibility-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)</div>
                 </div>
-            </div>
-
-            <div class="form-check mb-3">
-                <label asp-for="ExtendedWarmup" class="control-label">@Html.DisplayNameFor(_ => Model.ExtendedWarmup)</label>
-                <input class="form-check-input" asp-for="ExtendedWarmup" aria-describedby="extended-warmup-help" />
-                <span asp-validation-for="ExtendedWarmup" class="text-danger"></span>
-                <div id="extended-warmup-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ExtendedWarmup)</div>
             </div>
 
             <div class="form-check mb-3">

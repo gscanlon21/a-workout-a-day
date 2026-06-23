@@ -27,7 +27,7 @@ public class UserMuscleMobility
     /// <summary>
     /// The volume each muscle group should be exposed to each week.
     /// </summary>
-    public static readonly IDictionary<MusculoskeletalSystem, int> MuscleTargets = new Dictionary<MusculoskeletalSystem, int>
+    public static readonly Dictionary<MusculoskeletalSystem, int> MuscleTargets = new()
     {
         [MusculoskeletalSystem.Abdominals] = 1,
         [MusculoskeletalSystem.Obliques] = 1,

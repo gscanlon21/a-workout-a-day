@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260618143058_SquashMigrations")]
+    [Migration("20260623132011_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -385,8 +385,10 @@ namespace Data.Migrations
                     b.Property<int>("Equipment")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("ExtendedWarmup")
-                        .HasColumnType("boolean");
+                    b.Property<int>("ExtendedWarmup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Features")
                         .HasColumnType("integer");

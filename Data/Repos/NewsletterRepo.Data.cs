@@ -20,9 +20,11 @@ public partial class NewsletterRepo
     internal async Task<List<QueryResults>> GetWarmupExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
-        // Warmup movement patterns should work the joints involved through their full range of motion.
-        // The user can also do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupMobilization = context.User.ExtendedWarmup ? await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupMobilization)
+        var warmupMuscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
+        var muscleGroupsToWork = context.User.ExtendedWarmup == ExtendedWarmup.AllMuscleGroups ? warmupMuscleGroups : context.WorkoutRotation.MuscleGroupsWithCore;
+
+        // Warmup movement patterns should work the joints involved through their full range of motion. The user can also do a dry-run of their regular workout w/o weight as a warmup.
+        var warmupMobilization = context.User.ExtendedWarmup == ExtendedWarmup.JointMobilization ? await new UserQueryBuilder<UserQueryFilter>(context.User, Section.WarmupMobilization)
            .WithUser(options =>
            {
                options.NeedsDeload = context.NeedsDeload;
@@ -57,7 +59,7 @@ public partial class NewsletterRepo
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
             }) // Only work muscles involved in the main workout.
-            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, muscleGroupsToWork)
                 .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, // Multiply count of exercises desired by expected volume worked by each.
                     kv => (context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)
                 ), x =>
@@ -91,9 +93,8 @@ public partial class NewsletterRepo
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
             })
-            // This should work the same muscles we target in the workout.
-            .WithMuscleGroups(MuscleGroupContextBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore), x =>
+            // We just want to get the blood flowing. It doesn't matter what muscles these work.
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, warmupMuscleGroups), x =>
             {
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.Stretches | vm.Variation.Strengthens | vm.Variation.Stabilizes;
@@ -122,8 +123,7 @@ public partial class NewsletterRepo
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
             })
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
-            .WithMuscleGroups(MuscleGroupContextBuilder
-                .WithMuscleGroups(context, UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList()), x =>
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, warmupMuscleGroups), x =>
             {
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.Stretches | vm.Variation.Strengthens | vm.Variation.Stabilizes;
