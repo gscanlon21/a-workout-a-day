@@ -14,3 +14,46 @@ output {
     text-align: end;
     width: 2ch;
 }
+
+@media (prefers-color-scheme: dark) {
+    .btn-group > .btn {
+        /* lightgreen, lightseagreen, lightpink, plum. */
+        --bs-btn-active-border-color: lightgreen;
+        --bs-btn-hover-border-color: lightgreen;
+        --bs-btn-border-color: lightgreen;
+        --bs-btn-active-bg: lightgreen;
+        --bs-btn-hover-bg: lightgreen;
+        --bs-btn-color: lightgreen;
+        --bs-btn-active-color: #000;
+        --bs-btn-hover-color: #000;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .btn-group > .btn {
+        /* darkcyan, darkorchid, darkmagenta, darkviolet. */
+        --bs-btn-active-border-color: darkcyan;
+        --bs-btn-hover-border-color: darkcyan;
+        --bs-btn-border-color: darkcyan;
+        --bs-btn-active-bg: darkcyan;
+        --bs-btn-hover-bg: darkcyan;
+        --bs-btn-color: darkcyan;
+        --bs-btn-active-color: #FFF;
+        --bs-btn-hover-color: #FFF;
+    }
+}
+
+.btn-group.wrap {
+    column-gap: .5rem;
+    row-gap: .25rem;
+    flex-wrap: wrap;
+}
+
+.btn-group.wrap > .btn {
+    white-space: nowrap;
+    flex: 0 !important;
+}
+
+.btn-group.rounded > .btn {
+    border-radius: var(--bs-border-radius) !important;
+}

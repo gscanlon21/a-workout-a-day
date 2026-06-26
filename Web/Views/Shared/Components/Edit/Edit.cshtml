@@ -99,7 +99,9 @@
             @if (Model.Frequency == Frequency.Custom)
             {
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary><b>Edit Workout Split</b></summary>
+                    <summary>
+                        <b>Edit Workout Split</b>
+                    </summary>
 
                     <div class="mt-1 ps-3">
                         @for (int id = 0; id < Model.UserFrequencies.Count; id++)
@@ -216,26 +218,40 @@
                     Exercises are chosen from equipment you have access to — no pullups without a pullup bar or fitness rings.
                 </div>
             }
-            <div class="mb-3">
-                <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
-                <select asp-for="EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
-                        asp-items="@(EnumExtensions.GetSingleValues<Equipment>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))">
-                </select>
-                <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
-                <details id="equipment-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.Equipment)</summary>
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.Equipment)</b>
+                    <small class="d-none d-sm-inline">- @Model.Equipment.GetDisplayName(), @Html.Raw(String.Join(", ", EnumExtensions.GetSingleValues(excludingAny: Model.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>")))</small>
+                </summary>
 
-                    <div class="mt-1">
-                        <span>Exercises that require equipment you don't have will be excluded from your workouts.</span>
-                    </div>
-                </details>
-            </div>
+                <div class="mt-1 ps-3">
+                    @foreach (var item in EnumExtensions.GetSingleValues<Equipment>().AsListItems(EnumViewExtensions.EnumOrdering.GroupText))
+                    {
+                        <div class="form-check">
+                            <input id="equipment-@item" name="@Html.NameFor(_ => Model.EquipmentBinder)" class="form-check-input" type="checkbox" value="@item" @Model.EquipmentBinder.Contains(item).ToClass("checked") />
+                            <label class="form-check-label" for="equipment-@item">@item.GetSingleDisplayName()</label>
+                        </div>
+                    }
+                    <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
+                    <details id="equipment-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.Equipment)</summary>
+
+                        <div class="mt-1">
+                            <span>Exercises that require equipment you don't have will be excluded from your workouts.</span>
+                        </div>
+                    </details>
+                </div>
+            </details>
 
             <div class="mb-3">
-                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
-                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@Days.All.PopCount()"
-                        asp-items="@(EnumExtensions.GetSingleValues<Days>().AsSelectListItems())">
-                </select>
+                <b>@Html.DisplayNameFor(_ => Model.SendDays)</b>
+                <div class="btn-group btn-group-sm rounded wrap mt-1">
+                    @foreach (var item in EnumExtensions.GetSingleValues<Days>().AsListItems())
+                    {
+                        <input id="rest-@item" name="@Html.NameFor(_ => Model.SendDaysBinder)" class="btn-check" type="checkbox" value="@item" @Model.SendDaysBinder.Contains(item).ToClass("checked") />
+                        <label class="btn" for="rest-@item">@item.GetSingleDisplayName()</label>
+                    }
+                </div>
                 <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
                 <details id="rest-help" class="form-text">
                     <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
@@ -265,25 +281,37 @@
                     Optional sports, injury prevention, and rehabilitation exercises.
                 </div>
             }
-            <div class="mb-3">
-                <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
-                <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
-                        asp-items='@(EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))'>
-                </select>
-                <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                <details id="prehab-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.PrehabFocus)</b>
+                    <small class="d-none d-sm-inline">- @Model.PrehabFocus.GetDisplayName()</small>
+                </summary>
 
-                    <div class="mt-1">
-                        <span>You will see one additional exercise for each prehab focus area selected.</span>
-                    </div>
-                </details>
-            </div>
+                <div class="mt-1 ps-3">
+                    @foreach (var item in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).AsListItems(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))
+                    {
+                        <div class="form-check">
+                            <input id="prehab-focus-@item" name="@Html.NameFor(_ => Model.PrehabFocusBinder)" class="form-check-input" type="checkbox" value="@item" @Model.PrehabFocusBinder.Contains(item).ToClass("checked") />
+                            <label class="form-check-label" for="prehab-focus-@item">@item.GetSingleDisplayName()</label>
+                        </div>
+                    }
+                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                    <details id="prehab-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+
+                        <div class="mt-1">
+                            <span>You will see one additional exercise for each prehab focus area selected.</span>
+                        </div>
+                    </details>
+                </div>
+            </details>
             @if (Model.PrehabFocus != PrehabFocus.None && Model.PrehabFocusBinder != null)
             {
                 <div class="mb-3">
                     <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                        <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b></summary>
+                        <summary>
+                            <b>Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b>
+                        </summary>
 
                         <div class="mt-1 ps-3">
                             @for (var i = 0; i < Model.UserPrehabSkills.Count; i++)
@@ -413,7 +441,9 @@
             }
             <div class="mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
+                    <summary>
+                        <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b>
+                    </summary>
 
                     <div class="mt-1 ps-3">
                         @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
@@ -450,7 +480,9 @@
 
             <div class="mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
+                    <summary>
+                        <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b>
+                    </summary>
 
                     <div class="mt-1 ps-3">
                         @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
@@ -492,22 +524,43 @@
                 </div>
             }
 
-            <div class="mb-3">
-                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
-                <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
-                        asp-items='@(EmailConsts.FootnoteTypes.AsSelectListItems(EnumViewExtensions.EnumOrdering.Text))'>
-                </select>
-                <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
-                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
-            </div>
-            <div class="mb-3">
-                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
-                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems(EnumViewExtensions.EnumOrdering.Text))">
-                </select>
-                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
-                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
-            </div>
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.FootnoteType)</b>
+                    <small class="d-none d-sm-inline">- @Model.FootnoteType.GetDisplayName(), @Html.Raw(String.Join(", ", EmailConsts.FootnoteTypes.Except(Model.FootnoteTypeBinder).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>")))</small>
+                </summary>
+
+                <div class="mt-1 ps-3">
+                    @foreach (var item in EmailConsts.FootnoteTypes.AsListItems(EnumViewExtensions.EnumOrdering.Text))
+                    {
+                        <div class="form-check">
+                            <input id="footnote-@item" name="@Html.NameFor(_ => Model.FootnoteTypeBinder)" class="form-check-input" type="checkbox" value="@item" @Model.FootnoteTypeBinder.Contains(item).ToClass("checked") />
+                            <label class="form-check-label" for="footnote-@item">@item.GetSingleDisplayName()</label>
+                        </div>
+                    }
+                    <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
+                    <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
+                </div>
+            </details>
+
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.Verbosity)</b>
+                    <small class="d-none d-sm-inline">- @Model.Verbosity.GetDisplayName(), @Html.Raw(String.Join(", ", EnumExtensions.GetSingleValues(excludingAny: Model.Verbosity).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>")))</small>
+                </summary>
+
+                <div class="mt-1 ps-3">
+                    @foreach (var item in EnumExtensions.GetDisplayValues<Verbosity>().AsListItems(EnumViewExtensions.EnumOrdering.Text))
+                    {
+                        <div class="form-check">
+                            <input id="verbosity-@item" name="@Html.NameFor(_ => Model.VerbosityBinder)" class="form-check-input" type="checkbox" value="@item" @Model.VerbosityBinder.Contains(item).ToClass("checked") />
+                            <label class="form-check-label" for="verbosity-@item">@item.GetSingleDisplayName()</label>
+                        </div>
+                    }
+                    <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
+                    <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
+                </div>
+            </details>
 
             <div class="mb-3">
                 <label asp-for="ImageType" class="control-label">@Html.DisplayNameFor(_ => Model.ImageType)</label>

@@ -66,6 +66,10 @@ summary:focus {
     border-inline-start-width: .25rem;
 }
 
+.form-check {
+    user-select: none;
+}
+
 /********** Sticky Footer **********/
 
 html {

@@ -162,7 +162,7 @@ public class UserEditViewModel : IValidatableObject
 
 
     #region Select Lists
-    public IList<SelectListItem> GetSportsFocusSelectList()
+    public IEnumerable<SelectListItem> GetSportsFocusSelectList()
     {
         if (User.Features.HasFlag(Features.Admin))
         {
@@ -175,40 +175,40 @@ public class UserEditViewModel : IValidatableObject
 
 
     #region Form Binders
-    public int[]? RehabSkillsBinder
-    {
-        get => RehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (RehabSkills & e) == e).ToArray();
-        set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
-    }
-
-    public Verbosity[]? VerbosityBinder
-    {
-        get => Enum.GetValues<Verbosity>().Where(e => Verbosity.HasFlag(e)).ToArray();
-        set => Verbosity = value?.Aggregate(Verbosity.None, (a, e) => a | e) ?? Verbosity.None;
-    }
-
-    public PrehabFocus[]? PrehabFocusBinder
-    {
-        get => EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(e => PrehabFocus.HasFlag(e)).ToArray();
-        set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
-    }
-
-    public FootnoteType[]? FootnoteTypeBinder
-    {
-        get => EmailConsts.FootnoteTypes.Where(e => FootnoteType.HasFlag(e)).ToArray();
-        set => FootnoteType = value?.Aggregate(FootnoteType.None, (a, e) => a | e) ?? FootnoteType.None;
-    }
-
-    public Days[]? SendDaysBinder
+    public Days[] SendDaysBinder
     {
         get => Enum.GetValues<Days>().Where(e => SendDays.HasFlag(e)).ToArray();
         set => SendDays = value?.Aggregate(Days.None, (a, e) => a | e) ?? Days.None;
     }
 
-    public Equipment[]? EquipmentBinder
+    public Equipment[] EquipmentBinder
     {
         get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
         set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
+    }
+
+    public Verbosity[] VerbosityBinder
+    {
+        get => Enum.GetValues<Verbosity>().Where(e => Verbosity.HasFlag(e)).ToArray();
+        set => Verbosity = value?.Aggregate(Verbosity.None, (a, e) => a | e) ?? Verbosity.None;
+    }
+
+    public FootnoteType[] FootnoteTypeBinder
+    {
+        get => EmailConsts.FootnoteTypes.Where(e => FootnoteType.HasFlag(e)).ToArray();
+        set => FootnoteType = value?.Aggregate(FootnoteType.None, (a, e) => a | e) ?? FootnoteType.None;
+    }
+
+    public PrehabFocus[] PrehabFocusBinder
+    {
+        get => EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(e => PrehabFocus.HasFlag(e)).ToArray();
+        set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
+    }
+
+    public int[]? RehabSkillsBinder
+    {
+        get => RehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (RehabSkills & e) == e).ToArray();
+        set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
     }
     #endregion
 

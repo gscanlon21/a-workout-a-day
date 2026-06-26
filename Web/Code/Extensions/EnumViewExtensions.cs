@@ -17,7 +17,21 @@ public static class EnumViewExtensions
     /// 
     /// The default value for the enum, 0, will always come first.
     /// </summary>
-    public static IList<SelectListItem> AsSelectListItems<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = default) where T : Enum
+    public static IEnumerable<SelectListItem> AsSelectListItems<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = default) where T : Enum
+    {
+        return values.AsListItems(order, defaultValue).Select(v => new SelectListItem()
+        {
+            Value = Convert.ToInt64(v).ToString(),
+            Text = v.GetSingleDisplayName(),
+        });
+    }
+
+    /// <summary>
+    /// Converts enum values to a select list for views.
+    /// 
+    /// The default value for the enum, 0, will always come first.
+    /// </summary>
+    public static IEnumerable<T> AsListItems<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = default) where T : Enum
     {
         var orderedValues = values.OrderByDescending(v => Convert.ToInt64(v) == Convert.ToInt64(defaultValue));
         switch (order)
@@ -41,11 +55,6 @@ public static class EnumViewExtensions
                 break;
         }
 
-        return orderedValues.Select(v => new SelectListItem()
-        {
-            Text = v.GetSingleDisplayName(),
-            Value = Convert.ToInt64(v).ToString()
-        })
-        .ToList();
+        return orderedValues;
     }
 }
