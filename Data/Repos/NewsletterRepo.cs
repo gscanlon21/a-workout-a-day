@@ -51,14 +51,13 @@ public partial class NewsletterRepo
     public async Task<IList<UserFootnote>> GetUserFootnotes(string? email, string? token, int count = 1)
     {
         var user = await _userRepo.GetUserStrict(email, token, allowDemoUser: true);
-        if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
+        if (user.FootnoteCountTop == 0)
         {
             return [];
         }
 
         // GetValueOrDefault can't be translated by EF Core.
         var footnotes = await _context.UserFootnotes
-            .Where(f => f.Type == FootnoteType.Custom)
             .Where(f => f.UserId == user.Id)
             // Keep the same footnotes over the course of a day.
             .OrderByDescending(f => f.LastSeen == DateHelpers.Today)

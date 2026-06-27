@@ -22,7 +22,6 @@ public partial class UserController
             User = user,
             Note = note,
             Source = source,
-            Type = FootnoteType.Custom
         });
 
         await _context.SaveChangesAsync();

@@ -39,7 +39,7 @@ public partial class FootnoteController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        if (viewModel.FootnoteType == FootnoteType.None || viewModel.FootnoteType == FootnoteType.Custom)
+        if (viewModel.FootnoteType == FootnoteType.None)
         {
             TempData[TempData_User.FailureMessage] = $"Invalid footnote type: {viewModel.FootnoteType}";
             return RedirectToAction(nameof(UserController.Edit), new { email, token });

@@ -23,7 +23,7 @@ public class UserFootnoteViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         // Custom footnotes must be enabled in the user edit form to show in the newsletter.
-        if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
+        if (user.FootnoteCountTop == 0)
         {
             return Content("");
         }

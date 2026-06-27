@@ -25,7 +25,7 @@ public class EmailConsts
 
     public static readonly FootnoteType[] FootnoteTypes =
     [
-        FootnoteType.Custom, FootnoteType.GoodVibes, FootnoteType.Mindfulness, FootnoteType.HealthFacts, FootnoteType.HealthTips,
+        FootnoteType.GoodVibes, FootnoteType.Mindfulness, FootnoteType.HealthFacts, FootnoteType.HealthTips,
         FootnoteType.FitnessAffirmations, FootnoteType.FitnessMotivation, FootnoteType.FitnessTips, FootnoteType.FitnessFacts,
     ];
 }

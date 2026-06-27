@@ -21,7 +21,7 @@
                 <div class="mb-3">
                     <label asp-for="FootnoteType" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                     <select asp-for="FootnoteType" class="form-control overflow-auto" aria-describedby="footnote-type-help"
-                            asp-items='@(EmailConsts.FootnoteTypes.Except([FootnoteType.Custom]).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text).Prepend(new("Please select...", FootnoteType.None.ToString())))'>
+                            asp-items='@(EmailConsts.FootnoteTypes.AsSelectListItems(EnumViewExtensions.EnumOrdering.Text).Prepend(new("Please select...", FootnoteType.None.ToString())))'>
                     </select>
                     <span asp-validation-for="FootnoteType" class="text-danger"></span>
                     <div id="footnote-type-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
