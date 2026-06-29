@@ -56,7 +56,7 @@ public class UserConsts
     public const int UserMuscleFlexibilityMin = 0;
     public const int UserMuscleFlexibilityMax = 3;
 
-    public const int FootnoteCountMin = 1;
+    public const int FootnoteCountMin = 0;
     public const int FootnoteCountTopDefault = 2;
     public const int FootnoteCountBottomDefault = 2;
     public const int FootnoteCountMax = 4;

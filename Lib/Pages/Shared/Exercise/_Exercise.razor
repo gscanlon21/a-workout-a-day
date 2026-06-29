@@ -206,7 +206,7 @@
     @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.UserExercise != null)
     {
         var progressionOutOfRange = Model.UserExercise.Progression < Model.Variation.Progression.Min || Model.UserExercise.Progression >= Model.Variation.Progression.Max;
-        <div style="position:absolute;bottom:0;left:calc(@Model.UserExercise.Progression% - 1ch);width:2ch;text-align:center;font-size:@FontHelpers.AdjustEm("xx-small", User?.MinFontSize);line-height:1;@(progressionOutOfRange ? "color:red" : "")">
+        <div style="position:absolute;bottom:0;left:calc(@Model.UserExercise.Progression% - 1ch);width:2ch;text-align:center;font-size:.7em;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
     }

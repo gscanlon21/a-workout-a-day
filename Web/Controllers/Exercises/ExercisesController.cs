@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Web.Code.Attributes;
 using Web.Views.Exercises;
+using static Core.Code.Extensions.EnumerableExtensions;
 using static System.Net.WebRequestMethods;
 
 namespace Web.Controllers.Exercises;
@@ -148,9 +149,16 @@ public class ExercisesController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        var queryResults = await queryBuilder.Build().Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
-        viewModel.Exercises = FilterExericseVariations(queryResults, Normalize(viewModel.Name))
-            .Select(r => r.AsType<ExerciseVariationDto>(Options)!)
+        var queryResults = await queryBuilder.Build().Query(_serviceScopeFactory, OrderBy.None);
+        var filteredResults = FilterExericseVariations(queryResults, Normalize(viewModel.Name));
+
+        // Order exercises that exactly match the searched for name first.
+        viewModel.Exercises = filteredResults.OrderByDescending(x => Normalize(x.Exercise.Name)!.Equals(Normalize(viewModel.Name), StringComparison.OrdinalIgnoreCase))
+            .ThenBy(x => x.Exercise.Name) // Then order by progression levels.
+            .ThenBy(x => x.Variation.Progression.Min, NullOrder.NullsFirst)
+            .ThenBy(x => x.Variation.Progression.Max, NullOrder.NullsLast)
+            .ThenBy(x => x.Variation.Name)
+            .Select(x => x.AsType<ExerciseVariationDto>(Options)!)
             .ToList();
 
         return View(viewModel);
@@ -159,15 +167,15 @@ public class ExercisesController : ViewController
     /// <summary>
     /// Do this right after the query to reduce json class conversions.
     /// </summary>
-    private IEnumerable<QueryResults> FilterExericseVariations(IEnumerable<QueryResults> queryResults, string? searchText)
+    private static IEnumerable<QueryResults> FilterExericseVariations(IEnumerable<QueryResults> queryResults, string? searchText)
     {
         if (!string.IsNullOrWhiteSpace(searchText))
         {
-            queryResults = queryResults.Where(e =>
-                Normalize(e.Exercise.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                || Normalize(e.Variation.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                || Normalize(e.Exercise.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
-                || Normalize(e.Variation.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
+            queryResults = queryResults.Where(x =>
+                Normalize(x.Exercise.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || Normalize(x.Variation.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || Normalize(x.Exercise.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
+                || Normalize(x.Variation.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
             );
         }
 

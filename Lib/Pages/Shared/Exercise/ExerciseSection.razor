@@ -10,7 +10,7 @@
 {
     if (Title == null)
     {
-        foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
+        foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()))
         {
             <h2 style="margin-bottom:0;margin-top:1em;font-size:revert;display:flex;gap:.8ch;color:@Theme.Color();">
                 <span style="flex:1 1 auto;">@exerciseGroup.Key.Exercise.Name</span>
