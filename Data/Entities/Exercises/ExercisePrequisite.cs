@@ -36,4 +36,10 @@ public class ExercisePrerequisite
     [DefaultValue(50)]
     [Required, Range(UserConsts.UserProgressionMin, UserConsts.UserProgressionMax)]
     public int Proficiency { get; private init; }
+
+    /// <summary>
+    /// Ignored prerequisites will filter out postrequisites?
+    /// </summary>
+    [Required]
+    public bool Required { get; private init; }
 }

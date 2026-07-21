@@ -48,6 +48,8 @@ public class UserQueryRunner : BaseQueryRunner
         public PrerequisitesQueryResults() { /* no-op */}
 
         public required int ExerciseId { get; init; }
+        public required bool? UserExerciseIgnored { get; init; }
+        public required bool? UserVariationIgnored { get; init; }
         public required DateOnly? UserExerciseLastSeen { get; init; }
         public required DateOnly? UserExerciseFirstSeen { get; init; }
         public required DateOnly? UserVariationLastSeen { get; init; }
@@ -55,6 +57,8 @@ public class UserQueryRunner : BaseQueryRunner
 
         public required Progression VariationProgression { get; init; }
         public required int UserExerciseProgression { get; init; }
+
+        public bool Ignored => UserExerciseIgnored.GetValueOrDefault() || UserVariationIgnored.GetValueOrDefault();
 
         private string GetDebuggerDisplay() => $"{VariationProgression.MinOrDefault} - {UserExerciseProgression} - {VariationProgression.MaxOrDefault}";
     }
@@ -75,6 +79,7 @@ public class UserQueryRunner : BaseQueryRunner
                 // Pull these out of the constructor so EF Core can filter out unused properties.
                 Prerequisites = e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
                 {
+                    Required = p.Required,
                     Proficiency = p.Proficiency,
                     Id = p.PrerequisiteExerciseId,
                     Name = p.PrerequisiteExercise.Name,
@@ -155,7 +160,7 @@ public class UserQueryRunner : BaseQueryRunner
         });
     }
 
-    protected override IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreExclusions = false)
+    protected override IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreIgnored = false, bool ignoreExclusions = false)
     {
         var filteredQuery = base.Filter(exerciseVariations, ignoreExclusions: ignoreExclusions);
 
@@ -165,13 +170,13 @@ public class UserQueryRunner : BaseQueryRunner
             // Filter down to variations the user owns equipment for.
             filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment);
 
-            if (UserIgnoreOptions.UserExercises)
+            if (!ignoreIgnored && UserIgnoreOptions.UserExercises)
             {
                 // Don't grab exercises that the user wants to ignore.
                 filteredQuery = filteredQuery.Where(vm => vm.UserExercise.Ignore != true);
             }
 
-            if (UserIgnoreOptions.UserVariations)
+            if (!ignoreIgnored && UserIgnoreOptions.UserVariations)
             {
                 // Don't grab variations that the user wants to ignore.
                 filteredQuery = filteredQuery.Where(vm => vm.UserVariation.Ignore != true);
@@ -415,6 +420,7 @@ public class UserQueryRunner : BaseQueryRunner
     /// Grab a list of prerequisite exercises that we can check user progressions for.
     /// NOTE: Prerequisites failing the user is new + use caution check will be skipped.
     /// NOTE: Prerequisites that can't be seen due to the equipment check will be skipped.
+    /// FIXME: Refactor this so prerequisites look solely at exercises and not variations?
     /// </summary>
     private async Task<Dictionary<int, List<PrerequisitesQueryResults>>> GetPrerequisites(CoreContext context, IList<InProgressQueryResults> queryResults)
     {
@@ -422,7 +428,7 @@ public class UserQueryRunner : BaseQueryRunner
 
         // Grab a half-filtered list of exercises to check prerequisites against.
         // This filters down to only variations that the user owns equipment for.
-        var checkPrerequisitesFromQuery = Filter(Map(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false)), ignoreExclusions: true);
+        var checkPrerequisitesFromQuery = Filter(Map(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false)), ignoreIgnored: true, ignoreExclusions: true);
 
         // Only check if the user's account is older than 1 week old.
         // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
@@ -453,6 +459,8 @@ public class UserQueryRunner : BaseQueryRunner
             .Select(ev => new PrerequisitesQueryResults()
             {
                 ExerciseId = ev.Exercise.Id,
+                UserExerciseIgnored = ev.UserExercise.Ignore,
+                UserVariationIgnored = ev.UserVariation.Ignore,
                 VariationProgression = ev.Variation.Progression,
                 UserExerciseLastSeen = ev.UserExercise.LastSeen,
                 UserExerciseFirstSeen = ev.UserExercise.FirstSeen,
@@ -474,6 +482,12 @@ public class UserQueryRunner : BaseQueryRunner
             // The prerequisite is in the list of filtered exercises, so we don't see a rehab exercise as a prerequisite when strength training.
             foreach (var prerequisiteToCheck in checkPrerequisitesFrom.GetValueOrDefault(prerequisite.Id, []))
             {
+                // Skip if the prerequisite isn't required and is ignored.
+                if (!prerequisite.Required && prerequisiteToCheck.Ignored)
+                {
+                    continue;
+                }
+
                 // The prerequisite falls in the range of the exercise's proficiency level.
                 if (prerequisite.Proficiency >= prerequisiteToCheck.VariationProgression.MinOrDefault
                     && prerequisite.Proficiency < prerequisiteToCheck.VariationProgression.MaxOrDefault)

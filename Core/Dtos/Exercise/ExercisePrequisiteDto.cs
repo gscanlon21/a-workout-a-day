@@ -23,4 +23,8 @@ public class ExercisePrerequisiteDto
     /// the user needs to be at to unlock the postrequisite.
     /// </summary>
     public int Proficiency { get; init; }
+
+    public bool Required { get; init; }
+
+    public string HtmlString => Required ? $"<i>{Name}: {Proficiency}</i>" : $"{Name}: {Proficiency}";
 }

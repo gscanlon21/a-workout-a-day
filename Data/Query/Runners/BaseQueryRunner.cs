@@ -162,7 +162,7 @@ public abstract class BaseQueryRunner
     protected abstract IQueryable<VariationsQueryResults> Map(IQueryable<Variation> variations);
     protected abstract IQueryable<ExerciseVariationsQueryResults> Map(IQueryable<ExerciseVariation> exerciseVariations);
 
-    protected virtual IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreExclusions = false)
+    protected virtual IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreIgnored = false, bool ignoreExclusions = false)
     {
         // Don't apply these to prerequisites.
         if (!ignoreExclusions)

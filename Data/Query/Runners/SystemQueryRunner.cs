@@ -26,6 +26,7 @@ public class SystemQueryRunner : BaseQueryRunner
                 // Pull these out of the constructor so EF Core can filter out unused properties.
                 Prerequisites = e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
                 {
+                    Required = p.Required,
                     Proficiency = p.Proficiency,
                     Id = p.PrerequisiteExerciseId,
                     Name = p.PrerequisiteExercise.Name,
@@ -71,7 +72,7 @@ public class SystemQueryRunner : BaseQueryRunner
         });
     }
 
-    protected override IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreExclusions = false)
+    protected override IQueryable<ExerciseVariationsQueryResults> Filter(IQueryable<ExerciseVariationsQueryResults> exerciseVariations, bool ignoreIgnored = false, bool ignoreExclusions = false)
     {
         return base.Filter(exerciseVariations, ignoreExclusions: ignoreExclusions);
     }

@@ -71,7 +71,7 @@
 
                 @if (exerciseGroup.Key.ExercisePrerequisites?.Any() == true)
                 {
-                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", exerciseGroup.Key.ExercisePrerequisites.Select(e => $"{e.Name}: {e.Proficiency}"))</p>
+                    <p style="margin-block:0;"><b>Prerequisites</b> - @(new MarkupString(String.Join(", ", exerciseGroup.Key.ExercisePrerequisites.OrderByDescending(p => p.Required).Select(p => p.HtmlString))))</p>
                 }
 
                 @if (!string.IsNullOrWhiteSpace(exerciseGroup.Key.Exercise.Notes))
