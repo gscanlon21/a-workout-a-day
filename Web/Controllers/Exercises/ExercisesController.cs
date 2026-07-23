@@ -183,6 +183,7 @@ public class ExercisesController : ViewController
     }
 
     private static string? Normalize(string? text) => text?.Replace("-", " ")
+        .Replace("tendin", "tendon", StringComparison.OrdinalIgnoreCase)
         .Replace("w/o", "without", StringComparison.OrdinalIgnoreCase)
         .Replace("w/", "with", StringComparison.OrdinalIgnoreCase)
         .Trim();
