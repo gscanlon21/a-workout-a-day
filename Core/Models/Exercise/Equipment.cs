@@ -77,7 +77,11 @@ public enum Equipment
     [Display(Name = "Parallel Bars")]
     ParallelBars = 1 << 20, // 1048576
 
+    [Display(Name = "Stationary Bike")]
+    StationaryBike = 1 << 21, // 2097152
+
     All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands
         | MiniLoopBands | GymnasticRings | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall
-        | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard | AgilityLadder | ParallelBars
+        | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard | AgilityLadder | ParallelBars 
+        | StationaryBike
 }
