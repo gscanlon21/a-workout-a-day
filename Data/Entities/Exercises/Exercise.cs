@@ -88,6 +88,9 @@ public class Exercise
 
     #region Navigation Properties
 
+    [InverseProperty(nameof(ExerciseAlternative.Exercise))]
+    public virtual ICollection<ExerciseAlternative> Alternatives { get; private init; } = null!;
+
     [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
     public virtual ICollection<ExercisePrerequisite> Prerequisites { get; private init; } = null!;
 

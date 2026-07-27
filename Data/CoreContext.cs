@@ -38,6 +38,7 @@ public class CoreContext : DbContext
     public DbSet<UserVariationLog> UserVariationLogs { get; set; } = null!;
     public DbSet<UserMuscleStrength> UserMuscleStrengths { get; set; } = null!;
     public DbSet<UserMuscleMobility> UserMuscleMobilities { get; set; } = null!;
+    public DbSet<ExerciseAlternative> ExerciseAlternatives { get; set; } = null!;
     public DbSet<UserWorkoutVariation> UserWorkoutVariations { get; set; } = null!;
     public DbSet<ExercisePrerequisite> ExercisePrerequisites { get; set; } = null!;
     public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
@@ -52,6 +53,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserMuscleFlexibility>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
         modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
         modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
+        modelBuilder.Entity<ExerciseAlternative>().HasKey(sc => new { sc.ExerciseId, sc.AlternativeExerciseId });
 
         ////////// Query Filters //////////
         modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
@@ -61,6 +63,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserVariationLog>().HasQueryFilter(p => p.UserVariation.Variation.DisabledReason == null);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
+        modelBuilder.Entity<ExerciseAlternative>().HasQueryFilter(p => p.AlternativeExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserWorkoutVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
 

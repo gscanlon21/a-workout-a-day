@@ -35,6 +35,7 @@ public class ExerciseVariationDto
 
     public ProficiencyDto? Proficiency { get; init; }
 
+    public IList<ExerciseAlternativeDto> ExerciseAlternatives { get; init; } = [];
     public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = [];
     public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; } = [];
 

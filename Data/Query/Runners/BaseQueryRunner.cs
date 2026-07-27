@@ -34,6 +34,7 @@ public abstract class BaseQueryRunner
         public required Variation Variation { get; init; }
         public required UserExercise UserExercise { get; init; }
         public required UserVariation UserVariation { get; init; }
+        public required IList<ExerciseAlternativeDto> Alternatives { get; init; }
         public required IList<ExercisePrerequisiteDto> Prerequisites { get; init; }
         public required IList<ExercisePrerequisiteDto> Postrequisites { get; init; }
     }
@@ -46,6 +47,7 @@ public abstract class BaseQueryRunner
 
         public required Exercise Exercise { get; init; }
         public required UserExercise UserExercise { get; init; }
+        public IList<ExerciseAlternativeDto> Alternatives { get; init; } = [];
         public IList<ExercisePrerequisiteDto> Prerequisites { get; init; } = [];
         public IList<ExercisePrerequisiteDto> Postrequisites { get; init; } = [];
     }
@@ -71,6 +73,7 @@ public abstract class BaseQueryRunner
         public required Variation Variation { get; init; }
         public required UserExercise UserExercise { get; init; }
         public required UserVariation UserVariation { get; init; }
+        public required IList<ExerciseAlternativeDto> Alternatives { get; init; }
         public required IList<ExercisePrerequisiteDto> Prerequisites { get; init; }
         public required IList<ExercisePrerequisiteDto> Postrequisites { get; init; }
         public bool IsMinProgressionInRange { get; init; }
@@ -87,6 +90,7 @@ public abstract class BaseQueryRunner
         public UserExercise? UserExercise { get; set; } = queryResult.UserExercise;
         public UserVariation? UserVariation { get; set; } = queryResult.UserVariation;
 
+        public IList<ExerciseAlternativeDto> Alternatives { get; init; } = queryResult.Alternatives;
         public IList<ExercisePrerequisiteDto> Prerequisites { get; init; } = queryResult.Prerequisites;
         public IList<ExercisePrerequisiteDto> Postrequisites { get; init; } = queryResult.Postrequisites;
 
@@ -153,6 +157,7 @@ public abstract class BaseQueryRunner
                     UserExercise = o.UserExercise,
                     Variation = i.Variation,
                     UserVariation = i.UserVariation,
+                    Alternatives = o.Alternatives,
                     Prerequisites = o.Prerequisites,
                     Postrequisites = o.Postrequisites,
                 });

@@ -24,6 +24,12 @@ public class SystemQueryRunner : BaseQueryRunner
                 Exercise = e,
                 UserExercise = null!,
                 // Pull these out of the constructor so EF Core can filter out unused properties.
+                Alternatives = e.Alternatives.Where(p => p.AlternativeExercise.DisabledReason == null).Select(p => new ExerciseAlternativeDto()
+                {
+                    Strict = p.Strict,
+                    Id = p.AlternativeExerciseId,
+                    Name = p.AlternativeExercise.Name,
+                }).ToList(),
                 Prerequisites = e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
                 {
                     Required = p.Required,
@@ -64,6 +70,7 @@ public class SystemQueryRunner : BaseQueryRunner
             Variation = ev.Variation,
             UserExercise = ev.UserExercise,
             UserVariation = ev.UserVariation,
+            Alternatives = ev.Alternatives,
             Prerequisites = ev.Prerequisites,
             Postrequisites = ev.Postrequisites,
             IsMinProgressionInRange = true,
@@ -93,7 +100,7 @@ public class SystemQueryRunner : BaseQueryRunner
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         var queryResults = await QueryPartial(context);
-        return queryResults.Select(r => new QueryResults(_section, r.Exercise, r.Variation, r.UserExercise, r.UserVariation, r.Prerequisites, r.Postrequisites, r.EasierVariation, r.HarderVariation, Intensity.None))
+        return queryResults.Select(r => new QueryResults(_section, r, Intensity.None))
             .OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)
             .ThenBy(vm => vm.Variation.Progression.Max, NullOrder.NullsLast)
             .ThenBy(vm => vm.Variation.Name)

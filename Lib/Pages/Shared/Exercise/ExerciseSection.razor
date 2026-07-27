@@ -74,6 +74,11 @@
                     <p style="margin-block:0;"><b>Prerequisites</b> - @(new MarkupString(String.Join(", ", exerciseGroup.Key.ExercisePrerequisites.OrderByDescending(p => p.Required).Select(p => p.HtmlString))))</p>
                 }
 
+                @if (exerciseGroup.Key.ExerciseAlternatives?.Any() == true)
+                {
+                    <p style="margin-block:0;"><b>Alternatives</b> - @(new MarkupString(String.Join(", ", exerciseGroup.Key.ExerciseAlternatives.Select(p => p.HtmlString))))</p>
+                }
+
                 @if (!string.IsNullOrWhiteSpace(exerciseGroup.Key.Exercise.Notes))
                 {
                     <p style="margin-block:0;"><b>Notes</b> - @exerciseGroup.Key.Exercise.Notes</p>

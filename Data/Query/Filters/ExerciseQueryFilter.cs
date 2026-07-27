@@ -22,7 +22,7 @@ public class ExerciseQueryFilter : BaseQueryFilter
 
     public override async Task<List<QueryResults>> Filter(List<InProgressQueryResults> queryResults, IServiceScopeFactory factory, OrderBy orderBy = OrderBy.None, int take = int.MaxValue)
     {
-        var finalResults = queryResults.Select(r => new QueryResults(section, r.Exercise, r.Variation, r.UserExercise, r.UserVariation, r.Prerequisites, r.Postrequisites, r.EasierVariation, r.HarderVariation, UserOptions.Intensity));
+        var finalResults = queryResults.Select(r => new QueryResults(section, r, UserOptions.Intensity));
         return orderBy switch
         {
             OrderBy.ProgressionLevels => finalResults.OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)

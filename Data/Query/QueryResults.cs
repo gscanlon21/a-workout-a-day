@@ -6,6 +6,7 @@ using Data.Entities.Exercises;
 using Data.Entities.Users;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using static Data.Query.Runners.BaseQueryRunner;
 
 namespace Data.Query;
 
@@ -14,22 +15,22 @@ public class QueryResults : IExerciseVariationCombo
 {
     private Theme? _theme;
 
-    public QueryResults(Section section, Exercise exercise, Variation variation,
-        UserExercise? userExercise, UserVariation? userVariation,
-        IList<ExercisePrerequisiteDto> exercisePrerequisites, IList<ExercisePrerequisiteDto> exercisePostrequisites,
-        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation, Intensity intensity)
+    public QueryResults(Section section, InProgressQueryResults results, Intensity intensity)
     {
         Section = section;
-        Exercise = exercise;
-        Variation = variation;
-        UserExercise = userExercise;
-        UserVariation = userVariation;
-        EasierVariation = easierVariation.name;
-        HarderVariation = harderVariation.name;
-        HarderReason = harderVariation.reason;
-        EasierReason = easierVariation.reason;
-        ExercisePrerequisites = exercisePrerequisites;
-        ExercisePostrequisites = exercisePostrequisites;
+        Exercise = results.Exercise;
+        Variation = results.Variation;
+        UserExercise = results.UserExercise;
+        UserVariation = results.UserVariation;
+        ExerciseAlternatives = results.Alternatives;
+        ExercisePrerequisites = results.Prerequisites;
+        ExercisePostrequisites = results.Postrequisites;
+
+        EasierReason = results.EasierVariation.reason;
+        HarderReason = results.HarderVariation.reason;
+        EasierVariation = results.EasierVariation.name;
+        HarderVariation = results.HarderVariation.name;
+
         Proficiency = intensity != Intensity.None ? Variation.GetProficiency(Section, Intensity.Light) : null;
     }
 
@@ -58,6 +59,7 @@ public class QueryResults : IExerciseVariationCombo
 
     public Proficiency? Proficiency { get; init; }
 
+    public IList<ExerciseAlternativeDto> ExerciseAlternatives { get; init; }
     public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
     public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
 

@@ -77,6 +77,12 @@ public class UserQueryRunner : BaseQueryRunner
                 Exercise = e,
                 UserExercise = e.UserExercises.First(ue => ue.UserId == UserOptions.Id),
                 // Pull these out of the constructor so EF Core can filter out unused properties.
+                Alternatives = e.Alternatives.Where(p => p.AlternativeExercise.DisabledReason == null).Select(p => new ExerciseAlternativeDto()
+                {
+                    Strict = p.Strict,
+                    Id = p.AlternativeExerciseId,
+                    Name = p.AlternativeExercise.Name,
+                }).ToList(),
                 Prerequisites = e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
                 {
                     Required = p.Required,
@@ -117,6 +123,7 @@ public class UserQueryRunner : BaseQueryRunner
             Variation = ev.Variation,
             UserExercise = ev.UserExercise,
             UserVariation = ev.UserVariation,
+            Alternatives = ev.Alternatives,
             Prerequisites = ev.Prerequisites,
             Postrequisites = ev.Postrequisites,
             // Out of range when the exercise is too difficult for the user.

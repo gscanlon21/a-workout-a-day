@@ -47,6 +47,18 @@ public class UserQueryFilter : BaseQueryFilter
                     continue;
                 }
 
+                // Don't choose if any strict alternatives are being worked. 
+                if (exercise.Alternatives.Where(a => a.Strict).Any(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                {
+                    continue;
+                }
+
+                // Don't choose if all alternatives are being worked. 
+                if (exercise.Alternatives.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                {
+                    continue;
+                }
+
                 // Don't choose if all prerequisites are being worked. 
                 if (exercise.Prerequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
                 {
@@ -151,7 +163,7 @@ public class UserQueryFilter : BaseQueryFilter
                     continue;
                 }
 
-                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.Prerequisites, exercise.Postrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
+                finalResults.Add(new QueryResults(section, exercise, UserOptions.Intensity));
                 if (finalResults.Count >= take)
                 {
                     break;
