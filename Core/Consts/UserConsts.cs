@@ -98,7 +98,7 @@ public class UserConsts
 
     public const double WeightCoreXTimesLessMin = 1;
     public const double WeightCoreXTimesLessStep = 0.25;
-    public const double WeightCoreXTimesLessDefault = 1.75;
+    public const double WeightCoreXTimesLessDefault = 2;
     public const double WeightCoreXTimesLessMax = 3;
 
     /// <summary>

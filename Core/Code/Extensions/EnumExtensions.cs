@@ -25,10 +25,12 @@ public static class EnumExtensions
     /// <summary> 
     /// Returns enum values where the value has a display attribute.
     /// </summary>
-    public static T[] GetDisplayValues<T>() where T : struct, Enum
+    public static T[] GetDisplayValues<T>(T excludingAny = default) where T : struct, Enum
     {
+        var excludeValues = Convert.ToInt64(excludingAny);
         var props = typeof(T).GetFields();
         return Enum.GetValues<T>()
+            .Where(e => excludeValues == 0 || (excludeValues & Convert.ToInt64(e)) == 0)
             .Where(e => props.First(f => f.Name == e.ToString()).GetCustomAttribute<DisplayAttribute>() != null)
             .ToArray();
     }

@@ -30,7 +30,7 @@ public class ExerciseAlternative
     //[InverseProperty(nameof(Exercises.Exercise.Postrequisites))]
     public virtual Exercise AlternativeExercise { get; private init; } = null!;
 
-    public bool Strict { get; init; }
+    public bool? Strict { get; init; }
 
     //public AlternativeExerciseType OppositeVsAlt { get; private init; }
 }

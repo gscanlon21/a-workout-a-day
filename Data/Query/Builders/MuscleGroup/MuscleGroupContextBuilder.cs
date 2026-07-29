@@ -15,7 +15,7 @@ public interface IMuscleGroupContextBuilderStep1 : IMuscleGroupBuilder
 
 public interface IMuscleGroupContextBuilderStep2 : IMuscleGroupBuilder
 {
-    IMuscleGroupBuilder AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustUpBuffer = true, bool adjustDownBuffer = false, IList<WorkoutRotationDto>? rotations = null);
+    IMuscleGroupBuilder AdjustMuscleTargets(bool adjustUp = true, bool adjustUpBuffer = true, bool adjustDownBuffer = false, IList<WorkoutRotationDto>? rotations = null);
 }
 
 /// <summary>
@@ -28,7 +28,7 @@ public class MuscleGroupContextBuilder : IMuscleGroupBuilder, IMuscleGroupContex
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    private IList<MusculoskeletalSystem> MuscleGroups;
+    private readonly IList<MusculoskeletalSystem> MuscleGroups;
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
@@ -79,7 +79,7 @@ public class MuscleGroupContextBuilder : IMuscleGroupBuilder, IMuscleGroupContex
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// Note: Don't change too much during deload weeks or they don't throw off the weekly muscle target tracking.
     /// </summary>
-    public IMuscleGroupBuilder AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustUpBuffer = true, bool adjustDownBuffer = false, IList<WorkoutRotationDto>? rotations = null)
+    public IMuscleGroupBuilder AdjustMuscleTargets(bool adjustUp = true, bool adjustUpBuffer = true, bool adjustDownBuffer = false, IList<WorkoutRotationDto>? rotations = null)
     {
         // These may be null if there is not enough weekly data to work with yet.
         if (Context.WeeklyMusclesRDA == null || Context.WeeklyMusclesTUL == null)

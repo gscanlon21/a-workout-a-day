@@ -32,76 +32,73 @@ public class UserQueryFilter : BaseQueryFilter
 
         var muscleTarget = MuscleGroupOptions.MuscleTarget.Compile();
         var secondaryMuscleTarget = MuscleGroupOptions.SecondaryMuscleTarget?.Compile();
-        var finalResults = new List<QueryResults>();
+        var finalResults = new Dictionary</* ExerciseId: */int, QueryResults>();
         do
         {
             foreach (var exercise in filteredResults)
             {
-                // Don't choose two exercises that work the same set of muscle groups?
-                // Don't choose two exercises that work the same muscle group in isolation?
-                var finalResultsExerciseIds = finalResults.Select(fr => fr.Exercise.Id);
-
                 // Don't choose two variations of the same exercise.
-                if (finalResultsExerciseIds.Contains(exercise.Exercise.Id))
+                if (finalResults.ContainsKey(exercise.Exercise.Id))
                 {
                     continue;
                 }
 
-                // Don't choose if any strict alternatives are being worked. 
-                if (exercise.Alternatives.Where(a => a.Strict).Any(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                // Don't choose if any strict alternatives are being worked.
+                if (exercise.Alternatives.Where(a => a.Strict == true).Any(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
                 {
                     continue;
                 }
 
-                // Don't choose if all alternatives are being worked. 
-                if (exercise.Alternatives.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                // Don't choose if two or more alternatives are being worked. 
+                if (exercise.Alternatives.Where(a => a.Strict != null).Count(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)) >= 2)
                 {
                     continue;
                 }
 
+                /* Disabling these to keep the variety up.
                 // Don't choose if all prerequisites are being worked. 
-                if (exercise.Prerequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                if (exercise.Prerequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
                 {
                     continue;
                 }
 
                 // Don't choose if all postrequisites are being worked.
-                if (exercise.Postrequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResultsExerciseIds.Contains(p.Id)))
+                if (exercise.Postrequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
                 {
                     continue;
-                }
+                }*/
 
                 // If the exercise has skills.
                 if (exercise.Exercise.VocalSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                    && (finalResults.Aggregate(VocalSkills.None, (c, n) => c | n.Exercise.VocalSkills) & exercise.Exercise.VocalSkills) == exercise.Exercise.VocalSkills)
+                    && (finalResults.Values.Aggregate(VocalSkills.None, (c, n) => c | n.Exercise.VocalSkills) & exercise.Exercise.VocalSkills) == exercise.Exercise.VocalSkills)
                 {
                     continue;
                 }
 
                 // If the exercise has skills.
                 if (exercise.Exercise.VisualSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                    && (finalResults.Aggregate(VisualSkills.None, (c, n) => c | n.Exercise.VisualSkills) & exercise.Exercise.VisualSkills) == exercise.Exercise.VisualSkills)
+                    && (finalResults.Values.Aggregate(VisualSkills.None, (c, n) => c | n.Exercise.VisualSkills) & exercise.Exercise.VisualSkills) == exercise.Exercise.VisualSkills)
                 {
                     continue;
                 }
 
                 // If the exercise has skills.
                 if (exercise.Exercise.CervicalSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                    && (finalResults.Aggregate(CervicalSkills.None, (c, n) => c | n.Exercise.CervicalSkills) & exercise.Exercise.CervicalSkills) == exercise.Exercise.CervicalSkills)
+                    && (finalResults.Values.Aggregate(CervicalSkills.None, (c, n) => c | n.Exercise.CervicalSkills) & exercise.Exercise.CervicalSkills) == exercise.Exercise.CervicalSkills)
                 {
                     continue;
                 }
 
                 // If the exercise has skills.                
                 if (exercise.Exercise.ThoracicSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                    && (finalResults.Aggregate(ThoracicSkills.None, (c, n) => c | n.Exercise.ThoracicSkills) & exercise.Exercise.ThoracicSkills) == exercise.Exercise.ThoracicSkills)
+                    && (finalResults.Values.Aggregate(ThoracicSkills.None, (c, n) => c | n.Exercise.ThoracicSkills) & exercise.Exercise.ThoracicSkills) == exercise.Exercise.ThoracicSkills)
                 {
                     continue;
                 }
 
                 // If the exercise has skills.
                 if (exercise.Exercise.LumbarSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                    && (finalResults.Aggregate(LumbarSkills.None, (c, n) => c | n.Exercise.LumbarSkills) & exercise.Exercise.LumbarSkills) == exercise.Exercise.LumbarSkills)
+                    && (finalResults.Values.Aggregate(LumbarSkills.None, (c, n) => c | n.Exercise.LumbarSkills) & exercise.Exercise.LumbarSkills) == exercise.Exercise.LumbarSkills)
                 {
                     continue;
                 }
@@ -111,7 +108,7 @@ public class UserQueryFilter : BaseQueryFilter
                 {
                     var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(MovementPattern.None, MovementPattern.All)
                         // The movement pattern has not yet been worked. Checking any flag so we don't double up.
-                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)))
+                        .Where(mp => !finalResults.Values.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)))
                         // The movement pattern is in our list of movement patterns to select from.
                         .Where(v => MovementPatternOptions.MovementPatterns.Value.HasFlag(v));
 
@@ -131,7 +128,7 @@ public class UserQueryFilter : BaseQueryFilter
                 // Choose exercises that cover at least X muscles in our targeted muscles set.
                 if (MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise.HasValue)
                 {
-                    var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
+                    var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults.Values, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
 
                     // We've already worked all unique muscles.
                     if (unworkedMuscleGroups.Count == 0)
@@ -144,7 +141,7 @@ public class UserQueryFilter : BaseQueryFilter
                     // Allow exercises that have a refresh date since we want to show those continuously until that date.
                     // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises
                     // ... if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
-                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1
+                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Values.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1
                         // Choose two variations with no refresh padding and few muscles worked over a variation with lots of refresh padding and many muscles worked.
                         // Doing weeks out so we still prefer variations with many muscles worked to an extent.
                         : (MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise.Value + weeksFromLastSeen);
@@ -157,13 +154,13 @@ public class UserQueryFilter : BaseQueryFilter
                 }
 
                 // Don't overwork muscle groups. Run this after MuscleGroups/MovementPatterns so we can break early if there are no muscle groups left to work.
-                var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
+                var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults.Values, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
                 if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag(mg)))
                 {
                     continue;
                 }
 
-                finalResults.Add(new QueryResults(section, exercise, UserOptions.Intensity));
+                finalResults.Add(exercise.Exercise.Id, new QueryResults(section, exercise, UserOptions.Intensity));
                 if (finalResults.Count >= take)
                 {
                     break;
@@ -178,23 +175,23 @@ public class UserQueryFilter : BaseQueryFilter
         {
             OrderBy.ProgressionLevels => [
                 // Not in a workout context, order by progression levels.
-                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)
+                .. finalResults.Values.OrderBy(vm => vm.Variation.Progression.Min, NullOrder.NullsFirst)
                     .ThenBy(vm => vm.Variation.Progression.Max, NullOrder.NullsLast)
                     .ThenBy(vm => vm.Variation.Name)
             ],
             OrderBy.LeastDifficultFirst => [
                 // Order by least expected difficulty first.
-                .. finalResults.OrderBy(vm => muscleTarget(vm).PopCount())
+                .. finalResults.Values.OrderBy(vm => muscleTarget(vm).PopCount())
             ],
             OrderBy.MusclesTargeted => [
                 // Show exercises that work a muscle target we want more of first.
-                .. finalResults.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroupOptions.AllMuscleGroups).PopCount())
+                .. finalResults.Values.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroupOptions.AllMuscleGroups).PopCount())
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             OrderBy.CoreLast => [
                 // Core exercises last.
-                .. finalResults.OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
+                .. finalResults.Values.OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
                     // Then plyometrics. They're best done early in the workout when the user isn't fatigued.
                     .ThenByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Then by hardest expected difficulty to easiest expected difficulty.
@@ -202,20 +199,20 @@ public class UserQueryFilter : BaseQueryFilter
             ],
             OrderBy.PlyometricsFirst => [
                 // Order plyometrics first. They're best done early in the workout when the user isn't fatigued.
-                .. finalResults.OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
+                .. finalResults.Values.OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last. Ordering exercises that don't work core muscles first.
                     .ThenBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
-            _ => finalResults // We are in a workout context, keep the result order.
+            _ => finalResults.Values.ToList() // We are in a workout context, keep the result order.
         };
     }
 
     /// <summary>
     /// Calculates what muscle groups haven't yet been worked by the <paramref name="finalResults"/>.
     /// </summary>
-    private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
+    private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(ICollection<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         return MuscleGroupOptions.MuscleTargetsRDA.Where(kv =>
         {
@@ -235,7 +232,7 @@ public class UserQueryFilter : BaseQueryFilter
     /// <summary>
     /// Calculates what muscle groups have been overworked by the <paramref name="finalResults"/>.
     /// </summary>
-    private List<MusculoskeletalSystem> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
+    private List<MusculoskeletalSystem> GetOverworkedMuscleGroups(ICollection<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         // Not checking if this muscle group is a part of our worked set.
         // We don't want to overwork any muscle regardless if we are targeting it.

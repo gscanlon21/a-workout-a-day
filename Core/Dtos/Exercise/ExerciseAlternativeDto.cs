@@ -18,7 +18,12 @@ public class ExerciseAlternativeDto
     /// </summary>
     public string Name { get; init; } = null!;
 
-    public bool Strict { get; init; }
+    public bool? Strict { get; init; }
 
-    public string HtmlString => Strict ? $"<i>{Name}</i>" : $"{Name}";
+    public string HtmlString => Strict switch
+    {
+        false => $"<i>{Name}</i>",
+        true => $"<b>{Name}</b>",
+        null => $"{Name}",
+    };
 }
