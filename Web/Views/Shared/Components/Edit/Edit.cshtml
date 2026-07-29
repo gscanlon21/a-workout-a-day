@@ -546,7 +546,7 @@
             <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                 <summary>
                     <b>Edit @Html.DisplayNameFor(_ => Model.Verbosity)</b>
-                    <small class="d-none d-sm-inline">- @Model.Verbosity.GetDisplayName(), @Html.Raw(String.Join(", ", EnumExtensions.GetSingleValues(excludingAny: Model.Verbosity).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>")))</small>
+                    <small class="d-none d-sm-inline">- @Model.Verbosity.GetDisplayName(), @Html.Raw(String.Join(", ", EnumExtensions.GetDisplayValues<Verbosity>(excludingAny: Model.Verbosity).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>")))</small>
                 </summary>
 
                 <div class="mt-1 ps-3">

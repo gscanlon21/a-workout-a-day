@@ -55,21 +55,24 @@ public enum SportsFocus
     [Display(Name = "Dancing")]
     Dancing = 1 << 13, // 8192
 
+    [Display(Name = "Cycling")]
+    Cycling = 1 << 14, // 16384
+
     [Display(Name = "Cooking")]
-    Cooking = 1 << 14, // 16384
+    Cooking = 1 << 15, // 32768
 
     [Display(Name = "Cleaning")]
-    Cleaning = 1 << 15, // 32768
+    Cleaning = 1 << 16, // 65536
 
     [Display(Name = "Gardening")]
-    Gardening = 1 << 16, // 65536
+    Gardening = 1 << 17, // 131072
 
     [Display(Name = "Gardening & Cleaning")]
     GardeningCleaning = Gardening | Cleaning,
 
     [Display(Name = "All")]
-    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball
-        | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee | Dancing
+    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball 
+        | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee | Dancing | Cycling
 }
 
 /* Swap two SportsFocus.

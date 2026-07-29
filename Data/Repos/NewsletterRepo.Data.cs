@@ -458,9 +458,10 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroupContextBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                // AdjustDown when the user has a deload week or a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
-                // AdjustUpBuffer when deloading. So during normal workouts we can go above the RDA, then we remove the core exercise when above range or deloading.
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustUpBuffer: false /* .NeedsDeload */, adjustDown: context.Frequency != Frequency.Mobility), x =>
+                // AdjustUp only when not in a deload week so we don't overwork those weeks.
+                // AdjustUpBuffer never. During normal workouts we can go above the RDA, then remove the core exercise when above range or deloading.
+                // AdjustDownBuffer when the user has a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustUpBuffer: false, adjustDownBuffer: context.Frequency != Frequency.Mobility), x =>
             {
                 // Prefer to see a single core exercise.
                 // Allows unseen core iso exercises too.
