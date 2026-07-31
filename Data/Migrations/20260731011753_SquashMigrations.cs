@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -79,12 +80,38 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "exercise_alternative",
+                columns: table => new
+                {
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    AlternativeExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    Strict = table.Column<bool>(type: "boolean", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_exercise_alternative", x => new { x.ExerciseId, x.AlternativeExerciseId });
+                    table.ForeignKey(
+                        name: "FK_exercise_alternative_exercise_AlternativeExerciseId",
+                        column: x => x.AlternativeExerciseId,
+                        principalTable: "exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_exercise_alternative_exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false),
-                    Proficiency = table.Column<int>(type: "integer", nullable: false, defaultValue: 50)
+                    Proficiency = table.Column<int>(type: "integer", nullable: false, defaultValue: 50),
+                    Required = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,8 +235,7 @@ namespace Data.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: true),
                     Note = table.Column<string>(type: "text", nullable: false),
-                    Source = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false)
+                    Source = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -492,6 +518,11 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_exercise_alternative_AlternativeExerciseId",
+                table: "exercise_alternative",
+                column: "AlternativeExerciseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_exercise_prerequisite_PrerequisiteExerciseId",
                 table: "exercise_prerequisite",
                 column: "PrerequisiteExerciseId");
@@ -590,6 +621,9 @@ namespace Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "exercise_alternative");
+
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
 

@@ -43,11 +43,11 @@ public class ManageVariationViewModel
     public string? Notes { get; init; }
 
     [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
-    [Display(Name = "Lag Refresh by X Weeks", Description = "Add a delay before this variation is recycled from your workouts.")]
+    [Display(Name = "Lag Refresh by X Weeks", Description = "Keep this exercise in your workouts?")]
     public int LagRefreshXWeeks { get; init; }
 
     [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
-    [Display(Name = "Pad Refresh by X Weeks", Description = "Add a delay before this variation is recirculated back into your workouts.")]
+    [Display(Name = "Pad Refresh by X Weeks", Description = "Reduce how often this exercise is seen?")]
     public int PadRefreshXWeeks { get; init; }
 
     public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "/rep" : null;

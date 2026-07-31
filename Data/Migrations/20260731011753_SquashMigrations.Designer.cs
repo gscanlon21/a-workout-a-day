@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260727184325_AddExerciseAlternativesStrictness")]
-    partial class AddExerciseAlternativesStrictness
+    [Migration("20260731011753_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace Data.Migrations
                     b.Property<int>("AlternativeExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("Strict")
+                    b.Property<bool?>("Strict")
                         .HasColumnType("boolean");
 
                     b.HasKey("ExerciseId", "AlternativeExerciseId");
