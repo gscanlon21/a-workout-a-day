@@ -3,6 +3,29 @@ namespace Core.Code.Extensions;
 
 public static class EnumerableExtensions
 {
+    public static IEnumerable<(T Current, bool HasNext)> WithNext<T>(this IEnumerable<T> source)
+    {
+        using var enumerator = source.GetEnumerator();
+
+        if (!enumerator.MoveNext())
+        {
+            yield break;
+        }
+
+        while (true)
+        {
+            var current = enumerator.Current;
+            var hasNext = enumerator.MoveNext();
+
+            yield return (current, hasNext);
+
+            if (!hasNext)
+            {
+                yield break;
+            }
+        }
+    }
+
     /// <summary>
     /// Implementation of the Durstenfeld shuffle.
     /// </summary>
