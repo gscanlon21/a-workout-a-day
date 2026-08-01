@@ -37,6 +37,10 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
 
         // Pass in user so the user can see variation comments.
         var ignoredExercises = await new UserQueryBuilder<ExerciseQueryFilter>(user, Section.None)
+            .WithUser(options =>
+            {
+                options.IgnoreProgressions = true;
+            })
             // Don't ignore exercises.
             .WithUserIgnore(options =>
             {
@@ -55,6 +59,10 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         {
             // Pass in user so the user can see variation comments.
             ignoredVariations.AddRange(await new UserQueryBuilder<ExerciseQueryFilter>(user, sectionGroup.Key)
+                .WithUser(options =>
+                {
+                    options.IgnoreProgressions = true;
+                })
                 // Don't ignore variations.
                 .WithUserIgnore(options =>
                 {

@@ -30,11 +30,13 @@ public class UserQueryFilter : BaseQueryFilter
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
+        var loopCount = 0;
         var muscleTarget = MuscleGroupOptions.MuscleTarget.Compile();
         var secondaryMuscleTarget = MuscleGroupOptions.SecondaryMuscleTarget?.Compile();
         var finalResults = new Dictionary</* ExerciseId: */int, QueryResults>();
         do
         {
+            loopCount++;
             foreach (var exercise in filteredResults)
             {
                 // Don't choose two variations of the same exercise.
@@ -43,30 +45,17 @@ public class UserQueryFilter : BaseQueryFilter
                     continue;
                 }
 
-                // Don't choose if any strict alternatives are being worked.
-                if (exercise.Alternatives.Where(a => a.Strict == true).Any(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
+                // Don't choose if any alternatives are being worked in the same section.
+                if (exercise.Alternatives.Where(a => a.Strict != null).Count(p => finalResults.ContainsKey(p.Id)) >= loopCount)
                 {
                     continue;
                 }
 
-                // Don't choose if two or more alternatives are being worked. 
-                if (exercise.Alternatives.Where(a => a.Strict != null).Count(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)) >= 2)
+                // Don't choose if any strict alternatives are being worked anywhere else in the workout.
+                if (exercise.Alternatives.Where(a => a.Strict == true).Count(p => finalResults.ContainsKey(p.Id) || ExclusionOptions.ExerciseIds.Contains(p.Id)) >= loopCount)
                 {
                     continue;
                 }
-
-                /* Disabling these to keep the variety up.
-                // Don't choose if all prerequisites are being worked. 
-                if (exercise.Prerequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
-                {
-                    continue;
-                }
-
-                // Don't choose if all postrequisites are being worked.
-                if (exercise.Postrequisites.AllIfAny(p => ExclusionOptions.ExerciseIds.Contains(p.Id) || finalResults.ContainsKey(p.Id)))
-                {
-                    continue;
-                }*/
 
                 // If the exercise has skills.
                 if (exercise.Exercise.VocalSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
