@@ -62,19 +62,24 @@ public class VariationDto
     public MovementPattern MovementPattern { get; init; }
 
     /// <summary>
-    /// Primary muscles strengthened by the exercise
-    /// </summary>
-    public MusculoskeletalSystem Strengthens { get; init; }
-
-    /// <summary>
-    /// Primary muscles stretched by the exercise
+    /// Primary muscles stretched by the exercise.
     /// </summary>
     public MusculoskeletalSystem Stretches { get; init; }
 
     /// <summary>
-    /// Secondary (usually stabilizing) muscles worked by the exercise
+    /// Primary muscles strengthened by the exercise.
+    /// </summary>
+    public MusculoskeletalSystem Strengthens { get; init; }
+
+    /// <summary>
+    /// Secondary stabilizing muscles worked by the exercise.
     /// </summary>
     public MusculoskeletalSystem Stabilizes { get; init; }
+
+    /// <summary>
+    /// Joints worked by the exercise.
+    /// </summary>
+    public MusculoskeletalSystem Joints { get; init; }
 
     /// <summary>
     /// What is this variation focusing on?
@@ -105,9 +110,9 @@ public class VariationDto
     public string? Notes { get; init; } = null;
 
     /// <summary>
-    /// Combination of this variations Strength, Stretch and Stability muscles worked.
+    /// This variation's Strength, Stretch, and Stability muscles and Joints worked.
     /// </summary>
-    public MusculoskeletalSystem AllMuscles => Strengthens | Stretches | Stabilizes;
+    public MusculoskeletalSystem AllWorked => Strengthens | Stretches | Stabilizes | Joints;
 
     public string? DefaultInstruction { get; init; }
 

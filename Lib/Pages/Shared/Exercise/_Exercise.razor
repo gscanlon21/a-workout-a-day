@@ -16,8 +16,7 @@
 
     <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:@FontHelpers.AdjustEm(1.2, User?.MinFontSize);line-height:1.2;display:flex;gap:.8ch;">
         <span style="flex:1 1 auto;">
-            @if (Model.Variation.UseCaution
-                || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
+            @if (Model.Variation.UseCaution)
             {
                 @:&#9888;
             }
@@ -99,9 +98,14 @@
         }
     }
 
+    @if (Verbosity.HasFlag(Verbosity.Joints) && Model.Variation.Joints != MusculoskeletalSystem.None)
+    {
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);"><b>Joints</b>: @Model.Variation.Joints.GetDisplayName2(DisplayType.ShortName)</div>
+    }
+
     @if (Verbosity.HasFlag(Verbosity.Debug))
     {
-        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag(Model.Variation.AllMuscles).GetDisplayName(DisplayType.ShortName)</div>
+        <div style="margin-block:.5em;font-size:@FontHelpers.AdjustEm("x-small", User?.MinFontSize);color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag(Model.Variation.AllWorked).GetDisplayName(DisplayType.ShortName)</div>
 
         <hr style="margin-block:.5em;" />
 

@@ -287,7 +287,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroupContextBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()]), options =>
             {
-                options.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
+                options.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches | vm.Variation.Joints;
             })
             .WithExerciseFocus([ExerciseFocus.Stability, ExerciseFocus.Flexibility, ExerciseFocus.Activation], options =>
             {
@@ -516,7 +516,7 @@ public partial class NewsletterRepo
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
-                    x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes | vm.Variation.Stretches;
+                    x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes | vm.Variation.Stretches | vm.Variation.Joints;
                 })
                 // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises.
                 .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Activation, ExerciseFocus.Flexibility, ExerciseFocus.Speed, ExerciseFocus.Endurance])

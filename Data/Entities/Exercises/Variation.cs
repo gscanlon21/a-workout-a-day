@@ -10,7 +10,6 @@ using System.Text.Json.Serialization;
 
 namespace Data.Entities.Exercises;
 
-// TODO: Implement IValidatableObject and setup model validation instead of using the /exercises/check route
 /// <summary>
 /// Intensity level of an exercise variation
 /// </summary>
@@ -77,22 +76,28 @@ public class Variation
     public MovementPattern MovementPattern { get; private init; }
 
     /// <summary>
-    /// Primary muscles strengthened by the exercise.
-    /// </summary>
-    [Required]
-    public MusculoskeletalSystem Strengthens { get; private init; }
-
-    /// <summary>
     /// Primary muscles stretched by the exercise.
     /// </summary>
     [Required]
     public MusculoskeletalSystem Stretches { get; private init; }
 
     /// <summary>
-    /// Secondary (usually stabilizing) muscles worked by the exercise
+    /// Primary muscles strengthened by the exercise.
+    /// </summary>
+    [Required]
+    public MusculoskeletalSystem Strengthens { get; private init; }
+
+    /// <summary>
+    /// Secondary stabilizing muscles worked by the exercise.
     /// </summary>
     [Required]
     public MusculoskeletalSystem Stabilizes { get; private init; }
+
+    /// <summary>
+    /// Joints worked by the exercise.
+    /// </summary>
+    [Required]
+    public MusculoskeletalSystem Joints { get; private init; }
 
     /// <summary>
     /// What is this variation focusing on?
