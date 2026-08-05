@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Sz8v4I5jVuNhy2QbGsztQVBOTI8VfArSvObEGggkc9copvtJVv4mioTgWqsFcFg
+\restrict n5JqerzSMIxV6uGXMSaoEvouQ3DR2dkhXPcz9WQYppGhLci3BgOl51ikew30gns
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -1536,6 +1536,8 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 298	\N	Dancer Stretches	Standing bow opens the body out to the side, the torso comes forward as part of the pose. Eventually working toward a split. Dancer maintains square hips, and the torso coming forward is largely in part due to the backbend & lifting action in the back leg, as opposed to leaning forward while you happen to be reaching back for the back leg. Standing bow, arm and torso parallel to the floor. Dancers, arm and torso at a much higher angle - some cue it as hand to the top of the wall.	0	0	0	0	0	5
 1253	\N	Glute Bridges w/ Leg Extensions	\N	0	0	0	0	0	50
 1254	\N	Prone Hip Extensions	\N	0	0	0	0	0	50
+1255	\N	Bone Density	\N	0	0	0	385	0	50
+1256	\N	Ankle Dorsiflexion	\N	0	0	0	385	0	50
 \.
 
 
@@ -2539,8 +2541,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 246	\N	266	\N	https://www.youtube.com/watch?v=ZZkgopVBPMg	\N	\N	128	\N
 253	\N	81	\N	\N	\N	\N	1	\N
 256	\N	80	\N	https://www.youtube.com/watch?v=3OZ2MT_5r3Q	\N	\N	1	\N
-3621	\N	2343	\N	https://www.youtube.com/watch?v=aO4niiwGC7g	Sports Injury Clinic	\N	0	\N
-3622	\N	2343	\N	https://www.youtube.com/watch?v=FSFOJ5tzMaA	All About Rehab	\N	0	\N
+3621	\N	2343	\N	https://www.youtube.com/watch?v=aO4niiwGC7g	Sports Injury Clinic	\N	0	101
 1663	\N	841	\N	\N	\N	\N	768	\N
 260	\N	306	\N	https://www.hybridcalisthenics.com/full-pullups	\N	\N	768	\N
 1496	\N	723	\N	https://www.youtube.com/watch?v=R8xNrImzdwI	\N	\N	768	\N
@@ -4111,6 +4112,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3566	\N	2346	\N	https://www.youtube.com/watch?v=k50t6Hek8jo	[P]rehab	\N	0	102
 3735	\N	2663	\N	https://www.youtube.com/watch?v=SJ1Xuz9D-ZQ	\N	\N	128	\N
 3736	\N	2610	\N	https://www.youtube.com/watch?v=y3zHHIP-iTU	Precision Movement	\N	0	\N
+3737	\N	2679	\N	https://www.youtube.com/watch?v=0eksWoZlkfE	Sports Injury Clinic	\N	0	\N
+3622	\N	2343	\N	https://www.youtube.com/watch?v=FSFOJ5tzMaA	All About Rehab	\N	0	102
+3738	\N	2343	\N	https://www.youtube.com/watch?v=PUtmxe-_Cvw	Jon White	\N	0	103
+3739	\N	2680	\N	https://www.youtube.com/watch?v=ry3OHAKFMCs	Precision Movement	\N	0	101
 \.
 
 
@@ -4373,7 +4378,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2050	lying-single-leg-lift.webp	\N	t	0	2	Supine Bent Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=-Hnha71zYsg	104	50	\N	60295	0
 2093	\N	\N	f	0	2	Computer Tracking L3	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=d279uRVeBok	1061	\N	75	58247	0
 2094	\N	\N	f	0	2	Computer Tracking L2	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=Nd-Q1vXr7xU	1061	75	50	58247	0
-2054	\N	\N	t	0	2	Snapping Hip Syndrome	\N	0	lying-single-leg-lift.jpg	16777216	0	t	f	33	0	\N	https://www.youtube.com/watch?v=hfUXzY2wQiw	1058	\N	\N	58247	0
 44	straight-bridges-alt.webp	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise. t=10.00-21.60s. t-alt=0.00-8.50s.	917	reverse-full-plank-alt.jpg	139603214336	34361835520	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	879	\N	\N	60415	0
 687	\N	Pallof press is as good as it gets.	t	256	2	Pallof Press Dead Bug	\N	65536	dead-bug-isometric.jpg	8337	0	f	f	17	0	t	\N	156	\N	35	62343	0
 2056	\N	\N	t	0	1	Iso Straight-Leg Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant-straight-leg.jpg	12884901888	32768	t	f	17	0	\N	https://www.youtube.com/watch?v=oYCwxa4cgPQ	1045	\N	\N	60295	0
@@ -4989,7 +4993,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2537	\N	\N	t	0	1	Seated Tibial Torsion Assessment	aka: Bimalleolar Axis Test.	0	hip-flexor-stretch.jpg	117440512	0	t	f	1	0	\N	https://www.youtube.com/watch?v=oee0Hjy3q5c	1182	\N	\N	58247	0
 685	\N	\N	t	0	2	Pullover Dead Bug	\N	262144	pullover-dead-bug-alt.jpg	8409	0	f	f	1	0	t	\N	493	\N	\N	5112	0
 2614	\N	\N	f	0	2	Toe Extension	Reverse Toe Curls?	0	toe-curl.jpg	18014398643699712	0	t	f	1	0	t	https://www.youtube.com/watch?v=Xa9SxI2cQHw	1226	\N	\N	58247	0
-2646	\N	\N	t	0	1	Iso Cervical Extension	aka: Iso Neck Side Flexion.	0	longus-capitis-release.jpg	1073741824	0	t	t	1	0	\N	https://www.youtube.com/watch?v=WnKcq1Uh8m4	1248	\N	\N	58247	0
 1646	balance-board.webp	\N	f	0	3	Side-to-Side One-Leg Rocker Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	16383	\N	\N	697	\N	75	521215	0
 1492	\N	\N	f	0	1	Block-Assisted Cow Face Legs Stretch	\N	0	cow-face-legs.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=PmdYXmCq62I	752	50	\N	516999	0
 714	\N	\N	t	0	2	Supine Hamstring Floss	Supine Hamstring Stretch is the static variation.	0	supine-hamstring-floss.jpg	0	2147485184	t	f	8	0	t	\N	293	\N	\N	58367	0
@@ -5059,7 +5062,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 56	dips-full.webp	\N	t	4	2	Assisted Parallel Dips	\N	108086391057285156	full-dips.jpg	4104	0	f	t	1	0	t	\N	7	90	75	2944	0
 2582	\N	\N	f	0	2	Standing Hip Rotations	\N	18014398509481984	standing-hip-external-rotation-closed-chain.jpg	12884910080	32768	t	f	24	0	f	https://www.youtube.com/watch?v=VqoQMHJbq-0	641	\N	\N	58247	0
 18	hanging-knee-raises.webp	\N	f	0	2	Hanging Knee Raises	\N	16528	hanging-knee-raises.jpg	8193	0	f	f	1	0	t	\N	1035	50	\N	7040	0
-1595	\N	\N	f	0	1	Cervical Extensor Endurance Test	aka. CEET	0	supine-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	\N	https://www.youtube.com/watch?v=qUZ5QzuoQsw	852	50	\N	58247	0
 2540	\N	\N	f	0	1	Lateral Hamstring Stretch	Standing Hamstring Floss is the dynamic variation.	0	hamstring-stretch.jpg	0	2147484160	t	f	8	0	\N	https://www.youtube.com/watch?v=FJzVplRn33A	1185	\N	\N	58247	0
 2542	\N	\N	f	0	1	Seated Lateral Hamstring Stretch	Standing Hamstring Floss is the dynamic variation.	0	hamstring-stretch.jpg	0	2147484160	t	f	8	0	\N	https://www.youtube.com/watch?v=fJQWzy9QpII	1185	\N	\N	58247	0
 2647	\N	\N	t	0	1	Iso Cervical Oblique Extension	aka: Iso Neck Side Flexion.	0	longus-capitis-release.jpg	1073741824	0	t	t	1	0	\N	https://www.youtube.com/watch?v=WnKcq1Uh8m4	1248	\N	\N	58247	0
@@ -5546,7 +5548,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 396	\N	\N	f	0	1	Back Plank	\N	2147483648	chinese-back-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=nDYT0zUlC2w	974	\N	\N	62343	0
 753	\N	\N	f	0	1	Revolved Triangle Stretch	\N	0	triangle-stretch-revolved-alt.jpg	35184372088832	2147484176	t	f	8	0	\N	https://www.youtube.com/watch?v=IuwhGXTc2f0	437	\N	\N	516999	0
 1622	\N	\N	f	0	2	Side-Lying Cervical Lateral Flexion L1	aka: Side-Lying Neck Side Flexion L1.	0	cervical-lateral-flexion.jpg	1073741824	0	t	t	1	0	t	https://www.youtube.com/watch?v=ngePU349jAU	850	50	\N	58247	0
-1617	\N	\N	f	0	2	Craniocervical Extension	May be helpful for whiplash injuries.	0	supine-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	t	https://www.youtube.com/watch?v=0BqPbTCyztU	1153	\N	\N	58247	0
 1623	\N	\N	t	0	1	Iso Cervical Lateral Flexion	aka: Iso Neck Side Flexion.	0	longus-capitis-release.jpg	1073741824	0	t	t	1	0	\N	\N	850	\N	\N	58247	0
 2648	\N	\N	t	0	1	Iso Cervical Oblique Flexion	aka: Iso Neck Side Flexion.	0	longus-capitis-release.jpg	1073741824	0	t	t	1	0	\N	https://www.youtube.com/watch?v=WnKcq1Uh8m4	1248	\N	\N	58247	0
 31	squats-one-leg.webp	\N	f	32	2	One-Leg Squats	\N	1025	squats-one-leg.jpg	2264926976	0	t	f	17	0	t	https://www.hybridcalisthenics.com/oneleg-squats	3	\N	90	61319	0
@@ -5759,10 +5760,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2184	\N	\N	f	0	2	Standing Hip Internal Rotation	\N	0	standing-hip-external-rotation-closed-chain.jpg	12884910080	32768	t	f	32	0	f	https://www.youtube.com/watch?v=dGe_Z2CUNx4	1211	\N	\N	58247	0
 2145	hula-hoop.webp	\N	f	0	2	Reverse Vertical Figure 8	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=I-5kAnlJdnA	1087	\N	50	896	0
 2147	hula-hoop.webp	\N	f	0	2	Reverse Horizontal Figure 8	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=wPHyrQszFdA	1087	\N	50	896	0
+2678	\N	\N	f	0	2	Bone Density	\N	0	reverse-thoracic-spine-extension.jpg	35184380477440	35185454219328	f	t	8	0	t	\N	1255	\N	\N	58247	0
 2188	\N	\N	f	0	2	Standing Slumpy Psoas Activation	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=Uj_mTKQYGuA	1092	\N	\N	57351	0
 2189	\N	\N	f	0	2	Seated Slumpy Psoas Activation	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=uGWzE0RnC0k	1092	\N	\N	57351	0
 865	\N	\N	f	0	1	Shoulder Pressing Hold	\N	262144	shoulder-pressing-stretch.jpg	108086391056892133	0	f	f	17	0	\N	https://www.youtube.com/watch?v=_MzGWgX3DOw	684	\N	50	521095	0
-2186	\N	\N	f	0	2	Craig's Test	\N	0	lying-single-leg-lift.jpg	16777216	0	t	f	33	0	\N	https://www.youtube.com/watch?v=Eg-Spe_ZL5Y	1058	\N	\N	58247	0
 1487	\N	\N	f	0	1	Revolved Tiger Stretch w/ Bow	\N	9007214287126528	tiger-stretch-revolved.jpg	0	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	777	\N	50	459648	0
 1779	\N	\N	f	0	1	One-Leg Inverted Staff Stretch	Legs are straighter.	0	inverted-staff-stretch-one-leg.jpg	4480	270337	f	f	1	0	\N	https://www.youtube.com/watch?v=4F4lTh09Z5E	953	\N	75	516999	0
 2190	\N	\N	f	0	2	Hand Guestures	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=4ffl4T5FYcY	1057	\N	\N	58247	0
@@ -5773,6 +5774,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2629	calf-raises.webp	\N	t	0	1	Iso Supine Banded Calf Press	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	f	t	1	0	\N	\N	1239	\N	\N	58247	0
 1385	knee-lift-glute-press-alt.webp	\N	f	0	2	Knee Lift & Glute Press	Pilates Stretch. t=9.25-24.00s. t-alt=10.50-23.00s.	2048	knee-lift-glute-press.jpg	2147491840	0	t	f	1	0	f	https://www.youtube.com/watch?v=d1QNqSZ9ZDE	694	\N	\N	1016	0
 2630	calf-raises.webp	\N	t	0	1	Iso Seated Banded Calf Press	Ankle plantar flexion. For Plantar Faciitis. This is primarily mobility and should be done w/o weight.	524288	calf-raises-one-leg.jpg	201327616	201326592	f	t	1	0	\N	\N	1239	\N	\N	58247	0
+2186	\N	\N	f	0	2	Craig's Test	\N	0	lying-single-leg-lift.jpg	0	0	t	f	33	0	\N	https://www.youtube.com/watch?v=Eg-Spe_ZL5Y	1058	\N	\N	58247	16777216
 2167	hula-hoop.webp	\N	f	0	2	How to Use a Sword	\N	0	hula-hoop.jpg	145	0	f	t	4	8192	\N	https://www.youtube.com/watch?v=qfoHn_UnKZg	1090	\N	\N	896	0
 2079	\N	\N	t	0	1	Lateral Hip Banded Distraction	aka: Banded Hip Distraction.	0	banded-hip-distraction.jpg	0	16777216	t	t	8	0	\N	\N	220	\N	\N	58247	0
 2194	\N	\N	f	0	2	Anti-Sitting	\N	0	supine-leg-cycle.jpg	16785408	0	t	f	33	0	t	https://www.youtube.com/watch?v=xAY5t9HX-4g	1094	\N	\N	57351	0
@@ -5814,6 +5816,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2452	\N	\N	f	0	2	Mouth Opening	aka: Faulty Mouth Opening Mechanics.	0	tongue-press.jpg	1125899906842624	1125899906842624	f	t	9	0	\N	https://www.youtube.com/watch?v=3R8vdyFR-mE	920	\N	\N	58247	0
 2206	\N	Combined into one.	f	0	2	Longus Colli Strengthening	\N	0	longus-capitus-strengthening.jpg	1073741824	0	f	t	1	0	f	https://www.youtube.com/watch?v=W62pmitKBb0	848	\N	\N	58247	0
 2255	\N	\N	f	0	2	Presenting w/ Slides	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=XW9b5WC7sBU	1057	\N	\N	58247	0
+2646	\N	\N	t	0	1	Iso Cervical Extension	aka: Iso Neck Side Flexion.	0	longus-capitis-release.jpg	0	0	t	t	1	0	\N	https://www.youtube.com/watch?v=WnKcq1Uh8m4	1248	\N	\N	58247	1073741824
 2087	\N	\N	f	0	1	Thomas Stretch	\N	0	dead-bug.jpg	0	16777216	t	f	8	0	\N	https://www.youtube.com/watch?v=m0Hvwbinh4Y	1054	\N	50	58247	0
 2088	\N	\N	t	0	1	Thomas Test	Keeping IsWeighted so that measurements can be made regarding hip flexion.	0	dead-bug.jpg	0	16777216	t	f	8	0	\N	https://www.youtube.com/watch?v=NMDd-4NspHs	1054	50	\N	58247	0
 2258	\N	\N	t	0	2	Standing Ankle Inversion Strengthening	\N	144115188075856896	ankle-dissociation.jpg	67633152	0	t	f	1	0	t	\N	1028	\N	\N	57351	0
@@ -5832,8 +5835,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 28	\N	\N	f	32	2	Front Staggered Squats	\N	1025	squats-staggered-front.jpg	2264926976	0	f	f	1	0	t	https://www.hybridcalisthenics.com/front-staggered-squats	3	70	60	61319	0
 30	squats-one-leg-assisted.webp	\N	f	32	2	Assisted One-Leg Squats	\N	1025	assisted-one-leg-squats.jpg	2264926976	0	t	f	1	0	t	https://www.hybridcalisthenics.com/assisted-oneleg-squats	3	80	70	61319	0
 29	\N	\N	f	32	2	One-Leg Box Squats	\N	1025	squats-one-leg-alt.jpg	2264926976	0	t	f	17	0	t	https://www.hybridcalisthenics.com/one-leg-chair-squats	3	90	80	61319	0
-2670	glute-bridge-ball-squeeze.webp	\N	f	16	1	Isometric One-Leg Glute Bridge w/ Adductor Squeeze	\N	12884902400	glute-bridge-ball-squeeze.jpg	2164293632	0	t	f	1	0	t	https://www.youtube.com/watch?v=Ic1j6ZLXwFw	875	\N	50	60415	0
 2669	glute-bridge-ball-squeeze.webp	\N	f	16	1	Isometric Glute Bridge w/ Adductor Squeeze	t=2.00-18.00s, top=-340, left=-320, right=-300.	512	glute-bridge-ball-squeeze.jpg	2164293632	0	f	f	17	0	\N	https://www.youtube.com/watch?v=y6kquy65vnc	875	\N	\N	60415	0
+2670	glute-bridge-ball-squeeze.webp	\N	f	16	1	Isometric One-Leg Glute Bridge w/ Adductor Squeeze	\N	12884902400	glute-bridge-ball-squeeze.jpg	2164293632	0	t	f	1	0	\N	https://www.youtube.com/watch?v=Ic1j6ZLXwFw	875	\N	50	60415	0
+1594	\N	\N	f	0	1	Standing Cervical Extension	\N	0	standing-deep-cervical-extensor-strengthening.jpg	0	0	f	t	1	0	\N	https://www.youtube.com/watch?v=jOHVUSUmGFw	852	\N	\N	58247	1073741824
+1595	\N	\N	f	0	1	Cervical Extensor Endurance Test	aka. CEET	0	supine-cervical-extensor-strengthening.jpg	0	0	f	t	1	0	\N	https://www.youtube.com/watch?v=qUZ5QzuoQsw	852	50	\N	58247	1073741824
+1617	\N	\N	f	0	2	Craniocervical Extension	May be helpful for whiplash injuries.	0	supine-cervical-extensor-strengthening.jpg	0	0	f	t	1	0	t	https://www.youtube.com/watch?v=0BqPbTCyztU	1153	\N	\N	58247	1073741824
 2262	\N	\N	f	0	2	Early Ankle Sprains	\N	0	bug-squash.jpg	67108864	0	t	f	1	0	\N	\N	1027	25	\N	58247	0
 2135	hula-hoop.webp	\N	f	0	2	Belly Roll	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=aLrZ2Q1mzuU	1067	\N	\N	896	0
 1794	\N	\N	f	0	3	Calf Stretch Against Wall	Supinate the ankle to deepen the stretch.	0	calf-stretch-against-wall.jpg	0	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=Y42q8d7hNgA	1009	\N	\N	516999	0
@@ -5866,8 +5872,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2667	standing-single-leg-lift.webp	\N	t	0	2	Standing Bent-Knee Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=17.50-23.00s.	2049	standing-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	1251	50	\N	60295	0
 518	standing-single-leg-lift.webp	\N	t	0	2	Standing Straight Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=17.50-23.00s.	2049	standing-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	1251	\N	50	60295	0
 2672	glute-bridge.webp	\N	t	0	1	One-Leg Banded Glute Bridge Hold	\N	512	glute-bridges.jpg	15049162752	0	f	f	1	0	\N	\N	1197	\N	50	60295	0
+2054	\N	\N	t	0	2	Snapping Hip Syndrome	\N	0	lying-single-leg-lift.jpg	0	0	t	f	33	0	\N	https://www.youtube.com/watch?v=hfUXzY2wQiw	1058	\N	\N	58247	16777216
 2673	glute-bridge-leg-extension.webp	\N	t	0	3	Glute Bridge w/ Alternating Knee Extensions	t=0.50-12.50s.	512	glute-bridge-march.jpg	2164260864	0	f	f	17	0	f	https://www.youtube.com/watch?v=CH0zGJ5fsLM	1253	\N	\N	60415	0
 2561	walking.webp	\N	f	0	2	Knee Pain	\N	33554432	walking.jpg	33554432	33554432	f	f	4	0	\N	\N	1189	\N	\N	58247	0
+2679	foot-smash.webp	\N	f	0	2	Foot Extensor Tendonitis Rehab	t-5.75-19.52s	0	foot-smash.jpg	162129586585862144	0	t	f	32	0	\N	\N	1124	\N	\N	58247	0
 2547	walking.webp	\N	f	0	2	Medial Knee Pain	\N	33554432	walking.jpg	33554432	33554432	f	f	4	0	\N	\N	1189	\N	\N	58247	0
 2519	walking.webp	\N	f	0	2	Cycling Knee Pain	\N	33554432	walking.jpg	33554432	33554432	f	f	4	0	\N	\N	1169	\N	\N	58247	0
 2548	walking.webp	\N	f	0	2	Cycling Inner Knee Pain	\N	33554432	walking.jpg	33554432	33554432	f	f	4	0	\N	\N	1169	\N	\N	58247	0
@@ -5923,6 +5931,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2565	walking.webp	\N	f	0	2	Stance Width	aka: Pedal Width, Q-Factor.	8193	walking.jpg	3840	0	f	f	4	0	\N	\N	1199	\N	\N	58247	0
 2527	\N	\N	f	0	1	Patellar Instability	aka: Kneecap Instability.	0	hip-flexor-stretch.jpg	117440512	0	t	f	1	0	\N	\N	1175	\N	\N	58247	0
 2674	glute-bridge-leg-extension-squeeze.webp	\N	t	0	3	Glute Bridge Adductor Squeeze w/ Alternating Knee Extensions	t=0.50-13.25s.	512	glute-bridge-march.jpg	2164260864	0	f	f	17	0	f	https://www.youtube.com/watch?v=CH0zGJ5fsLM	1253	\N	50	60415	0
+2680	foot-smash.webp	\N	f	0	2	Ankle Dorsiflexion	t-5.75-19.52s	0	foot-smash.jpg	162129586585862144	0	t	f	32	0	\N	\N	1256	\N	\N	58247	0
 82	\N	For starters, many people struggle with the hands-overhead position required in triceps extensions. "Some have a hard time standing straight up without flaring their ribs when they bring their arms overhead," Summers says.\n\nThis difficulty may be related to limited shoulder mobility, a common issue that can reduce your shoulders' range of motion, thus making it challenging to straighten your arms above you without discomfort. Consequently, attempting a move like the overhead triceps extension exacerbates the problem and can create new pain points.\n\n"Usually what happens with people who lack shoulder and thoracic [upper back] mobility is they start to compensate in other ways by jutting their neck out of alignment or overarching their lower back," Summers says.\n\nIn other words, putting your already weak shoulders in a vulnerable position can lead to injury in them as well as your neck and back. This scenario becomes especially troublesome if you misjudge your strength and lift too heavy.	t	0	2	Overhead Tricep Extension	\N	0	tricep-extension.jpg	4198400	0	f	f	1	0	t	\N	27	\N	\N	2944	0
 2024	\N	\N	f	0	1	One-Leg L-Sit	\N	108086391057023008	l-sit-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=aD-3YLg6gc0	222	75	50	7040	0
 226	tricep-extension-lying.webp	\N	t	0	2	Lying Tricep Extension	aka: Skull Crushers.	0	tricep-extension-lying.jpg	4198400	0	f	t	1	0	t	\N	27	\N	\N	2944	0
@@ -6093,7 +6102,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2465	\N	\N	f	0	2	Supine Longus Capitis/Colli Strengthening	Make sure the hyoid muscles stay completely relaxed during the exercise.	0	longus-capitus-strengthening.jpg	1073741824	0	f	t	1	0	f	\N	848	\N	\N	58247	0
 2636	\N	\N	f	0	1	Half-Kneeling Hip Flexor Stretch w/ Side Bend	\N	0	hip-flexor-stretch.jpg	0	10496	t	f	8	0	\N	https://www.youtube.com/watch?v=Tfjnw7NO5Pc	201	50	\N	516999	0
 2568	glute-bridge.webp	\N	t	0	1	Banded Glute Bridge Hold	\N	512	glute-bridges.jpg	15049162752	0	f	f	1	0	\N	\N	1197	\N	\N	60295	0
-1594	\N	\N	f	0	1	Standing Cervical Extension	\N	0	standing-deep-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	\N	https://www.youtube.com/watch?v=jOHVUSUmGFw	852	\N	\N	58247	0
 2471	\N	\N	t	0	2	Eccentric Finger Flexion	aka. Finger Spreads	0	finger-spread.jpg	3162112	0	t	f	1	0	t	https://www.youtube.com/watch?v=tay5Nq1XuK0	1154	\N	\N	58247	0
 2466	\N	\N	f	0	2	Prone Longus Capitis/Colli Strengthening	Make sure the hyoid muscles stay completely relaxed during the exercise.	0	longus-capitus-strengthening.jpg	1073741824	0	f	t	1	0	t	\N	848	\N	\N	58247	0
 2464	\N	\N	f	0	2	How to Floss	\N	1125899906842624	tongue-press.jpg	1125899906842624	1125899906842624	f	t	9	0	\N	https://www.youtube.com/watch?v=WviE5aa5Ha0	1152	\N	\N	58247	0
@@ -6196,7 +6204,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 1023, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1254, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1256, true);
 
 
 --
@@ -6210,14 +6218,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3736, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3739, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2677, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2680, true);
 
 
 --
@@ -6701,5 +6709,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Sz8v4I5jVuNhy2QbGsztQVBOTI8VfArSvObEGggkc9copvtJVv4mioTgWqsFcFg
+\unrestrict n5JqerzSMIxV6uGXMSaoEvouQ3DR2dkhXPcz9WQYppGhLci3BgOl51ikew30gns
 

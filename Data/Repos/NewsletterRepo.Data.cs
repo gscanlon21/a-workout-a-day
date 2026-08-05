@@ -498,14 +498,13 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var prehabCount = 0;
         var prehabResults = new List<QueryResults>();
         // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).ShuffleInline())
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            var prehabExercises = await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Prehab)
+            prehabResults.AddRange(await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Prehab)
                 .WithUser(options =>
                 {
                     options.NeedsDeload = context.NeedsDeload;
@@ -514,11 +513,11 @@ public partial class NewsletterRepo
                 .WithSkills(prehabFocus.GetSkillType()?.Type, skills?.Skills)
                 .WithMuscleGroups(MuscleGroupContextBuilder
                     .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()]), x =>
-                    {
-                        // TODO? Try to work isolation exercises (for muscle groups, not joints):
-                        // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
-                        x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes | vm.Variation.Stretches | vm.Variation.Joints;
-                    })
+                {
+                    // TODO? Try to work isolation exercises (for muscle groups, not joints):
+                    // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
+                    x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes | vm.Variation.Stretches | vm.Variation.Joints;
+                })
                 // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises.
                 .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Activation, ExerciseFocus.Flexibility, ExerciseFocus.Speed, ExerciseFocus.Endurance])
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
@@ -537,19 +536,15 @@ public partial class NewsletterRepo
                     options.OnlyRefreshed = skills?.OnlyRefreshed ?? options.OnlyRefreshed;
                 })
                 .Build()
-                .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault);
-            
-            if (prehabExercises.Any())
-            {
-                prehabResults.AddRange(prehabExercises);
+                .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
 
-                // User's prefs means there may be a lot. Cap at half the max allowed # if the user is receiving two workouts per day.
-                var maxPrehabExercises = ExerciseConsts.MaxPrehabExercisesPerWorkout / (context.User.SecondSendHour.HasValue ? 2 : 1);
-                // Only increment and return the count if there are exercises found. Count is for prehab focus, not for the exercises.
-                if (++prehabCount >= maxPrehabExercises)
-                {
-                    break;
-                }
+            var hasSecondSend = context.User.SecondSendHour.HasValue;
+            var hasManyPrehab = context.User.PrehabFocus.PopCount() > ExerciseConsts.MaxPrehabExercisesPerWorkout;
+            // User's prefs means there may be a lot. Cap at half the max allowed # if the user is receiving two workouts per day.
+            var maxPrehabExercises = ExerciseConsts.MaxPrehabExercisesPerWorkout / (hasSecondSend && !hasManyPrehab ? 2 : 1);
+            if (prehabResults.Count >= maxPrehabExercises)
+            {
+                break;
             }
         }
 
