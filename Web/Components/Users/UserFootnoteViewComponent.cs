@@ -1,5 +1,4 @@
-﻿using ADay.Core.Models.Footnote;
-using Data;
+﻿using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.UserFootnote;

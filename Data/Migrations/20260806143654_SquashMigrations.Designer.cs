@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260731011753_SquashMigrations")]
+    [Migration("20260806143654_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -181,6 +181,9 @@ namespace Data.Migrations
 
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
+
+                    b.Property<long>("Joints")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
@@ -444,9 +447,6 @@ namespace Data.Migrations
                     b.Property<string>("NewsletterDisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<long>("PrehabFocus")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("RehabFocus")
                         .HasColumnType("bigint");
 
@@ -594,12 +594,6 @@ namespace Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("Count")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("OnlyRefreshed")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Skills")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId", "PrehabFocus");

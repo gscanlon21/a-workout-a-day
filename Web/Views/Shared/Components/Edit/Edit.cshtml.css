@@ -57,3 +57,19 @@ output {
 .btn-group.rounded > .btn {
     border-radius: var(--bs-border-radius) !important;
 }
+
+summary {
+    list-style: none;
+}
+
+summary::before {
+    content: "▼";
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+    display: inline-block;
+    transform: rotate(-90deg);
+}
+
+details[open] > summary::before {
+    transform: rotate(0deg);
+}

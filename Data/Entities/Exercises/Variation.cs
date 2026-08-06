@@ -21,11 +21,19 @@ public class Variation
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    [Required]
+    public int ExerciseId { get; private init; }
+
     /// <summary>
     /// Friendly name.
     /// </summary>
     [Required]
     public string Name { get; private init; } = null!;
+
+    /// <summary>
+    /// Notes about the variation (externally shown).
+    /// </summary>
+    public string? Notes { get; private init; } = null;
 
     /// <summary>
     /// The filename.ext of the static content image
@@ -106,10 +114,14 @@ public class Variation
     [Display(Name = "Exercise Focus", ShortName = "Focus")]
     public ExerciseFocus ExerciseFocus { get; private init; }
 
-    public virtual int ExerciseId { get; private init; }
-
-    [JsonIgnore, InverseProperty(nameof(Exercises.Exercise.Variations))]
-    public virtual Exercise Exercise { get; private init; } = null!;
+    /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// We don't want to get granular with Sports Skills.
+    /// That would be too tedius. Refresh padding works.
+    /// </summary>
+    [Required]
+    [Display(Name = "Sports Focus", ShortName = "Sports")]
+    public SportsFocus SportsFocus { get; private init; }
 
     /// <summary>
     /// The progression range required to view the exercise variation.
@@ -125,28 +137,30 @@ public class Variation
     public Section Section { get; private init; }
 
     /// <summary>
-    /// What sports does performing this exercise benefit.
-    /// We don't want to get granular with Sports Skills.
-    /// That would be too tedius. Refresh padding works.
+    /// Instruction that doesns't require equipment.
     /// </summary>
-    [Required]
-    [Display(Name = "Sports Focus", ShortName = "Sports")]
-    public SportsFocus SportsFocus { get; private init; }
-
+    public string? DefaultInstruction { get; private init; }
+    
+    /// <summary>
+    /// Disabled if not null.
+    /// </summary>
     public string? DisabledReason { get; private init; } = null;
 
     /// <summary>
-    /// Notes about the variation (externally shown).
+    /// Combination of this variation's Strength, Stretch, and Stability muscles worked. Excludes Joints.
     /// </summary>
-    public string? Notes { get; private init; } = null;
-
-    /// <summary>
-    /// Combination of this variations Strength, Stretch and Stability muscles worked.
-    /// </summary>
-    [NotMapped]
     public MusculoskeletalSystem AllMuscles => Strengthens | Stretches | Stabilizes;
 
-    public string? DefaultInstruction { get; private init; }
+    /// <summary>
+    /// Combination of this variation's Strength, Stretch, and Stability muscles worked. Includes Joints.
+    /// </summary>
+    public MusculoskeletalSystem AllWorked => Strengthens | Stretches | Stabilizes | Joints;
+
+
+    #region Navigation Properties
+
+    [JsonIgnore, InverseProperty(nameof(Exercises.Exercise.Variations))]
+    public virtual Exercise Exercise { get; private init; } = null!;
 
     // Cannot have an InverseProperty because we have two navigation properties to Instruction
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
@@ -157,6 +171,9 @@ public class Variation
 
     [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.Variation))]
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
+
+    #endregion
+
 
     public override int GetHashCode() => HashCode.Combine(Id);
     public override bool Equals(object? obj) => obj is Variation other

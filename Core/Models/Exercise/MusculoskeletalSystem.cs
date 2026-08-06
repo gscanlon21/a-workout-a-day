@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Exercise;
 
@@ -10,6 +11,12 @@ namespace Core.Models.Exercise;
 /// <br/> await _context.Variations.Where(v => v.Strengthens.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Strengthens, s => s.Strengthens | MusculoskeletalSystem.Trapezius));
 /// <br/> await _context.Variations.Where(v => v.Stabilizes.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Stabilizes, s => s.Stabilizes | MusculoskeletalSystem.Trapezius));
 /// <br/> await _context.Variations.Where(v => v.Stretches.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Stretches, s => s.Stretches | MusculoskeletalSystem.Trapezius));
+/// </para>
+/// <para>
+/// To split joints into their own columns:
+/// <br/> await context.Variations.Where(v => (v.Strengthens & MusculoskeletalSystem.Joints) != 0).ExecuteUpdateAsync(v => v.SetProperty(s => s.Joints, s => (s.Strengthens & MusculoskeletalSystem.Joints) | s.Joints).SetProperty(s => s.Strengthens, s => s.Strengthens & ~MusculoskeletalSystem.Joints));
+/// <br/> await context.Variations.Where(v => (v.Stabilizes & MusculoskeletalSystem.Joints) != 0).ExecuteUpdateAsync(v => v.SetProperty(s => s.Joints, s => (s.Stabilizes & MusculoskeletalSystem.Joints) | s.Joints).SetProperty(s => s.Stabilizes, s => s.Stabilizes & ~MusculoskeletalSystem.Joints));
+/// <br/> await context.Variations.Where(v => (v.Stretches & MusculoskeletalSystem.Joints) != 0).ExecuteUpdateAsync(v => v.SetProperty(s => s.Joints, s => (s.Stretches & MusculoskeletalSystem.Joints) | s.Joints).SetProperty(s => s.Stretches, s => s.Stretches & ~MusculoskeletalSystem.Joints));
 /// </para>
 /// </summary>
 [Flags]
@@ -173,9 +180,6 @@ public enum MusculoskeletalSystem : long
     [Display(GroupName = "Joints", Name = "Hip Joints", ShortName = "Hips")]
     HipJoints = 1 << 24, // 16777216
 
-    /// <summary>
-    /// https://healthonline.washington.edu/sites/default/files/record_pdfs/Isometric-Exercises-Patellar-Tendinopathy.pdf
-    /// </summary>
     [Display(GroupName = "Joints", Name = "Knee Joints", ShortName = "Knees")]
     KneeJoints = 1 << 25, // 33554432
 
@@ -255,7 +259,7 @@ public enum MusculoskeletalSystem : long
     Scalenes = 1L << 58, // 288230376151711744
 
 
-    // ----- Muscle parts ------ //
+    // ----- Muscle Parts ------ //
 
     [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = 1L << 31, // 2147483648
@@ -293,7 +297,8 @@ public enum MusculoskeletalSystem : long
     [Display(GroupName = "Trapezius", Name = "Trapezius", ShortName = "Traps")]
     Trapezius = UpperTraps | LowerTraps, // 108086391056891904
 
-    // ----- Groups to work out together ------ //
+
+    // ----- Movement Groups ------ //
 
     [Display(Name = "Upper Body Push", Order = 1)]
     UpperBodyPush = Forearms | RotatorCuffs | FrontDelt | LatDelt | Triceps | Pectorals | SerratusAnterior,
@@ -310,13 +315,20 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Full Body", Order = 1)]
     UpperLower = UpperBody | LowerBody,
 
-    // ----- Common groups ------ //
+
+    // ----- Common Groups ------ //
 
     /// <summary>
     /// Muscles that help with trunk stability.
     /// </summary>
     [Display(Name = "Core", Order = 2)]
     Core = Abdominals | Obliques | ErectorSpinae,
+
+    /// <summary>
+    /// All joints.
+    /// </summary>
+    [Display(Name = "All Joints")]
+    Joints = AnkleJoints | ElbowJoints | FingerJoints | HipJoints | KneeJoints | ShoulderJoints | ToeJoints | WristJoints | CervicalSpine | LumbarSpine | ThoracicSpine,
 
     /// <summary>
     /// All muscle groups.

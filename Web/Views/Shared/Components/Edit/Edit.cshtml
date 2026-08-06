@@ -288,81 +288,67 @@
                 </summary>
 
                 <div class="mt-1 ps-3">
-                    @foreach (var item in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).AsListItems(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))
+                    @for (var i = 0; i < Model.UserPrehabSkills.Count; i++)
                     {
-                        <div class="form-check">
-                            <input id="prehab-focus-@item" name="@Html.NameFor(_ => Model.PrehabFocusBinder)" class="form-check-input" type="checkbox" value="@item" @Model.PrehabFocusBinder.Contains(item).ToClass("checked") />
-                            <label class="form-check-label" for="prehab-focus-@item">@item.GetSingleDisplayName()</label>
-                        </div>
-                    }
-                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                    <details id="prehab-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
-
-                        <div class="mt-1">
-                            <span>You will see one additional exercise for each prehab focus area selected.</span>
-                        </div>
-                    </details>
-                </div>
-            </details>
-            @if (Model.PrehabFocus != PrehabFocus.None && Model.PrehabFocusBinder != null)
-            {
-                <div class="mb-3">
-                    <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                        <summary>
-                            <b>Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b>
-                        </summary>
-
-                        <div class="mt-1 ps-3">
-                            @for (var i = 0; i < Model.UserPrehabSkills.Count; i++)
-                            {
-                                <input type="hidden" asp-for="UserPrehabSkills[i].UserId" />
-                                <input type="hidden" asp-for="UserPrehabSkills[i].PrehabFocus" />
-                                <div class="mb-3">
-                                    <label asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="control-label mb-1"><b>@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</b></label>
-
-                                    @if (Model.UserPrehabSkills[i].PrehabFocus.GetSkillType() == null)
-                                    {
-                                        <input type="hidden" asp-for="UserPrehabSkills[i].PrehabSkillsBinder" value="0" />
-                                    } 
-                                    else
-                                    {
-                                        <div class="mb-2">
-                                            <label asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Skills)</label>
-                                            <select asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
-                                                    asp-items='@(Model.UserPrehabSkills[i].PrehabFocus.GetSkillType()!.SelectList.AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))'>
-                                            </select>
-                                            <span asp-validation-for="UserPrehabSkills[i].Skills" class="text-danger"></span>
-                                            <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Skills)</div>
-                                        </div>
-                                    }
-                                    <div class="mb-2" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                        <div style="display:flex;margin-bottom:-.5ex;">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Count)</div>
-                                        <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
-                                            <output name="prehabMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
+                        <input type="hidden" asp-for="UserPrehabSkills[i].UserId" />
+                        <input type="hidden" asp-for="UserPrehabSkills[i].PrehabFocus" />
+                        @if (Model.UserPrehabSkills[i].PrehabFocus.GetSkillType() == null)
+                        {
+                            <input type="hidden" asp-for="UserPrehabSkills[i].PrehabSkillsBinder" value="0" />
+                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
+                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;" class="js-preventDefault">
+                                    <output name="mobilityPrehabsOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
+                                    <div class="d-flex w-100">
+                                        <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="prehab-count-help"
+                                                min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax"
+                                                oninput="mobilityPrehabsOutput@(i).value = this.valueAsNumber" list="mobilityPrehabsList@(i)" />
+                                    </div>
+                                </div>
+                                <span asp-validation-for="UserPrehabSkills[i]" class="text-danger"></span>
+                                <div id="prehab-count-help" class="form-text">
+                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i])</p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <details class="mb-1">
+                                <summary class="d-flex mb-1">
+                                    <div style="display:flex;column-gap:1ch;flex-wrap:wrap;width:100%;">
+                                        <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
+                                        <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;" class="js-preventDefault">
+                                            <output name="mobilityPrehabsOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
                                             <div class="d-flex w-100">
-                                                <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="count-help"
-                                                       min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax" step="1"
-                                                       oninput="prehabMusclesOutput@(i).value = this.valueAsNumber" />
+                                                <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="prehab-count-help"
+                                                       min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax"
+                                                       oninput="mobilityPrehabsOutput@(i).value = this.valueAsNumber" list="mobilityPrehabsList@(i)" />
                                             </div>
                                         </div>
                                         <span asp-validation-for="UserPrehabSkills[i]" class="text-danger"></span>
-                                        <div id="count-help" class="form-text w-100">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Count)</div>
+                                        <div id="prehab-count-help" class="form-text">
+                                            <p>@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i])</p>
+                                        </div>
                                     </div>
-                                    <div class="mb-2 form-check">
-                                        <label asp-for="UserPrehabSkills[i].OnlyRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].OnlyRefreshed)</label>
-                                        <input class="form-check-input" asp-for="UserPrehabSkills[i].OnlyRefreshed" aria-describedby="refresh-help" />
-                                        <span asp-validation-for="UserPrehabSkills[i].OnlyRefreshed" class="text-danger"></span>
-                                        <div id="refresh-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].OnlyRefreshed)</div>
-                                    </div>
-                                </div>
-                            }
+                                </summary>
 
-                            <span asp-validation-for="UserPrehabSkills" class="text-danger"></span>
-                        </div>
-                    </details>
+                                <div class="btn-group btn-group-sm rounded wrap mb-1">
+                                    @foreach (var item in Model.UserPrehabSkills[i].PrehabFocus.GetSkillType()!.SelectList.AsListItems(EnumViewExtensions.EnumOrdering.GroupText))
+                                    {
+                                        <input id="skill-@item" name="@Html.NameFor(_ => Model.UserPrehabSkills[i].PrehabSkillsBinder)" class="btn-check" type="checkbox" value="@item" @Model.UserPrehabSkills[i].PrehabSkillsBinder.Contains(Convert.ToInt32(item)).ToClass("checked") />
+                                        <label class="btn" for="skill-@item">@item.GetSingleDisplayName()</label>
+                                    }
+                                </div>
+                            </details>
+                        }
+                    }
+
+                    <span asp-validation-for="UserPrehabSkills" class="text-danger"></span>
+                    <div id="prehab-focus-help" class="form-text">
+                        @Html.DisplayDescriptionFor(_ => Model.PrehabFocus)
+                    </div>
                 </div>
-            }
+            </details>
 
             <div class="mb-3">
                 <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
@@ -373,7 +359,7 @@
                 <details id="rehab-help" class="form-text">
                     <summary>&#9888; @Html.DisplayDescriptionFor(_ => Model.RehabFocus)</summary>
 
-                    <div class="mt-1">This will lower your progression level of every exercise that impacts the injured muscle, and will alter your workout to restore its strength without straining it.</div>
+                    <div class="mt-1">Intense focus on rehabilitating an injured muscle.</div>
                 </details>
             </div>
             @if (Model.RehabFocus != RehabFocus.None && Model.RehabFocus.GetSkillType() != null)
@@ -439,83 +425,79 @@
                     Customize muscles worked in the warmup and cooldown sections.
                 </div>
             }
-            <div class="mb-3">
-                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary>
-                        <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b>
-                    </summary>
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b>
+                </summary>
 
-                    <div class="mt-1 ps-3">
-                        @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
-                        {
-                            <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
-                            <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
-                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName2()</div>
-                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
-                                    <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
-                                    <div class="d-flex w-100">
-                                        <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                               min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
-                                               oninput="mobilityMusclesOutput@(i).value = this.valueAsNumber" list="mobilityMusclesList@(i)" />
-                                        <datalist id="mobilityMusclesList@(i)">
-                                            <option value="@(UserMuscleMobility.MuscleTargets.TryGetValue(Model.UserMuscleMobilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <span asp-validation-for="UserMuscleMobilities[i]" class="text-danger"></span>
-                                <div id="refresh-functional-help" class="form-text">
-                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities[i])</p>
+                <div class="mt-1 ps-3">
+                    @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
+                    {
+                        <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
+                        <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
+                        <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                            <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName2()</div>
+                            <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
+                                <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
+                                <div class="d-flex w-100">
+                                    <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                            min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
+                                            oninput="mobilityMusclesOutput@(i).value = this.valueAsNumber" list="mobilityMusclesList@(i)" />
+                                    <datalist id="mobilityMusclesList@(i)">
+                                        <option value="@(UserMuscleMobility.MuscleTargets.TryGetValue(Model.UserMuscleMobilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                    </datalist>
                                 </div>
                             </div>
-                        }
-
-                        <span asp-validation-for="UserMuscleMobilities" class="text-danger"></span>
-                        <div id="mobility-muscles-help" class="form-text">
-                            @Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities)
+                            <span asp-validation-for="UserMuscleMobilities[i]" class="text-danger"></span>
+                            <div id="refresh-functional-help" class="form-text">
+                                <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities[i])</p>
+                            </div>
                         </div>
+                    }
+
+                    <span asp-validation-for="UserMuscleMobilities" class="text-danger"></span>
+                    <div id="mobility-muscles-help" class="form-text">
+                        @Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities)
                     </div>
-                </details>
-            </div>
+                </div>
+            </details>
 
-            <div class="mb-3">
-                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary>
-                        <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b>
-                    </summary>
+            <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                <summary>
+                    <b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b>
+                </summary>
 
-                    <div class="mt-1 ps-3">
-                        @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
-                        {
-                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
-                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
-                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName2()</div>
-                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
-                                    <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
-                                    <div class="d-flex w-100">
-                                        <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                               min="@UserConsts.UserMuscleFlexibilityMin" max="@UserConsts.UserMuscleFlexibilityMax"
-                                               oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
-                                        <datalist id="flexibilityMusclesList@(i)">
-                                            <option value="@(UserMuscleFlexibility.MuscleTargets.TryGetValue(Model.UserMuscleFlexibilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <span asp-validation-for="UserMuscleFlexibilities[i]" class="text-danger"></span>
-                                <div id="refresh-functional-help" class="form-text">
-                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities[i])</p>
+                <div class="mt-1 ps-3">
+                    @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
+                    {
+                        <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
+                        <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
+                        <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                            <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName2()</div>
+                            <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
+                                <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
+                                <div class="d-flex w-100">
+                                    <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                            min="@UserConsts.UserMuscleFlexibilityMin" max="@UserConsts.UserMuscleFlexibilityMax"
+                                            oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
+                                    <datalist id="flexibilityMusclesList@(i)">
+                                        <option value="@(UserMuscleFlexibility.MuscleTargets.TryGetValue(Model.UserMuscleFlexibilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                    </datalist>
                                 </div>
                             </div>
-                        }
-
-                        <span asp-validation-for="UserMuscleFlexibilities" class="text-danger"></span>
-                        <div id="mobility-muscles-help" class="form-text">
-                            @Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities)
+                            <span asp-validation-for="UserMuscleFlexibilities[i]" class="text-danger"></span>
+                            <div id="refresh-functional-help" class="form-text">
+                                <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities[i])</p>
+                            </div>
                         </div>
+                    }
+
+                    <span asp-validation-for="UserMuscleFlexibilities" class="text-danger"></span>
+                    <div id="mobility-muscles-help" class="form-text">
+                        @Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities)
                     </div>
-                </details>
-            </div>
+                </div>
+            </details>
 
             @if (Model.User.IsDemoUser)
             {

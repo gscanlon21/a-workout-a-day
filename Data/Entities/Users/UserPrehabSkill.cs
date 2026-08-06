@@ -1,7 +1,6 @@
 ﻿using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace Data.Entities.Users;
@@ -12,24 +11,18 @@ public class UserPrehabSkill
     [ForeignKey(nameof(Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Users.User.UserPrehabSkills))]
-    public virtual User User { get; private init; } = null!;
+    public int Skills { get; set; }
 
     public PrehabFocus PrehabFocus { get; init; }
-
-    /// <summary>
-    /// Should this prehab focus only select variations that are due for refresh?
-    /// Skips variations that have refresh padding, regardless of available variations.
-    /// </summary>
-    public bool OnlyRefreshed { get; set; }
 
     [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]
     public int Count { get; set; } = UserConsts.PrehabCountDefault;
 
-    public int Skills { get; set; }
 
-    /// <summary>
-    /// Cap the max number of exercises to the max listed Skill types.
-    /// </summary>
-    public int? SkillCount => OnlyRefreshed ? Count : Math.Clamp(BitOperations.PopCount((ulong)Skills), UserConsts.PrehabCountMin, Count);
+    #region Navigation Properties
+
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserPrehabSkills))]
+    public virtual User User { get; private init; } = null!;
+
+    #endregion
 }

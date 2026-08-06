@@ -34,7 +34,7 @@ public class UserQueryBuilder<TFilter> : BaseQueryBuilder<UserQueryBuilder<TFilt
     public UserQueryBuilder<TFilter> WithUser(Action<UserOptions>? optionsBuilder = null)
     {
         InvalidOptionsException.ThrowIfAlreadySet(UserOptions);
-        UserOptions ??= new UserOptions(User, Section);
+        UserOptions ??= new UserOptions(User);
         optionsBuilder?.Invoke(UserOptions);
         return this;
     }
@@ -61,15 +61,15 @@ public class UserQueryBuilder<TFilter> : BaseQueryBuilder<UserQueryBuilder<TFilt
             SportsOptions = SportsOptions ?? new SportsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
+            SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             EquipmentOptions = EquipmentOptions ?? new EquipmentOptions(),
-            SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             MuscleGroupOptions = MuscleGroupOptions ?? new MuscleGroupOptions(),
             ExerciseFocusOptions = ExerciseFocusOptions ?? new ExerciseFocusOptions(),
             MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
             MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
             UserIgnoreOptions = UserIgnoreOptions ?? new UserIgnoreOptions(User),
-            UserOptions = UserOptions ?? new UserOptions(User, Section),
+            UserOptions = UserOptions ?? new UserOptions(User),
             QueryFilter = CreateFilter(),
         };
     }
@@ -80,11 +80,11 @@ public class UserQueryBuilder<TFilter> : BaseQueryBuilder<UserQueryBuilder<TFilt
         {
             return new UserQueryFilter(Section)
             {
-                UserOptions = UserOptions ?? new UserOptions(User, Section),
+                UserOptions = UserOptions ?? new UserOptions(User),
+                SelectionOptions = SelectionOptions ?? new SelectionOptions(),
+                ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
                 MuscleGroupOptions = MuscleGroupOptions ?? new MuscleGroupOptions(),
                 MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
-                ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
-                SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             };
         }
 
@@ -92,8 +92,8 @@ public class UserQueryBuilder<TFilter> : BaseQueryBuilder<UserQueryBuilder<TFilt
         {
             return new ExerciseQueryFilter(Section)
             {
+                UserOptions = UserOptions ?? new UserOptions(User),
                 ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
-                UserOptions = UserOptions ?? new UserOptions(User, Section),
                 SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             };
         }

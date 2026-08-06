@@ -1,5 +1,4 @@
-﻿using ADay.Core.Models.Footnote;
-using ADay.Data;
+﻿using ADay.Data;
 using ADay.Data.Entities.Footnote;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;

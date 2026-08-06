@@ -63,14 +63,14 @@ public class UserEditViewModel : IValidatableObject
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = [];
 
+    [Display(Name = "Prehab Skills")]
+    public IList<UserEditPrehabSkillViewModel> UserPrehabSkills { get; set; } = [];
+
     [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup section. These will be intersected with the current split's muscle groups.")]
     public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = [];
 
     [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
     public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = [];
-
-    [Display(Name = "Prehab Skills")]
-    public IList<UserEditPrehabSkillViewModel> UserPrehabSkills { get; set; } = [];
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(ViewController.EmailRegex, ErrorMessage = ViewController.EmailRegexError)]
@@ -81,9 +81,6 @@ public class UserEditViewModel : IValidatableObject
     [Display(Name = "I'm new to fitness", Description = "Simplify your workouts.")]
     public bool IsNewToFitness { get; init; }
 
-    /// <summary>
-    /// How often to take a deload week
-    /// </summary>
     [Required, Range(UserConsts.DeloadAfterXWeeksMin, UserConsts.DeloadAfterXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterXWeeks { get; init; }
@@ -92,9 +89,6 @@ public class UserEditViewModel : IValidatableObject
     [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Include workouts on your rest days with core, mobility, flexibility, injury prevention, and rehabilitation exercises.")]
     public bool IncludeMobilityWorkouts { get; init; }
 
-    /// <summary>
-    /// Include a section to boost a specific sports performance
-    /// </summary>
     [Display(Name = "Sports Focus", Description = "Include additional plyometric and strengthening exercises that focus on the movements involved in a particular sport.")]
     public SportsFocus SportsFocus { get; init; }
 
@@ -104,18 +98,12 @@ public class UserEditViewModel : IValidatableObject
     [Display(Name = "Prehab Focus", Description = "Focus areas to stretch and strengthen for injury prevention. Includes balance training.")]
     public PrehabFocus PrehabFocus { get; private set; }
 
-    /// <summary>
-    /// Don't strengthen this muscle group, but do show recovery variations for exercises
-    /// </summary>
     [Display(Name = "Rehab Focus", Description = "Focuses on body mechanics and muscle activation for injured muscles.")]
     public RehabFocus RehabFocus { get; init; }
 
     [Display(Name = "Rehab Skills", Description = "Skills to focus on during rehabilitation.")]
     public int RehabSkills { get; set; }
 
-    /// <summary>
-    /// Types of footnotes to show to the user.
-    /// </summary>
     [Display(Name = "Footnotes", Description = "What types of footnotes do you want to see?")]
     public FootnoteType FootnoteType { get; set; }
 
@@ -236,7 +224,6 @@ public class UserEditViewModel : IValidatableObject
             UserId = userMuscleMobility.UserId;
             Skills = userMuscleMobility.Skills;
             PrehabFocus = userMuscleMobility.PrehabFocus;
-            OnlyRefreshed = userMuscleMobility.OnlyRefreshed;
         }
 
         public PrehabFocus PrehabFocus { get; init; }
@@ -246,9 +233,6 @@ public class UserEditViewModel : IValidatableObject
         [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]
         [Display(Name = "Count", Description = "The max number of exercises to choose.")]
         public int Count { get; set; }
-
-        [Display(Name = "Only Refreshed Exercises?", Description = "Skip exercises with refresh padding.")]
-        public bool OnlyRefreshed { get; set; }
 
         [Display(Name = "Skills", Description = "What skills to focus on?")]
         public int Skills { get; set; }

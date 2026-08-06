@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20260804132738_AddJoints")]
-    partial class AddJoints
+    [Migration("20260806145105_AddPrehabSkills")]
+    partial class AddPrehabSkills
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -447,9 +447,6 @@ namespace Data.Migrations
                     b.Property<string>("NewsletterDisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<long>("PrehabFocus")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("RehabFocus")
                         .HasColumnType("bigint");
 
@@ -598,9 +595,6 @@ namespace Data.Migrations
 
                     b.Property<int>("Count")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("OnlyRefreshed")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("Skills")
                         .HasColumnType("integer");

@@ -250,7 +250,6 @@ public abstract class BaseQueryRunner
         filteredQuery = QueryFilters.FilterMovementPattern(filteredQuery, MovementPatternOptions.MovementPatterns);
         filteredQuery = QueryFilters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
         filteredQuery = QueryFilters.FilterMuscleGroup(filteredQuery, MuscleGroupOptions.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (c, n) => c | n), include: true, MuscleGroupOptions.MuscleTarget);
-        //filteredQuery = QueryFilters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
 
         // When you perform comparisons with nullable types, if the value of one of the nullable types
         // ... is null and the other is not, all comparisons evaluate to false except for != (not equal).

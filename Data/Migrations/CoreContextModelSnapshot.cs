@@ -444,9 +444,6 @@ namespace Data.Migrations
                     b.Property<string>("NewsletterDisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<long>("PrehabFocus")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("RehabFocus")
                         .HasColumnType("bigint");
 
@@ -595,9 +592,6 @@ namespace Data.Migrations
 
                     b.Property<int>("Count")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("OnlyRefreshed")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("Skills")
                         .HasColumnType("integer");

@@ -5,25 +5,25 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddJoints : Migration
+    public partial class AddPrehabSkills : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<long>(
-                name: "Joints",
-                table: "variation",
-                type: "bigint",
+            migrationBuilder.AddColumn<int>(
+                name: "Skills",
+                table: "user_prehab_skill",
+                type: "integer",
                 nullable: false,
-                defaultValue: 0L);
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Joints",
-                table: "variation");
+                name: "Skills",
+                table: "user_prehab_skill");
         }
     }
 }

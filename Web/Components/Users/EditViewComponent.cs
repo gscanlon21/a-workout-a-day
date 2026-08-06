@@ -1,4 +1,5 @@
-﻿using Core.Models.User;
+﻿using Core.Models.Exercise;
+using Core.Models.User;
 using Data.Entities.Users;
 using Data.Models.Newsletter;
 using Data.Repos;
@@ -71,20 +72,17 @@ public class EditViewComponent : ViewComponent
             });
         }
 
-        if (viewModel.PrehabFocusBinder != null)
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All)
+            .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
+            .ThenBy(mg => mg.GetSingleDisplayName()))
         {
-            foreach (var prehabFocus in viewModel.PrehabFocusBinder
-                .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
-                .ThenBy(mg => mg.GetSingleDisplayName()))
+            var userPrehab = viewModel.User.UserPrehabSkills.SingleOrDefault(umm => umm.PrehabFocus == prehabFocus);
+            viewModel.UserPrehabSkills.Add(userPrehab != null ? new UserEditViewModel.UserEditPrehabSkillViewModel(userPrehab) : new UserEditViewModel.UserEditPrehabSkillViewModel()
             {
-                var userMuscleFlexibility = viewModel.User.UserPrehabSkills.SingleOrDefault(umm => umm.PrehabFocus == prehabFocus);
-                viewModel.UserPrehabSkills.Add(userMuscleFlexibility != null ? new UserEditViewModel.UserEditPrehabSkillViewModel(userMuscleFlexibility) : new UserEditViewModel.UserEditPrehabSkillViewModel()
-                {
-                    UserId = viewModel.User.Id,
-                    PrehabFocus = prehabFocus,
-                    Count = 1
-                });
-            }
+                Count = UserConsts.PrehabCountDefault,
+                UserId = viewModel.User.Id,
+                PrehabFocus = prehabFocus,
+            });
         }
 
         return viewModel;

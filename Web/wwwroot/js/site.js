@@ -13,3 +13,11 @@ $("[data-dismiss]").each((i, elem) => elem.addEventListener('click', (e) => {
     parent.remove();
     grandParent.cleanWhitespace();
 }))
+
+document.querySelectorAll("summary").forEach((summary) => {
+    summary.addEventListener("click", (e) => {
+        if (e.target.closest(".js-preventDefault")) {
+            e.preventDefault();
+        }
+    });
+});

@@ -71,7 +71,7 @@ public enum SportsFocus
     GardeningCleaning = Gardening | Cleaning,
 
     [Display(Name = "All")]
-    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball 
+    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball
         | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee | Dancing | Cycling
 }
 

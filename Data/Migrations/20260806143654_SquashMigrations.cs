@@ -46,7 +46,6 @@ namespace Data.Migrations
                     IncludeMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
-                    PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
                     RehabFocus = table.Column<long>(type: "bigint", nullable: false),
                     RehabSkills = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
@@ -145,9 +144,10 @@ namespace Data.Migrations
                     PauseReps = table.Column<bool>(type: "boolean", nullable: true),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
-                    Strengthens = table.Column<long>(type: "bigint", nullable: false),
                     Stretches = table.Column<long>(type: "bigint", nullable: false),
+                    Strengthens = table.Column<long>(type: "bigint", nullable: false),
                     Stabilizes = table.Column<long>(type: "bigint", nullable: false),
+                    Joints = table.Column<long>(type: "bigint", nullable: false),
                     ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
@@ -333,9 +333,7 @@ namespace Data.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
-                    OnlyRefreshed = table.Column<bool>(type: "boolean", nullable: false),
-                    Count = table.Column<int>(type: "integer", nullable: false),
-                    Skills = table.Column<int>(type: "integer", nullable: false)
+                    Count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

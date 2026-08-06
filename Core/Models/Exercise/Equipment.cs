@@ -82,6 +82,6 @@ public enum Equipment
 
     All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands
         | MiniLoopBands | GymnasticRings | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall
-        | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard | AgilityLadder | ParallelBars 
+        | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard | AgilityLadder | ParallelBars
         | StationaryBike
 }

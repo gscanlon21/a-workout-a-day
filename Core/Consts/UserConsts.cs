@@ -76,9 +76,9 @@ public class UserConsts
     public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
 
     /// <summary>Min number of exercises for a prehab muscle worked.</summary>
-    public const int PrehabCountMin = 1;
+    public const int PrehabCountMin = 0;
     /// <summary>Default number of exercises for a prehab muscle worked.</summary>
-    public const int PrehabCountDefault = 1;
+    public const int PrehabCountDefault = 0;
     /// <summary>Max number of exercises for a prehab muscle worked.</summary>
     public const int PrehabCountMax = 3;
 

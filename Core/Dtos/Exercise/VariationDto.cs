@@ -20,6 +20,11 @@ public class VariationDto
     public string Name { get; init; } = null!;
 
     /// <summary>
+    /// Notes about the variation (externally shown).
+    /// </summary>
+    public string? Notes { get; init; } = null;
+
+    /// <summary>
     /// The filename.ext of the static content image.
     /// </summary>
     public string StaticImage { get; init; } = null!;
@@ -88,6 +93,12 @@ public class VariationDto
     public ExerciseFocus ExerciseFocus { get; init; }
 
     /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// </summary>
+    [Display(Name = "Sports Focus", ShortName = "Sports")]
+    public SportsFocus SportsFocus { get; init; }
+
+    /// <summary>
     /// The progression range required to view the exercise variation.
     /// </summary>
     public ProgressionDto Progression { get; init; } = null!;
@@ -98,26 +109,18 @@ public class VariationDto
     [Display(Name = "Section")]
     public Section Section { get; init; }
 
-    /// <summary>
-    /// What sports does performing this exercise benefit.
-    /// </summary>
-    [Display(Name = "Sports Focus", ShortName = "Sports")]
-    public SportsFocus SportsFocus { get; init; }
+    public string? DefaultInstruction { get; init; }
 
-    /// <summary>
-    /// Notes about the variation (externally shown).
-    /// </summary>
-    public string? Notes { get; init; } = null;
+
+    [UIHint(nameof(InstructionDto))]
+    public virtual ICollection<InstructionDto> Instructions { get; init; } = [];
+
 
     /// <summary>
     /// This variation's Strength, Stretch, and Stability muscles and Joints worked.
     /// </summary>
     public MusculoskeletalSystem AllWorked => Strengthens | Stretches | Stabilizes | Joints;
 
-    public string? DefaultInstruction { get; init; }
-
-    [UIHint(nameof(InstructionDto))]
-    public virtual ICollection<InstructionDto> Instructions { get; init; } = [];
 
     public override int GetHashCode() => HashCode.Combine(Id);
     public override bool Equals(object? obj) => obj is VariationDto other

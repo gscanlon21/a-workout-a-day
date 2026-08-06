@@ -113,12 +113,6 @@ public class User : IUser
     public FootnoteType FootnoteType { get; set; }
 
     /// <summary>
-    /// Focus areas to work on while on off days.
-    /// </summary>
-    [Required]
-    public PrehabFocus PrehabFocus { get; set; }
-
-    /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
     /// </summary>
     [Required]
@@ -165,6 +159,11 @@ public class User : IUser
 
     [Required, Range(UserConsts.MinFontSizeMin, UserConsts.MinFontSizeMax)]
     public double MinFontSize { get; set; } = UserConsts.MinFontSizeDefault;
+
+    /// <summary>
+    /// Focus areas to work on for injury prevention.
+    /// </summary>
+    public PrehabFocus PrehabFocus => UserPrehabSkills.Where(s => s.Count > 0).Aggregate(PrehabFocus.None, (c, n) => c | n.PrehabFocus);
 
     /// <summary>
     /// Offset of today taking into account the user's SendHour.

@@ -301,6 +301,7 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
+                options.OnlyRefreshed = false;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -332,6 +333,7 @@ public partial class NewsletterRepo
             })
             .WithSelectionOptions(options =>
             {
+                options.OnlyRefreshed = false;
                 options.Randomized = context.IsBackfill;
             })
             .Build()
@@ -493,26 +495,20 @@ public partial class NewsletterRepo
     internal async Task<IList<QueryResults>> GetPrehabExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
-        if (context.User.PrehabFocus == PrehabFocus.None)
-        {
-            return [];
-        }
-
         var prehabResults = new List<QueryResults>();
         // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
-        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).ShuffleInline())
+        foreach (var prehabFocus in context.User.UserPrehabSkills.Where(f => f.Count > 0).ShuffleInline())
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
-            var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             prehabResults.AddRange(await new UserQueryBuilder<UserQueryFilter>(context.User, Section.Prehab)
                 .WithUser(options =>
                 {
                     options.NeedsDeload = context.NeedsDeload;
                     options.IgnorePrerequisites = context.User.IgnorePrerequisites;
                 })
-                .WithSkills(prehabFocus.GetSkillType()?.Type, skills?.Skills)
+                .WithSkills(prehabFocus.PrehabFocus.GetSkillType()?.Type, prehabFocus.Skills)
                 .WithMuscleGroups(MuscleGroupContextBuilder
-                    .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()]), x =>
+                    .WithMuscleGroups(context, [prehabFocus.PrehabFocus.As<MusculoskeletalSystem>()]), x =>
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -532,11 +528,11 @@ public partial class NewsletterRepo
                 })
                 .WithSelectionOptions(options =>
                 {
+                    options.OnlyRefreshed = true;
                     options.Randomized = context.IsBackfill;
-                    options.OnlyRefreshed = skills?.OnlyRefreshed ?? options.OnlyRefreshed;
                 })
                 .Build()
-                .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
+                .Query(_serviceScopeFactory, OrderBy.None, take: prehabFocus.Count));
 
             var hasSecondSend = context.User.SecondSendHour.HasValue;
             var hasManyPrehab = context.User.PrehabFocus.PopCount() > ExerciseConsts.MaxPrehabExercisesPerWorkout;
@@ -718,6 +714,12 @@ public partial class NewsletterRepo
                 && exerciseVariation.Variation.Section.HasAnyFlag(UserConsts.MuscleTargetSections))
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 7.");
+            }
+
+            // An exercise's muscles works joints. Those should be in their own separate column.
+            if (exerciseVariation.Variation.AllMuscles.HasAnyFlag(MusculoskeletalSystem.Joints))
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 8.");
             }
         }
 

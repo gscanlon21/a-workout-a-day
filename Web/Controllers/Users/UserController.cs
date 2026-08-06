@@ -84,29 +84,12 @@ public partial class UserController : ViewController
 
         try
         {
-            var rehabMuscleGroup = viewModel.RehabFocus.As<MusculoskeletalSystem>();
-            if (rehabMuscleGroup != MusculoskeletalSystem.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
-            {
-                // If any exercises work the recovery muscle, lower their progression levels and un-ignore them.
-                var userRehabExercises = await _context.UserExercises.Where(up => up.UserId == viewModel.User.Id)
-                    .Where(ue => ue.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup))).ToListAsync();
-
-                foreach (var userRehabExercise in userRehabExercises)
-                {
-                    userRehabExercise.Ignore = false;
-                    userRehabExercise.Progression = UserConsts.UserProgressionMin;
-                }
-
-                _context.Set<UserExercise>().UpdateRange(userRehabExercises);
-            }
-
             // If previous and current frequency is custom, allow editing of user frequencies.
             if (viewModel.User.Frequency == Frequency.Custom && viewModel.Frequency == Frequency.Custom)
             {
                 _context.UserFrequencies.RemoveRange(_context.UserFrequencies.Where(uf => uf.UserId == viewModel.User.Id));
-                _context.UserFrequencies.AddRange(viewModel.UserFrequencies
-                    .Where(f => !f.Hide)
-                    // At least some muscle groups or movement patterns are being worked.
+                _context.UserFrequencies.AddRange(viewModel.UserFrequencies.Where(f => !f.Hide)
+                    // Not hidden and at least some muscle groups or movement patterns are being worked.
                     .Where(f => f.MuscleGroups?.Any() == true || f.MovementPatterns != MovementPattern.None)
                     // Order before we index the items so only the days following blank rotations shift ids.
                     .OrderBy(f => f.Day)
@@ -127,27 +110,25 @@ public partial class UserController : ViewController
             _context.UserMuscleMobilities.RemoveRange(_context.UserMuscleMobilities.Where(uf => uf.UserId == viewModel.User.Id));
             _context.UserMuscleMobilities.AddRange(viewModel.UserMuscleMobilities.Select(umm => new UserMuscleMobility()
             {
-                Count = umm.Count,
-                UserId = umm.UserId,
                 MuscleGroup = umm.MuscleGroup,
+                UserId = umm.UserId,
+                Count = umm.Count,
             }));
 
             _context.UserMuscleFlexibilities.RemoveRange(_context.UserMuscleFlexibilities.Where(uf => uf.UserId == viewModel.User.Id));
             _context.UserMuscleFlexibilities.AddRange(viewModel.UserMuscleFlexibilities.Select(umm => new UserMuscleFlexibility()
             {
-                Count = umm.Count,
-                UserId = umm.UserId,
                 MuscleGroup = umm.MuscleGroup,
+                UserId = umm.UserId,
+                Count = umm.Count,
             }));
 
             _context.UserPrehabSkills.RemoveRange(_context.UserPrehabSkills.Where(uf => uf.UserId == viewModel.User.Id));
             _context.UserPrehabSkills.AddRange(viewModel.UserPrehabSkills.Select(umm => new UserPrehabSkill()
             {
-                Count = umm.Count,
-                UserId = umm.UserId,
-                Skills = umm.Skills,
                 PrehabFocus = umm.PrehabFocus,
-                OnlyRefreshed = umm.OnlyRefreshed,
+                UserId = umm.UserId,
+                Count = umm.Count,
             }));
 
             // Reset the RehabSkills if the user changed their RehabFocus.
@@ -171,7 +152,6 @@ public partial class UserController : ViewController
             viewModel.User.Equipment = viewModel.Equipment;
             viewModel.User.RehabFocus = viewModel.RehabFocus;
             viewModel.User.RehabSkills = viewModel.RehabSkills;
-            viewModel.User.PrehabFocus = viewModel.PrehabFocus;
             viewModel.User.SportsFocus = viewModel.SportsFocus;
             viewModel.User.SportsSkills = viewModel.SportsSkills;
             viewModel.User.FootnoteType = viewModel.FootnoteType;
