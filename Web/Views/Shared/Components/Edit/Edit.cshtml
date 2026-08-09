@@ -295,9 +295,9 @@
                         @if (Model.UserPrehabSkills[i].PrehabFocus.GetSkillType() == null)
                         {
                             <input type="hidden" asp-for="UserPrehabSkills[i].PrehabSkillsBinder" value="0" />
-                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
-                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;" class="js-preventDefault">
+                            <div class="mb-1 d-flex" style="column-gap:1ch;flex-wrap:wrap;">
+                                <div class="d-flex" style="flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
+                                <div class="d-flex js-preventDefault" style="flex:99999 0 150px;gap:1ch;align-items:center;">
                                     <output name="mobilityPrehabsOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
                                     <div class="d-flex w-100">
                                         <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="prehab-count-help"
@@ -315,9 +315,9 @@
                         {
                             <details class="mb-1">
                                 <summary class="d-flex mb-1">
-                                    <div style="display:flex;column-gap:1ch;flex-wrap:wrap;width:100%;">
-                                        <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
-                                        <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;" class="js-preventDefault">
+                                    <div class="d-flex" style="column-gap:1ch;flex-wrap:wrap;width:100%;">
+                                        <div class="d-flex text-decoration-underline" style="flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName2()</div>
+                                        <div class="d-flex js-preventDefault" style="flex:99999 0 150px;gap:1ch;align-items:center;">
                                             <output name="mobilityPrehabsOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
                                             <div class="d-flex w-100">
                                                 <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="prehab-count-help"
@@ -401,7 +401,7 @@
             }
             <div class="mb-3">
                 <label asp-for="DeloadAfterXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterXWeeks)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex" style="column-gap:1ex;">
                     <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterXWeeks)">@Model.DeloadAfterXWeeks</output>
                     <div class="d-flex w-100">
                         <input asp-for="DeloadAfterXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
@@ -435,9 +435,9 @@
                     {
                         <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
                         <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
-                        <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                            <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName2()</div>
-                            <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
+                        <div class="mb-1 d-flex" style="column-gap:1ch;flex-wrap:wrap;">
+                            <div class="d-flex" style="flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName2()</div>
+                            <div class="d-flex" style="flex:99999 0 150px;gap:1ch;align-items:center;">
                                 <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
                                 <div class="d-flex w-100">
                                     <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
@@ -472,9 +472,9 @@
                     {
                         <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
                         <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
-                        <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                            <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName2()</div>
-                            <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
+                        <div class="mb-1 d-flex" style="column-gap:1ch;flex-wrap:wrap;">
+                            <div class="d-flex" style="flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName2()</div>
+                            <div class="d-flex" style="flex:99999 0 150px;gap:1ch;align-items:center;">
                                 <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
                                 <div class="d-flex w-100">
                                     <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"

@@ -122,7 +122,7 @@
                 <div class="d-flex column-gap-2">
                     <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;"
                            oninput="setsInput.value = this.valueAsNumber" />
-                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                    <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
                         <input type="range" style="width:100%;"
                                name="setsInput" list="hashmarksSets" id="sets-input"
                                min="0" max="5" step="1" value="@Model.Sets"
@@ -140,7 +140,7 @@
                     <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;"
                                oninput="repsInput.value = this.valueAsNumber" />
-                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
                             <input type="range" style="width:100%;"
                                    name="repsInput" list="hashmarksReps" id="reps-input"
                                    min="0" max="20" step="1" value="@Model.Reps"
@@ -163,7 +163,7 @@
                     <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;"
                                oninput="secsInput.value = this.valueAsNumber" />
-                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
                             <input type="range" style="width:100%;"
                                    name="secsInput" list="hashmarksSecs" id="secs-input"
                                    min="0" max="60" step="1" value="@Model.Secs"
@@ -193,13 +193,13 @@
                     <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
                                oninput="weightInput.value = this.valueAsNumber" />
-                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
                             <input type="range" style="width:100%;" class="allow-demo"
                                    name="weightInput" list="hashmarks" id="weight-input"
                                    min="0" max="100" step="5" value="@Model.Weight"
                                    oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
 
-                            <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
+                            <datalist id="hashmarks" class="d-flex" style="flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
                                 <option value="15"></option>
                                 <option value="30"></option>
                                 <option value="50"></option>

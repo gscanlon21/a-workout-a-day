@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 69G9vEWWJ3bJ4otUDCzPz6AqIPVuPrR1Bp5YvVmgODzTxaK9tM7ZUfYrTEb0Nha
+\restrict qYfEzF60KEfjheYkKDmE9wHla4wpKIZ2VVWLjQ74rCJXMu8u6Zn3e2LcqaxOERv
 
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.0
@@ -1428,7 +1428,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1150	\N	Buteyko Breathing	\N	0	0	0	0	0	50
 1152	\N	Flossing	\N	0	0	0	0	0	50
 1177	\N	Patellofemoral Pain	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	50
-1182	\N	Tibial Torsion Assessment	We have 12-18° of lateral tibial torsion already in adults. If it is bigger than 18°, it causes lateral tibial torsion which shows with "toe-out position". If it less than 12°, that causes internal tibial torsion, also known as "pigeon toes", which means toes look medially. Medial tibial torsion can also be caused by medial femoral torsion as well.	0	0	0	0	0	5
+1181	\N	Tibial Torsion	Information & Assessments. alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
 1159	\N	Virtual Bike Rides	alt: Biking, Cycling.	0	0	0	0	0	50
 1157	\N	Bike Posture	alt: Biking, Cycling.	0	0	0	0	0	50
 1130	\N	Front-to-Back Rocker Board	alt: Wobble Board, Balance Board, Standing Balance.	0	0	0	0	0	50
@@ -1461,9 +1461,8 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1174	\N	Tibial Rotation Assessment	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
 1179	\N	Patellar Tendinopathy Assessment	aka: Patellar Tendonitis, Jumper's Knee.	0	0	0	0	0	5
 1178	\N	Patellar Tendinopathy	aka: Patellar Tendonitis, Jumper's Knee.	0	0	0	0	0	5
-1181	\N	Tibial Torsion	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
-1183	\N	Internal Tibial Torsion	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
-1184	\N	External Tibial Torsion	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
+1182	I like this better as variations because the user doesn't continue seeing the assessments.	Tibial Torsion Assessment	We have 12-18° of lateral tibial torsion already in adults. If it is bigger than 18°, it causes lateral tibial torsion which shows with "toe-out position". If it less than 12°, that causes internal tibial torsion, also known as "pigeon toes", which means toes look medially. Medial tibial torsion can also be caused by medial femoral torsion as well.	0	0	0	0	0	5
+1183	Combined into one.	Internal Tibial Torsion	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
 1185	\N	Lateral Hamstring Stretches	These are static stretches.	0	0	0	0	0	50
 1186	\N	Medial Hamstring Stretches	These are static stretches.	0	0	0	0	0	50
 1189	\N	Knee Pain	\N	0	0	0	0	0	5
@@ -1473,6 +1472,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1191	\N	Meniscus Tear Assessment	\N	0	0	0	0	0	5
 1194	\N	Knee Taping	\N	0	0	0	0	0	50
 1155	\N	Finger Tendinitis	\N	0	0	0	0	0	50
+1184	Combined into one.	External Tibial Torsion	alt: Tibial Internal Rotation, Tibial External Rotation.	0	0	0	0	0	5
 1199	\N	Bike Fit: Pedals	alt: Biking, Cycling.	0	0	0	0	0	50
 1200	\N	Bike Fit: Handlebars	alt: Biking, Cycling.	0	0	0	0	0	50
 1201	\N	Hip Thrusts w/ Adductor Focus	Knees push in.	0	0	0	0	0	50
@@ -1603,6 +1603,12 @@ COPY public.exercise_alternative ("ExerciseId", "AlternativeExerciseId", "Strict
 177	1256	t
 407	576	t
 576	407	t
+1181	1184	t
+1181	1183	t
+1184	1181	t
+1184	1183	t
+1183	1181	t
+1183	1184	t
 \.
 
 
@@ -2312,6 +2318,8 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1264	38	50	f
 1262	38	50	f
 1263	38	50	f
+1184	1181	50	t
+1183	1181	50	t
 \.
 
 
@@ -4132,6 +4140,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3739	\N	2680	\N	https://www.youtube.com/watch?v=ry3OHAKFMCs	Precision Movement	\N	0	101
 3740	\N	2685	\N	https://www.youtube.com/watch?v=R3DMEpCZw3g	\N	\N	192	101
 3741	\N	2694	\N	https://www.youtube.com/watch?v=2EUH-2W8a_g	\N	\N	64	\N
+3742	\N	2698	\N	https://www.youtube.com/watch?v=JHyEHEwgc6A	\N	\N	64	\N
+3743	\N	2698	\N	https://www.youtube.com/watch?v=wAdPTXoqZiU	\N	\N	128	\N
+3744	\N	2697	\N	https://www.youtube.com/watch?v=lvh0XYSTl94	\N	\N	64	\N
 \.
 
 
@@ -4381,9 +4392,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2022	\N	\N	f	0	2	Myotome Tests	\N	0	ulnar-nerve-glide.jpg	0	0	t	t	8	0	\N	https://www.youtube.com/watch?v=kPuQPqBMGj0	1033	\N	\N	58247	15728640
 44	straight-bridges-alt.webp	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise. t=10.00-21.60s. t-alt=0.00-8.50s.	917	reverse-full-plank-alt.jpg	139586437120	34359738368	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	879	\N	\N	60415	18874368
 1843	\N	\N	f	0	2	Wall Neck Side Bends	\N	0	cervical-side-bends.jpg	0	0	f	t	8	0	\N	https://www.youtube.com/watch?v=To_0Yn8_Yks	813	\N	\N	58247	1073741824
+2697	\N	\N	t	0	1	Iso Standing Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188075855872	0	t	f	1	0	\N	\N	1025	\N	\N	57351	67108864
 700	\N	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	f	0	2	Forearm Plank Shoulder Taps	\N	8192	plank-shoulder-taps.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=wXrlbvOigPM	42	\N	75	7367	8388608
 1669	\N	Separated out into individual exercises.	t	0	3	Decreasing Upper Trap Compensation	\N	0	quadruped-neck-extension.jpg	1073741856	0	f	t	33	0	t	https://www.youtube.com/watch?v=kTYgu8DP15E	870	\N	\N	6343	0
 2660	\N	\N	t	0	1	Standing Glute Kickback Isometrics	t=11.75-17.25s.	12884901888	standing-glute-kickbacks.jpg	2147483648	0	t	f	33	0	\N	https://www.youtube.com/watch?v=SSZh8SL_cNg	925	\N	\N	60295	0
+2698	\N	\N	t	0	1	Iso Seated Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188075855872	0	t	f	1	0	\N	\N	1025	\N	\N	57351	67108864
 1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	536870912	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367	0
 1480	\N	\N	f	0	1	One Leg Behind Head	\N	0	leg-behind-head.jpg	0	2415920000	t	t	8	0	\N	https://www.youtube.com/watch?v=Bk6lCfZbxs4	773	25	\N	516999	0
 1777	\N	\N	f	0	1	Standing Wide-Legged Forward Fold w/ Arms Behind	aka: Standing Straddle Stretch w/ Arms Behind.	0	wide-legged-forward-fold-arms-behind.jpg	0	2147517312	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	482	\N	75	516999	16777216
@@ -4994,7 +5007,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 848	\N	\N	f	0	2	Walking Figure 4	\N	18014398509481984	knee-hugs-alt.jpg	8192	15032385536	f	f	24	0	t	https://www.youtube.com/watch?v=4kaFiGewP08	291	\N	\N	58367	16777216
 908	metatarsal-mobilization.webp	\N	f	0	2	Metatarsal Mobilization	t=2.00-16.50s	0	metatarsal-mobilization.jpg	0	18014398509481984	t	f	8	0	\N	https://www.youtube.com/watch?v=yc7Nn-iu3C8	329	\N	\N	58247	134217728
 35	rows-horizontal.webp	\N	f	2	2	Neutral-Grip Horizontal Rows	\N	147462	horizontal-rows.jpg	108086528495845472	0	f	f	1	0	t	\N	49	\N	50	1920	4194304
-2536	\N	\N	t	0	1	Prone Tibial Torsion Assessment	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	https://www.youtube.com/watch?v=KNznH7p6nxU	1182	\N	\N	58247	117440512
+2536	\N	\N	t	0	1	Prone Tibial Torsion Assessment	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	https://www.youtube.com/watch?v=KNznH7p6nxU	1181	75	\N	58247	117440512
 456	\N	\N	f	0	2	Lateral Climbers	\N	0	mountain-climbers.jpg	12033	0	f	f	7	0	\N	https://www.youtube.com/watch?v=7eLkwnCjV-8	32	\N	50	58367	50331648
 979	lat-pulldown-straight-arm.webp	\N	t	0	2	One-Arm Straight-Arm Lat Pulldowns	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	108086391056891940	lat-pulldown-straight-arm.jpg	64	0	t	f	1	0	f	\N	401	\N	50	61319	8388608
 734	\N	\N	t	0	2	Single Leg Wall Slides	aka. Single Leg Wall Squats	12884934912	wall-sit.jpg	2048	0	t	f	1	0	t	https://www.youtube.com/watch?v=F1K-rRfv7OI	215	\N	75	61319	33554432
@@ -5601,6 +5614,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2268	\N	\N	f	0	3	Slanted Calf Stretch	Supinate the ankle to deepen the stretch.	0	calf-stretch-against-wall.jpg	0	1024	t	f	8	0	\N	https://www.youtube.com/watch?v=kEsmsvaaXAo	1009	\N	\N	516999	67108864
 2609	\N	\N	f	0	3	Cervical Radiculopathy	aka: Cervical Radicular Syndrome. Information.	0	levator-scapulae-strengthening.jpg	0	0	f	t	48	0	\N	https://www.youtube.com/watch?v=k5o26XwpCt4	1230	\N	\N	58247	1073741824
 2679	foot-smash.webp	\N	f	0	2	Foot Extensor Tendonitis Rehab	t-5.75-19.52s	0	foot-smash.jpg	162129586585862144	0	t	f	32	0	\N	\N	1124	\N	\N	58247	0
+2539	\N	\N	f	0	1	Internal Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	\N	1181	\N	50	58247	117440512
 2142	hula-hoop.webp	\N	f	0	2	Double Hip Locks	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=x7z7TRJWQ0U	1067	\N	50	896	16777216
 2654	\N	\N	t	0	1	Standing Side Leg Lift Isometrics	\N	40977	side-standing-leg-raises-alt.jpg	12884902144	0	t	f	17	0	\N	https://www.youtube.com/watch?v=l_U2uoePtS4	1250	\N	\N	61319	0
 2144	hula-hoop.webp	\N	f	0	2	Opposite Hip Pushes	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=6zVRa2pf06c	1067	\N	\N	896	16777216
@@ -5612,7 +5626,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2150	hula-hoop.webp	\N	f	0	2	Single-Hip Vertical Figure 8	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=VpLksabzPfw	1087	\N	75	896	16777216
 840	plank-knee-to-opposite-elbow.webp	\N	f	0	3	Plank Knee to Opposite Elbow	t=5.15-17.15	32768	plank-knee-to-opposite-elbow.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=cZ3UBTEBd9A	273	\N	25	62343	4194304
 2673	glute-bridge-leg-extension.webp	\N	t	0	3	Glute Bridge w/ Alternating Knee Extensions	t=0.50-12.50s.	512	glute-bridge-march.jpg	2147483648	0	f	f	17	0	f	https://www.youtube.com/watch?v=CH0zGJ5fsLM	1253	\N	\N	60415	50331648
-2539	\N	\N	f	0	1	Internal Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	\N	1183	\N	\N	58247	117440512
 733	\N	\N	t	0	1	Single Leg Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	12884934912	wall-sit.jpg	2048	0	t	f	17	0	\N	https://www.youtube.com/watch?v=7Tgb8wVzbcY	38	\N	75	60295	33554432
 964	\N	\N	f	0	1	Supported Head-to-Knee	aka. Half Butterfly Stretch; Bound Angle Pose; Baddha Konasana.	0	head-to-knee-alt.jpg	0	32768	t	f	8	0	\N	https://www.youtube.com/watch?v=iLWT2sJ9hM8	478	50	\N	516999	50331648
 2151	hula-hoop.webp	\N	f	0	2	Undulations	\N	0	hula-hoop.jpg	145	0	f	f	4	8192	\N	https://www.youtube.com/watch?v=IT5z5uNoMpc	1084	\N	\N	896	0
@@ -5941,8 +5954,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 571	calf-raises.webp	\N	t	0	2	Bent-Knee Calf Raises	Ankle plantar flexion.	524288	calf-raises.jpg	1024	0	f	f	5	0	t	https://www.youtube.com/watch?v=74cvWvL_Jv0	261	50	\N	60416	67108864
 2523	\N	\N	t	0	1	Iso Tibial Internal Rotation	aka: Closed Chain Tibia Twists; Closed Chain Tibial Rotations.	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	\N	1173	\N	\N	58247	117440512
 2575	\N	\N	f	0	1	Supine Heel Squeezes	Ankle plantar flexion.	524288	straight-leg-calf-raise-tennis-ball.jpg	1024	0	f	f	5	0	\N	https://www.youtube.com/watch?v=fq4XEMzWbjE	1053	\N	\N	58247	67108864
-2003	\N	\N	t	0	2	Standing Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188075855872	0	t	f	1	0	\N	\N	1025	\N	\N	57351	67108864
 2014	\N	\N	t	0	2	Ankle Sprains	\N	0	bug-squash.jpg	0	0	t	f	1	0	\N	\N	1027	75	25	58247	67108864
+2003	\N	\N	t	0	2	Standing Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188075855872	0	t	f	1	0	t	\N	1025	\N	\N	57351	67108864
 2051	squat-banded.webp	\N	t	32	2	Banded Deep Squats	alt: Squat w/ Adductor Squeeze.	12884902913	banded-squat.jpg	2147486464	0	f	f	1	0	t	\N	1044	\N	\N	58367	117440512
 2052	\N	\N	t	32	1	Banded Deep Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	banded-squat.jpg	2147486464	0	f	f	1	0	\N	\N	1044	\N	\N	58247	117440512
 1644	\N	\N	t	0	1	Isometric Knee Extensions	\N	0	knee-extension.jpg	2048	0	t	f	1	0	\N	\N	854	\N	\N	60295	33554432
@@ -5998,9 +6011,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 818	split-squat-elevated.webp	\N	f	64	2	Assisted Bulgarian Split Squats	\N	33280	split-squat-elevated.jpg	2147485952	0	t	f	1	0	t	https://www.youtube.com/watch?v=kkt_f-NvlNE	41	50	\N	3968	117440512
 819	reverse-lunge.webp	\N	f	64	2	Assisted Reverse Lunge	\N	41984	reverse-lunge.jpg	2147486464	0	t	f	1	0	t	https://www.youtube.com/watch?v=pgAd7fVWjCQ	40	50	\N	3968	117440512
 2573	hamstring-curls.webp	\N	t	0	2	Eccentric Supine Single-Leg Hamstring Curl	\N	0	supine-hamstring-curls-alt.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=VzDUmLJbwaQ	1042	50	25	60415	33554432
+2535	\N	\N	f	0	1	Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	t	\N	1181	\N	25	58247	117440512
 628	\N	\N	f	0	1	Support Hold	\N	108086391057027327	support-hold.jpg	344064	0	f	f	17	0	\N	\N	187	\N	\N	3968	8388608
 804	clamshells.webp	\N	t	0	2	Clamshells	\N	8192	clamshells.jpg	70381629079808	0	t	f	1	0	t	https://www.youtube.com/watch?v=7iXpLxKs1sY	347	\N	\N	60415	16777216
-2535	\N	\N	f	0	1	Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	t	\N	1181	\N	\N	58247	117440512
 1057	squat-rear.webp	\N	t	32	2	Back Squats	aka: Rear Squats.	1025	back-squats.jpg	2147486464	0	f	f	1	0	t	\N	497	\N	\N	1920	117440512
 594	\N	\N	f	0	2	Matrix Squats	\N	8193	matrix-squat.jpg	2048	0	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	\N	50	2944	33554432
 2048	standing-hamstring-curl.webp	\N	t	0	2	Seated Single-Leg Hamstring Curl	t=16.50-25.50s. If the user is too injured to be able to do the recovery exercise with weights, then they should be in physical therapy.	0	standing-hamstring-curl.jpg	512	0	t	f	1	0	t	\N	1043	\N	\N	60415	33554432
@@ -6008,16 +6021,16 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 492	ball-slam.webp	\N	t	0	2	Ball Slam	\N	68719476736	ball-slam.jpg	34359738432	0	f	f	3	385	\N	\N	140	\N	\N	896	8388608
 896	reverse-nordic.webp	\N	t	0	2	Assisted Reverse Nordic Curl	\N	8193	reverse-nordic.jpg	2048	0	f	f	1	0	t	\N	317	50	\N	59399	33554432
 1053	\N	\N	t	0	1	Frog Pump Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12884934912	0	f	f	1	0	\N	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	\N	\N	60295	16777216
-2537	\N	\N	t	0	1	Seated Tibial Torsion Assessment	aka: Bimalleolar Axis Test.	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	https://www.youtube.com/watch?v=oee0Hjy3q5c	1182	\N	\N	58247	117440512
 1646	balance-board.webp	\N	f	0	3	Side-to-Side One-Leg Rocker Board	\N	1792	balance-board.jpg	0	0	t	t	16	16383	\N	\N	697	\N	75	521215	117440512
 2614	\N	\N	f	0	2	Toe Extensions	\N	0	toe-curl.jpg	18014398509481984	0	t	f	1	0	t	https://www.youtube.com/watch?v=Xa9SxI2cQHw	1226	\N	\N	58247	134217728
+2537	\N	\N	t	0	1	Seated Tibial Torsion Assessment	aka: Bimalleolar Axis Test.	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	https://www.youtube.com/watch?v=oee0Hjy3q5c	1181	75	\N	58247	117440512
 755	squats-skater.webp	\N	t	0	2	Skater Squats	Not functional. More of a balance/mobility exercise.	42001	squats-skater.jpg	2147486464	0	t	f	17	0	t	https://www.youtube.com/watch?v=gj-QWNeCIng	227	\N	50	3968	117440512
 1389	balance-board.webp	\N	f	0	3	Side-to-Side Rocker Board	t=2.25-10.00;	1792	balance-board.jpg	4398046511104	0	f	f	16	16383	\N	\N	697	\N	\N	521215	117440512
-2538	\N	\N	f	0	1	External Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	\N	1184	\N	\N	58247	117440512
 995	pullups-full.webp	\N	t	8	2	Assisted Mixed Grip Pullups	\N	108086391057088548	pullups-full.jpg	16450	0	t	f	1	16	t	\N	419	50	\N	1920	12582912
 841	pullups-commando.webp	\N	t	8	2	Assisted Commando Pullups	\N	108086391057088548	pullups-commando.jpg	16450	0	t	f	1	16	t	\N	269	50	\N	1920	12582912
 473	standing-hamstring-curl.webp	\N	t	0	2	Standing Single-Leg Hamstring Curl	t=16.50-25.50s. If the user is too injured to be able to do the recovery exercise with weights, then they should be in physical therapy.	0	standing-hamstring-curl.jpg	512	0	t	f	1	0	t	\N	184	\N	\N	60415	33554432
 543	lateral-squat-walks.webp	\N	t	32	2	Lateral Squat Walks	\N	2147517952	lateral-squat-walks.jpg	12884903936	0	t	f	1	0	f	https://www.youtube.com/watch?v=g78CxAtjkCE	171	\N	\N	60415	16777216
+2538	\N	\N	f	0	1	External Tibial Torsion	\N	0	hip-flexor-stretch.jpg	0	0	t	f	1	0	\N	\N	1181	\N	50	58247	117440512
 311	calf-raises.webp	\N	t	0	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises-one-leg.jpg	1024	0	t	f	5	0	t	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	10	\N	75	60416	67108864
 813	lateral-lunge-alt.webp	\N	f	32	2	Assisted Lateral Lunges	\N	1024	lateral-lunge.jpg	12884937472	0	t	f	1	130	t	https://www.youtube.com/watch?v=SgolPMO0HdE	39	50	\N	61439	117440512
 467	\N	\N	t	0	2	Shoulder Internal Rotation	Not unweighted - if the user can't lift a light weight, then they should be in physical therapy.	0	shoulder-rotation-internal.jpg	108086391056957472	0	t	f	1	137	f	\N	283	\N	\N	58367	8388608
@@ -6250,14 +6263,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3741, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3744, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2696, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2702, true);
 
 
 --
@@ -6741,5 +6754,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 69G9vEWWJ3bJ4otUDCzPz6AqIPVuPrR1Bp5YvVmgODzTxaK9tM7ZUfYrTEb0Nha
+\unrestrict qYfEzF60KEfjheYkKDmE9wHla4wpKIZ2VVWLjQ74rCJXMu8u6Zn3e2LcqaxOERv
 

@@ -31,7 +31,7 @@
                 <label asp-for="FootnoteCountTop" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountTop)</label>
                 <div class="d-flex column-gap-2">
                     <output name="OutputFootnoteCountTop" for="@Html.IdFor(_ => Model.FootnoteCountTop)">@Model.FootnoteCountTop</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex" style="width:100%;">
                         <input asp-for="FootnoteCountTop" type="range" style="width:100%;" aria-describedby="user-footnote-help"
                                step="1" min="@UserConsts.FootnoteCountMin" max="@UserConsts.FootnoteCountMax"
                                oninput="OutputFootnoteCountTop.value = this.valueAsNumber" list="ListFootnoteCountTop" />
@@ -50,7 +50,7 @@
                 <label asp-for="FootnoteCountBottom" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountBottom)</label>
                 <div class="d-flex column-gap-2">
                     <output name="OutputFootnoteCountBottom" for="@Html.IdFor(_ => Model.FootnoteCountBottom)">@Model.FootnoteCountBottom</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex" style="width:100%;">
                         <input asp-for="FootnoteCountBottom" type="range" style="width:100%;" aria-describedby="system-footnote-help"
                                step="1" min="@UserConsts.FootnoteCountMin" max="@UserConsts.FootnoteCountMax"
                                oninput="OutputFootnoteCountBottom.value = this.valueAsNumber" list="ListFootnoteCountBottom" />

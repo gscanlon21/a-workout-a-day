@@ -664,6 +664,7 @@ public partial class NewsletterRepo
             })
             .Build().Query(_serviceScopeFactory);
 
+        var criticalSections = Section.Main | Section.Warmup | Section.Cooldown;
         foreach (var exerciseVariation in exerciseVariations)
         {
             // An exercise with no instructions and no default instruction cannot be seen.
@@ -675,21 +676,24 @@ public partial class NewsletterRepo
 
             // An exercise with a strength focus and no strengthened muscles may not be seen.
             if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Strength)
-                && exerciseVariation.Variation.Strengthens == MusculoskeletalSystem.None)
+                && exerciseVariation.Variation.Strengthens == MusculoskeletalSystem.None
+                && exerciseVariation.Variation.Section.HasAnyFlag(criticalSections))
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 2.");
             }
 
             // An exercise with a stability focus and no stabilizing muscles may not be seen.
             if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Stability)
-                && exerciseVariation.Variation.Stabilizes == MusculoskeletalSystem.None)
+                && exerciseVariation.Variation.Stabilizes == MusculoskeletalSystem.None
+                && exerciseVariation.Variation.Section.HasAnyFlag(criticalSections))
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 3.");
             }
 
             // An exercise with a flexibility focus and no stretched muscles may not be seen.
             if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Flexibility)
-                && exerciseVariation.Variation.Stretches == MusculoskeletalSystem.None)
+                && exerciseVariation.Variation.Stretches == MusculoskeletalSystem.None
+                && exerciseVariation.Variation.Section.HasAnyFlag(criticalSections))
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 4.");
             }
