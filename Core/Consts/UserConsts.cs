@@ -36,14 +36,17 @@ public class UserConsts
 
     public const int UserSetsMin = 0;
     public const int UserSetsDefault = 0;
+    public const int UserSetsUIMax = 5;
     public const int UserSetsMax = 10;
 
     public const int UserRepsMin = 0;
     public const int UserRepsDefault = 0;
+    public const int UserRepsUIMax = 20;
     public const int UserRepsMax = 60;
 
     public const int UserSecsMin = 0;
     public const int UserSecsDefault = 0;
+    public const int UserSecsUIMax = 60;
     public const int UserSecsMax = 600;
 
     public const int UserWeightMin = 0;

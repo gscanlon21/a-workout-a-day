@@ -203,7 +203,7 @@ public partial class UserController : ViewController
         var user = await _userRepo.GetUser(email, token, Includes.All) ?? throw new ArgumentException(string.Empty, nameof(email));
         if (!ModelState.IsValid)
         {
-            return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
+            return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = false });
         }
 
         try

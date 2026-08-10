@@ -1,23 +1,9 @@
 ﻿@model ValidationMessagePartialModel
 
-<div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false || TempData[TempData_User.FailureMessage] != null)
-{
-    <div class="alert alert-danger alert-dismissible mb-1" role="alert">
-        <span>@(TempData[TempData_User.FailureMessage] ?? ValidationMessagePartialModel.DefaultFailureMessage)</span>
-        <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
-    </div>
-}
-else if (TempData[TempData_User.WarningMessage] != null)
-{
-    <div class="alert alert-warning alert-dismissible mb-1" role="alert">
-        <span>@TempData[TempData_User.WarningMessage]</span>
-        <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
-    </div>
-}
-else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != null || TempData[TempData_User.SuccessMessage2] != null)
+<div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != null || TempData[TempData_User.SuccessMessage2] != null)
 {
     <div class="alert alert-success alert-dismissible mb-1" role="alert">
-        <span>@(TempData[TempData_User.SuccessMessage2] ?? TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage)</span>
+        <div>@Html.Raw(TempData[TempData_User.SuccessMessage2] ?? TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage)</div>
         <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
         @* Don't persist the success message after going back so it doesn't show when reloading the page *@
         @if (Model.GoBackOnSave && TempData[TempData_User.SuccessMessage2] == null)
@@ -25,6 +11,20 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
             TempData[TempData_User.SuccessMessage2] = TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage;
             <script>if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) { history.back(); }</script>
         }
+    </div>
+}
+else if (TempData[TempData_User.WarningMessage] != null)
+{
+    <div class="alert alert-warning alert-dismissible mb-1" role="alert">
+        <div>@Html.Raw(TempData[TempData_User.WarningMessage])</div>
+        <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
+    </div>
+}
+else if (Model.WasUpdated == false || TempData[TempData_User.FailureMessage] != null)
+{
+    <div class="alert alert-danger alert-dismissible mb-1" role="alert">
+        <div>@Html.Raw(TempData[TempData_User.FailureMessage] ?? ValidationMessagePartialModel.DefaultFailureMessage)</div>
+        <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
     </div>
 }</div>
 

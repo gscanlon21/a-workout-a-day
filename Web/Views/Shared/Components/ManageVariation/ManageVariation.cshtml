@@ -71,14 +71,7 @@
 
             <div class="mb-3 mt-3">
                 <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
-                <div class="d-flex column-gap-2">
-                    <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
-                    <div class="d-flex w-100">
-                        <input asp-for="LagRefreshXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax"
-                               oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
-                    </div>
-                </div>
+                <output-range asp-for="LagRefreshXWeeks" min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax" step="1"></output-range>
                 <span asp-validation-for="LagRefreshXWeeks" class="text-danger"></span>
                 <details id="refresh-functional-help" class="form-text">
                     <summary>@Html.DisplayDescriptionFor(_ => Model.LagRefreshXWeeks)</summary>
@@ -91,14 +84,7 @@
 
             <div class="mb-3 mt-3">
                 <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
-                <div class="d-flex column-gap-2">
-                    <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
-                    <div class="d-flex w-100">
-                        <input asp-for="PadRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
-                               min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax"
-                               oninput="delayFunctionalOutput.value = this.valueAsNumber" />
-                    </div>
-                </div>
+                <output-range asp-for="PadRefreshXWeeks" min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax" step="1"></output-range>
                 <span asp-validation-for="PadRefreshXWeeks" class="text-danger"></span>
                 <details id="delay-functional-help" class="form-text">
                     <summary>@Html.DisplayDescriptionFor(_ => Model.PadRefreshXWeeks)</summary>
@@ -119,16 +105,7 @@
             <div class="mb-3 mt-3">
                 <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
                 <div><span asp-validation-for="Sets" class="text-danger"></span></div>
-                <div class="d-flex column-gap-2">
-                    <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;"
-                           oninput="setsInput.value = this.valueAsNumber" />
-                    <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
-                        <input type="range" style="width:100%;"
-                               name="setsInput" list="hashmarksSets" id="sets-input"
-                               min="0" max="5" step="1" value="@Model.Sets"
-                               oninput="@(Html.NameFor(_ => Model.Sets)).value = this.valueAsNumber" />
-                    </div>
-                </div>
+                <input-range asp-for="Sets" min="UserConsts.UserSetsMin" max="UserConsts.UserSetsUIMax" step="1"></input-range>
                 <div id="sets-help" class="form-text"></div>
             </div>
 
@@ -137,16 +114,7 @@
                 <div class="mb-3 mt-3">
                     <label class="control-label">How many reps@(Model.UnilateralMessage) did you do?</label>
                     <div><span asp-validation-for="Reps" class="text-danger"></span></div>
-                    <div class="d-flex column-gap-2">
-                        <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;"
-                               oninput="repsInput.value = this.valueAsNumber" />
-                        <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
-                            <input type="range" style="width:100%;"
-                                   name="repsInput" list="hashmarksReps" id="reps-input"
-                                   min="0" max="20" step="1" value="@Model.Reps"
-                                   oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
-                        </div>
-                    </div>
+                    <input-range asp-for="Reps" min="UserConsts.UserRepsMin" max="UserConsts.UserRepsUIMax" step="1"></input-range>
                     <div id="reps-help" class="form-text"></div>
                 </div>
             }
@@ -160,16 +128,7 @@
                 <div class="mb-3 mt-3">
                     <label class="control-label">How many secs@(Model.SecsRepsMessage ?? Model.UnilateralMessage) did you do?</label>
                     <div><span asp-validation-for="Secs" class="text-danger"></span></div>
-                    <div class="d-flex column-gap-2">
-                        <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;"
-                               oninput="secsInput.value = this.valueAsNumber" />
-                        <div class="d-flex" style="width:100%;flex-direction:column;justify-content:center;">
-                            <input type="range" style="width:100%;"
-                                   name="secsInput" list="hashmarksSecs" id="secs-input"
-                                   min="0" max="60" step="1" value="@Model.Secs"
-                                   oninput="@(Html.NameFor(_ => Model.Secs)).value = this.valueAsNumber" />
-                        </div>
-                    </div>
+                    <input-range asp-for="Secs" min="UserConsts.UserSecsMin" max="UserConsts.UserSecsUIMax" step="1"></input-range>
                     <div id="secs-help" class="form-text"></div>
                 </div>
             }

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Web.Views.Shared.Components.ManageVariation;
 using Web.Views.User;
+using Web.Code.TempData;
 
 namespace Web.Controllers.Users;
 
@@ -17,6 +18,7 @@ public partial class UserController
     /// <summary>
     /// Shows a form to the user where they can manage their exercise varation attributes.
     /// </summary>
+    /// <param name="wasUpdated">OBSOLETE. Set TempData instead.</param>
     [HttpGet, Route("{section:section}/{exerciseId}/{variationId}")]
     public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseId, int variationId, Section section, bool? wasUpdated = null)
     {
@@ -241,7 +243,8 @@ public partial class UserController
     {
         if (!ModelState.IsValid)
         {
-            return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = false });
+            TempData[TempData_User.FailureMessage] = ValidationMessagePartialModel.DefaultFailureMessage;
+            return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section });
         }
 
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
@@ -309,6 +312,7 @@ public partial class UserController
         }
 
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
+        TempData[TempData_User.SuccessMessage] = ValidationMessagePartialModel.DefaultSuccessMessage;
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section });
     }
 }

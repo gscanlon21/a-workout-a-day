@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.Code.Attributes;
 
 namespace Web.Controllers;
 
+[PersistModelState]
 public class ViewController : Controller
 {
     public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
