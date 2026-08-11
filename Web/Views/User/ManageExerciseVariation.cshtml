@@ -25,9 +25,7 @@
             @if (Model.Parameters.Section == Section.None)
             {
                 <div class="col-12">
-                    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
-                        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
-                    </component>
+                    <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
                 </div>
             }
         </div>
@@ -38,9 +36,7 @@
             @if (Model.Parameters.Section != Section.None)
             {
                 <div class="col-12">
-                    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
-                        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
-                    </component>
+                    <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
                 </div>
             }
 
