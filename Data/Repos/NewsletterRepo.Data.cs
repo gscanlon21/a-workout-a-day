@@ -483,7 +483,11 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build() // Max of two core exercises. Take one when deloading.
-            .Query(_serviceScopeFactory, OrderBy.MusclesTargeted, take: context.NeedsDeload ? 1 : 2);
+            .Query(_serviceScopeFactory, OrderBy.MusclesTargeted, take: (
+                context.User.SecondSendHour.HasValue
+                || context.User.IsDemoUser
+                || context.NeedsDeload
+            ) ? 1 : 2);
     }
 
     #endregion
