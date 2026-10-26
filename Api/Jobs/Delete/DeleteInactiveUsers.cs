@@ -15,7 +15,7 @@ public class DeleteInactiveUsers(ILogger<DeleteInactiveUsers> logger, CoreContex
     private readonly ILogger<DeleteInactiveUsers> _logger = logger;
     private readonly IOptions<SiteSettings> _siteSettings = siteSettings;
 
-    public async Task Execute(IJobExecutionContext context)
+    public async ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -45,7 +45,7 @@ public class DeleteInactiveUsers(ILogger<DeleteInactiveUsers> logger, CoreContex
         // Trigger the job every day
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
-            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
+            .WithSchedule(CronScheduleBuilder.Create(new CronExpression("0 0 0 * * ?")))
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)

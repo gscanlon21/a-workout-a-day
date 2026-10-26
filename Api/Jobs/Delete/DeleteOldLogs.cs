@@ -6,7 +6,7 @@ namespace Api.Jobs.Delete;
 
 public class DeleteOldLogs(ILogger<DeleteOldLogs> logger, CoreContext coreContext) : IJob, IScheduled
 {
-    public async Task Execute(IJobExecutionContext context)
+    public async ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -35,7 +35,7 @@ public class DeleteOldLogs(ILogger<DeleteOldLogs> logger, CoreContext coreContex
         // Trigger the job every day
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
-            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
+            .WithSchedule(CronScheduleBuilder.Create(new CronExpression("0 0 0 * * ?")))
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)

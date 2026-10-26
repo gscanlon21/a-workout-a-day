@@ -22,7 +22,7 @@ public class CreateBackfill : IJob, IScheduled
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task Execute(IJobExecutionContext context)
+    public async ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -75,12 +75,12 @@ public class CreateBackfill : IJob, IScheduled
     public static async Task Schedule(IScheduler scheduler)
     {
         var job = JobBuilder.Create<CreateBackfill>().WithIdentity(JobKey).StoreDurably(true).Build();
-        await scheduler.AddJob(job, replace: true);
+        await scheduler.AddJob(job, AddJobOptions.Replacing);
     }
 
     public static async Task Trigger(IScheduler scheduler, User user, string token)
     {
-        await scheduler.TriggerJob(JobKey, new JobDataMap(new Dictionary<string, string>()
+        await scheduler.TriggerJob(JobKey, new JobDataMap(new Dictionary<string, object?>()
         {
             ["email"] = user.Email,
             ["token"] = token

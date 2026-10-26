@@ -67,8 +67,7 @@ builder.Services.AddOptions<SiteSettings>()
 
 builder.Services.Configure<QuartzOptions>(options =>
 {
-    options.Scheduling.IgnoreDuplicates = true;
-    options.Scheduling.OverWriteExistingData = true;
+    options.Scheduling.OverwriteExistingData = true;
 });
 builder.Services.AddQuartz(q =>
 {
@@ -80,9 +79,13 @@ builder.Services.AddQuartz(q =>
     {
         q.UsePersistentStore(x =>
         {
-            x.UseProperties = true;
-            x.UsePostgres(builder.Configuration.GetConnectionString("QuartzContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."));
-            x.UseSerializer<Quartz.Simpl.JsonObjectSerializer>();
+            x.ProvisionSchema();
+            x.ConfigureStore(s =>
+            {
+                s.StoreJobDataAsStrings = true;
+            });
+            x.UsePostgres(builder.Configuration.GetConnectionString("QuartzContext") ?? throw new InvalidOperationException("Connection string 'QuartzContext' not found."));
+            x.UseSystemTextJsonSerializer();
         });
     }
 });
