@@ -257,6 +257,9 @@ public enum MusculoskeletalSystem : long
 
     [Display(Name = "Scalenes")]
     Scalenes = 1L << 58, // 288230376151711744
+    
+    [Display(Name = "Nerves")]
+    Nerves = 1L << 59, // 576460752303423488
 
 
     // ----- Muscle Parts ------ //
@@ -336,7 +339,7 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
-        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet | UpperTraps | LowerTraps | Peroneals | Scalenes
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet | UpperTraps | LowerTraps | Peroneals | Scalenes | Nerves
 }
 
 /// <summary>

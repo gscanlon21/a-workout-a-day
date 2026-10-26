@@ -116,9 +116,12 @@ public enum PrehabFocus : long
     [Display(Name = "Breathing")]
     Breathing = MusculoskeletalSystem.Nose | MusculoskeletalSystem.Throat | MusculoskeletalSystem.Diaphragm | MusculoskeletalSystem.Intercostals,
 
+    [Display(Name = "Nerves")]
+    Nerves = MusculoskeletalSystem.Nerves,
+
 
     All = Core | Glutes | HipFlexors
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes | Hands | Feet
         | Head | Neck | Mouth | UpperBack | LowerBack | Chest | Arms | UpperLegs | LowerLegs
-        | PelvicFloor | Eyes | Voice | Breathing | Mind | Face | Skin | Heart
+        | PelvicFloor | Eyes | Voice | Breathing | Mind | Face | Skin | Heart | Nerves
 }
