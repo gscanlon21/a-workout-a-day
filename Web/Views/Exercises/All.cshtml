@@ -113,7 +113,21 @@
     </form>
 </details>
 
-<section> @* Wrapper section for ::deep styles. *@
+<section class="mt-4">
+    <div class="alert alert-dark">
+        <h5>Name format for unnamed exercises:</h5>
+        <div>
+            <span class="white-space--nowrap">[<b>Muscle Action:</b> Isometric/Eccentric] </span>
+            <span class="white-space--nowrap">[<b>Body Plane:</b> Front/Side] </span>
+            <span class="white-space--nowrap">[<b>Posture:</b> Standing/Sitting/Kneeling/Half-Kneeling/Side-Lying/Supine/Prone] </span>
+            <span class="white-space--nowrap">[<b>Unilateral:</b> Single-Leg/Single-Arm] </span>
+            <span class="white-space--nowrap">[<b>Extended:</b> Straight-Leg/Bent-Knee] </span>
+            <span class="white-space--nowrap">[<b>Body Part</b>] </span>
+            <span class="white-space--nowrap">[<b>Action</b>]</span>
+        </div>
+    </div>
+
+    @* Needs wrapper section for ::deep styles. *@
     <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='Theme.None' param-Verbosity="@(Model.FormHasData? Verbosity.Debug: Verbosity.All)" />
     <component type="typeof(Lib.Pages.Shared.Newsletter.Footnote)" render-mode="Static" param-Count='int.MaxValue' param-Verbosity='Verbosity.Debug' />
 </section>

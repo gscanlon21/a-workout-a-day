@@ -152,8 +152,9 @@ public class ExercisesController : ViewController
         var queryResults = await queryBuilder.Build().Query(_serviceScopeFactory, OrderBy.None);
         var filteredResults = FilterExericseVariations(queryResults, Normalize(viewModel.Name));
 
-        // Order exercises that exactly match the searched for name first.
+        // Order exercises that exactly match the searched for name first, then exercises containing the searched name.
         viewModel.Exercises = filteredResults.OrderByDescending(x => Normalize(x.Exercise.Name)!.Equals(Normalize(viewModel.Name), StringComparison.OrdinalIgnoreCase))
+            .ThenByDescending(x => Normalize(x.Exercise.Name)!.Contains(Normalize(viewModel.Name) ?? string.Empty, StringComparison.OrdinalIgnoreCase))
             .ThenBy(x => x.Exercise.Name) // Then order by progression levels.
             .ThenBy(x => x.Variation.Progression.Min, NullOrder.NullsFirst)
             .ThenBy(x => x.Variation.Progression.Max, NullOrder.NullsLast)
