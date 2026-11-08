@@ -83,6 +83,20 @@
                     </p>
                 }
 
+                @if (exerciseGroup.Key.ExercisePostrequisites?.Any() == true)
+                {
+                    <p style="margin-block:0;"><b>Postrequisites</b> - 
+                        @foreach (var postrequisite in exerciseGroup.Key.ExercisePostrequisites.WithNext())
+                        {
+                            <a href="/exercises?Name=@Uri.EscapeDataString(postrequisite.Current.Name)">@(new MarkupString(postrequisite.Current.HtmlString))</a>
+                            if (postrequisite.HasNext)
+                            {
+                                <span>, </span>
+                            }
+                        }
+                    </p>
+                }
+
                 @if (exerciseGroup.Key.ExerciseAlternatives?.Any() == true)
                 {
                     <p style="margin-block:0;">

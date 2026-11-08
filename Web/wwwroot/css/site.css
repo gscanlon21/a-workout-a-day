@@ -133,6 +133,10 @@ main {
     white-space: nowrap;
 }
 
+.overflow--clip {
+    overflow: clip;
+}
+
 /********** Shared Styles **********/
 
 .primary-heading {
